@@ -1,48 +1,86 @@
 package modelo;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Entrada {
-	private String codPelicula;
-	private Date fecha;
-	private String peliculas;
-	private Hora hora;
-	private String sala;
-	private float coste;
-	public String getCodPelicula() {
-		return codPelicula;
+	private String codigoEntrada;
+	private Date fechaEmision;
+	private Hora horaEmision;
+	private String nombrePelicula;
+	private String nombreSalaEntrada;
+	private float precioEntrada;
+	
+	public Entrada(String codigoEntrada, Date fechaEmision, Hora horaEmision, String nombrePelicula,
+			String nombreSalaEntrada, float precioEntrada) {
+		this.codigoEntrada = codigoEntrada;
+		this.fechaEmision = fechaEmision;
+		this.horaEmision = horaEmision;
+		this.nombrePelicula = nombrePelicula;
+		this.nombreSalaEntrada = nombreSalaEntrada;
+		this.precioEntrada = precioEntrada;
 	}
-	public void setCodPelicula(String codPelicula) {
-		this.codPelicula = codPelicula;
+	
+	public String getCodigoEntrada() {
+		return codigoEntrada;
 	}
-	public Date getFecha() {
-		return fecha;
+	public void setCodigoEntrada(String codigoEntrada) {
+		this.codigoEntrada = codigoEntrada;
 	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public Date getFechaEmision() {
+		return fechaEmision;
 	}
-	public String getPeliculas() {
-		return peliculas;
+	public void setFechaEmision(Date fechaEmision) {
+		this.fechaEmision = fechaEmision;
 	}
-	public void setPeliculas(String peliculas) {
-		this.peliculas = peliculas;
+	public Hora getHoraEmision() {
+		return horaEmision;
 	}
-	public Hora getHora() {
-		return hora;
+	public void setHoraEmision(Hora horaEmision) {
+		this.horaEmision = horaEmision;
 	}
-	public void setHora(Hora hora) {
-		this.hora = hora;
+	public String getNombrePelicula() {
+		return nombrePelicula;
 	}
-	public String getSala() {
-		return sala;
+	public void setNombrePelicula(String nombrePelicula) {
+		this.nombrePelicula = nombrePelicula;
 	}
-	public void setSala(String sala) {
-		this.sala = sala;
+	public String getNombreSalaEntrada() {
+		return nombreSalaEntrada;
 	}
-	public float getCoste() {
-		return coste;
+	public void setNombreSalaEntrada(String nombreSalaEntrada) {
+		this.nombreSalaEntrada = nombreSalaEntrada;
 	}
-	public void setCoste(float coste) {
-		this.coste = coste;
+	public float getPrecioEntrada() {
+		return precioEntrada;
 	}
+	public void setPrecioEntrada(float precioEntrada) {
+		this.precioEntrada = precioEntrada;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigoEntrada, fechaEmision, horaEmision, nombrePelicula, nombreSalaEntrada, precioEntrada);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Entrada other = (Entrada) obj;
+		return Objects.equals(codigoEntrada, other.codigoEntrada) && Objects.equals(fechaEmision, other.fechaEmision)
+				&& Objects.equals(horaEmision, other.horaEmision)
+				&& Objects.equals(nombrePelicula, other.nombrePelicula)
+				&& Objects.equals(nombreSalaEntrada, other.nombreSalaEntrada)
+				&& Float.floatToIntBits(precioEntrada) == Float.floatToIntBits(other.precioEntrada);
+	}
+	@Override
+	public String toString() {
+		return "La entrada de codigo " + codigoEntrada + ", es para el dia" + fechaEmision + ", la hora "
+				+ horaEmision + ", del nombre " + nombrePelicula + " y se emitirá en la sala" + nombreSalaEntrada
+				+ " al precio " + precioEntrada;
+	}
+	
 }
