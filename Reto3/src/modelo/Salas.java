@@ -10,13 +10,22 @@ public class Salas {
 	private Pelicula [] peliculasEmitidas;
 	private Date [] fechasEmisionSala;
 	private Hora [] horasEmisionSala;
-	
-	public Salas(String codigoSala, String nombreSala) {
+
+	@Override
+	public String toString() {
+		return "La sala con codigo " + codigoSala + ", nombre " + nombreSala + ", peliculas a emitir"
+				+ Arrays.toString(peliculasEmitidas) + ", en las fechas " + Arrays.toString(fechasEmisionSala)
+				+ " y a las horas" + Arrays.toString(horasEmisionSala);
+	}
+	public Salas(String codigoSala, String nombreSala, Pelicula[] peliculasEmitidas, Date[] fechasEmisionSala,
+			Hora[] horasEmisionSala) {
 		super();
 		this.codigoSala = codigoSala;
 		this.nombreSala = nombreSala;
+		this.peliculasEmitidas = peliculasEmitidas;
+		this.fechasEmisionSala = fechasEmisionSala;
+		this.horasEmisionSala = horasEmisionSala;
 	}
-	
 	public String getCodigoSala() {
 		return codigoSala;
 	}

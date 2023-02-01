@@ -15,6 +15,7 @@ public class Cine {
 		this.nombreCine=nombreCine;
 		this.numeroSalas=numeroSalas;
 		this.direccion=direccion;
+		this.salasCine=salasCine;
 	}
 	public String getCodigoCine() {
 		return codigoCine;
@@ -55,13 +56,12 @@ public class Cine {
 	public void setSalasCine(Salas [] salasCine) {
 		this.salasCine = salasCine;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Cine de codigo " + codigoCine + ", nombre " + nombreCine + ", numero de salas " + numeroSalas
-				+ " y direccion " + direccion;
+		return "El cine de codigo " + codigoCine + ", nombre " + nombreCine + ", con " + numeroSalas
+				+ " salas, direccion " + direccion + " y salasCine=" + Arrays.toString(salasCine);
 	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
