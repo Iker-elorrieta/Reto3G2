@@ -7,15 +7,12 @@ public class Pelicula {
 	private String nombrePelicula;
 	private String generoPelicula;
 	private int duracionPelicula;
-	private int costeLicencia;
 	
-	public Pelicula(String codigoPelicula, String nombrePelicula, String generoPelicula, int duracionPelicula,
-			int costeLicencia) {
+	public Pelicula(String codigoPelicula, String nombrePelicula, String generoPelicula, int duracionPelicula) {
 		this.codigoPelicula = codigoPelicula;
 		this.nombrePelicula = nombrePelicula;
 		this.generoPelicula = generoPelicula;
 		this.duracionPelicula = duracionPelicula;
-		this.costeLicencia = costeLicencia;
 	}
 	
 	public String getCodigoPelicula() {
@@ -42,21 +39,15 @@ public class Pelicula {
 	public void setDuracionPelicula(int duracionPelicula) {
 		this.duracionPelicula = duracionPelicula;
 	}
-	public int getCosteLicencia() {
-		return costeLicencia;
-	}
-	public void setCosteLicencia(int costeLicencia) {
-		this.costeLicencia = costeLicencia;
-	}
 	
 	@Override
 	public String toString() {
 		return "La pelicula de codigo " + codigoPelicula + ", nombre " + nombrePelicula + ", genero "
-				+ generoPelicula + ", duracion " + duracionPelicula + " y coste de licencia " + costeLicencia;
+				+ generoPelicula + ", duracion " + duracionPelicula;
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(codigoPelicula, costeLicencia, duracionPelicula, generoPelicula, nombrePelicula);
+		return Objects.hash(codigoPelicula, nombrePelicula ,generoPelicula, duracionPelicula);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -67,7 +58,7 @@ public class Pelicula {
 		if (getClass() != obj.getClass())
 			return false;
 		Pelicula other = (Pelicula) obj;
-		return Objects.equals(codigoPelicula, other.codigoPelicula) && costeLicencia == other.costeLicencia
+		return Objects.equals(codigoPelicula, other.codigoPelicula)
 				&& duracionPelicula == other.duracionPelicula && Objects.equals(generoPelicula, other.generoPelicula)
 				&& Objects.equals(nombrePelicula, other.nombrePelicula);
 	}

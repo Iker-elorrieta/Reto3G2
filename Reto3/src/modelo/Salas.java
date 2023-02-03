@@ -1,30 +1,18 @@
 package modelo;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 public class Salas {
 	private String codigoSala;
 	private String nombreSala;
-	private Pelicula [] peliculasEmitidas;
-	private Date [] fechasEmisionSala;
-	private Hora [] horasEmisionSala;
-
-	@Override
-	public String toString() {
-		return "La sala con codigo " + codigoSala + ", nombre " + nombreSala + ", peliculas a emitir"
-				+ Arrays.toString(peliculasEmitidas) + ", en las fechas " + Arrays.toString(fechasEmisionSala)
-				+ " y a las horas" + Arrays.toString(horasEmisionSala);
-	}
-	public Salas(String codigoSala, String nombreSala, Pelicula[] peliculasEmitidas, Date[] fechasEmisionSala,
-			Hora[] horasEmisionSala) {
+	private Sesion [] sesionesPorSala;
+	
+	public Salas(String codigoSala, String nombreSala, Sesion[] sesionesPorSala) {
 		super();
 		this.codigoSala = codigoSala;
 		this.nombreSala = nombreSala;
-		this.peliculasEmitidas = peliculasEmitidas;
-		this.fechasEmisionSala = fechasEmisionSala;
-		this.horasEmisionSala = horasEmisionSala;
+		this.sesionesPorSala = sesionesPorSala;
 	}
 	public String getCodigoSala() {
 		return codigoSala;
@@ -38,32 +26,17 @@ public class Salas {
 	public void setNombreSala(String nombreSala) {
 		this.nombreSala = nombreSala;
 	}
-	public Pelicula[] getPeliculasEmitidas() {
-		return peliculasEmitidas;
+	public Sesion[] getSesionesPorSala() {
+		return sesionesPorSala;
 	}
-	public void setPeliculasEmitidas(Pelicula[] peliculasEmitidas) {
-		this.peliculasEmitidas = peliculasEmitidas;
+	public void setSesionesPorSala(Sesion[] sesionesPorSala) {
+		this.sesionesPorSala = sesionesPorSala;
 	}
-	public Date[] getFechasEmisionSala() {
-		return fechasEmisionSala;
-	}
-	public void setFechasEmisionSala(Date[] fechasEmisionSala) {
-		this.fechasEmisionSala = fechasEmisionSala;
-	}
-	public Hora[] getHorasEmisionSala() {
-		return horasEmisionSala;
-	}
-	public void setHorasEmisionSala(Hora[] horasEmisionSala) {
-		this.horasEmisionSala = horasEmisionSala;
-	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(fechasEmisionSala);
-		result = prime * result + Arrays.hashCode(horasEmisionSala);
-		result = prime * result + Arrays.hashCode(peliculasEmitidas);
+		result = prime * result + Arrays.hashCode(sesionesPorSala);
 		result = prime * result + Objects.hash(codigoSala, nombreSala);
 		return result;
 	}
@@ -76,9 +49,13 @@ public class Salas {
 		if (getClass() != obj.getClass())
 			return false;
 		Salas other = (Salas) obj;
-		return Objects.equals(codigoSala, other.codigoSala) && Arrays.equals(fechasEmisionSala, other.fechasEmisionSala)
-				&& Arrays.equals(horasEmisionSala, other.horasEmisionSala)
-				&& Objects.equals(nombreSala, other.nombreSala)
-				&& Arrays.equals(peliculasEmitidas, other.peliculasEmitidas);
+		return Objects.equals(codigoSala, other.codigoSala) && Objects.equals(nombreSala, other.nombreSala)
+				&& Arrays.equals(sesionesPorSala, other.sesionesPorSala);
 	}
+	@Override
+	public String toString() {
+		return "La sala de codigo " + codigoSala + ", nombre " + nombreSala + "y con las sesiones "	+ Arrays.toString(sesionesPorSala);
+	}
+
+
 }

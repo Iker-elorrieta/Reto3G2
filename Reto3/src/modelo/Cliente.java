@@ -9,9 +9,7 @@ public class Cliente {
 	private String contrasenaCliente;
 	private char sexoCliente;
 	
-	public Cliente(String dniCliente, String nombreCliente, String apellidosCliente, String contrasenaCliente,
-			char sexoCliente) {
-		super();
+	public Cliente(String dniCliente, String nombreCliente, String apellidosCliente, String contrasenaCliente,char sexoCliente) {
 		this.dniCliente = dniCliente;
 		this.nombreCliente = nombreCliente;
 		this.apellidosCliente = apellidosCliente;
