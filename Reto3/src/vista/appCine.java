@@ -10,6 +10,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import controlador.Metodos;
 import modelo.DateLabelFormatter;
 
 import javax.swing.JTabbedPane;
@@ -52,6 +53,9 @@ public class appCine extends JFrame {
 	 * Create the frame.
 	 */
 	public appCine() {
+		Metodos metodos=new Metodos();
+		metodos.InsertarSesiones();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
