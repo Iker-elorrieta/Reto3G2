@@ -32,7 +32,7 @@ class TestCine {
 		cal.set(Calendar.MONTH, 0);
 		cal.set(Calendar.YEAR, 2023);
 		fecha = cal.getTime();
-		Sesion s=new Sesion(p,fecha,tiempo,precio);
+		Sesion s=new Sesion(p,nombreSala,fecha,tiempo,precio);
 		Sesion [] arrayS=new Sesion[1];
 		arrayS[0]=s;
 		Salas sala=new Salas(codSala,nombreSala,arrayS);

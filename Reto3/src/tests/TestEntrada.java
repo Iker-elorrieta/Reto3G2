@@ -11,6 +11,7 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
+import modelo.Cliente;
 import modelo.Entrada;
 import modelo.Pelicula;
 import modelo.Sesion;
@@ -26,6 +27,8 @@ class TestEntrada {
 	LocalTime tiempo = LocalTime.of(hora, minutos);
 	Float precio= (float)7.99;
 	Pelicula p=new Pelicula("p1","Avatar","Aventura",150);
+	String DNI="12345678A",nombre="pepe",apellidos="garcia sanchez",contrasena="hola12345";
+	char sexo='H';
 	@Test
 	void testEntradas() {
 		cal.set(Calendar.DAY_OF_MONTH, 20);
@@ -34,23 +37,24 @@ class TestEntrada {
 		fecha = cal.getTime();
 		String [] arrayString=new String [1];
 		arrayString[0]="Sala1";
-		Sesion s=new Sesion(p,fecha,tiempo,precio);
+		Sesion s=new Sesion(p,nombreSala,fecha,tiempo,precio);
 		Sesion [] arrayS=new Sesion[1];
 		arrayS[0]=s;
-		Entrada e=new Entrada(arrayString,arrayS);
+		Cliente c=new Cliente(DNI,nombre,apellidos,contrasena,sexo);
+		Entrada e=new Entrada(c,arrayS);
 		Entrada e1=new Entrada(null,null);
 		assertFalse(e.equals(e1));
 		assertFalse(e.equals(o));
 		assertTrue(e.equals(e));
 		assertFalse(e.equals(null));
-		e1.setNombreSalaEntrada(arrayString);
+		e1.setCliente(c);
 		e1.setSesionPorTicket(arrayS);
-		assertEquals(e.getNombreSalaEntrada(),e.getNombreSalaEntrada());
+		assertEquals(e.getCliente(),e.getCliente());
 		assertEquals(e.getSesionPorTicket(),e.getSesionPorTicket());
 		assertTrue(e.equals(e1));
 		int has=e.hashCode();
 		assertEquals(e.hashCode(),has);
-		String linea="El ticket con los nombres de sala "+ Arrays.toString(arrayString) + " y sesiones " + Arrays.toString(arrayS);
+		String linea="La entrada  del cliente " + c + " y de las sesiones " + Arrays.toString(arrayS);
 		assertEquals(e.toString(),linea);
 	}
 

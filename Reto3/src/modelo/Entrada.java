@@ -1,23 +1,16 @@
 package modelo;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Entrada {
-	private String [] nombreSalaEntrada;
+	
+	private Cliente cliente;
 	private Sesion [] sesionPorTicket;
 	
-	
-	
-	public Entrada(String[] nombreSalaEntrada, Sesion[] sesionPorTicket) {
-		super();
-		this.nombreSalaEntrada = nombreSalaEntrada;
+	public Entrada(Cliente cliente, Sesion[] sesionPorTicket) {
+		this.cliente = cliente;
 		this.sesionPorTicket = sesionPorTicket;
-	}
-	public String[] getNombreSalaEntrada() {
-		return nombreSalaEntrada;
-	}
-	public void setNombreSalaEntrada(String[] nombreSalaEntrada) {
-		this.nombreSalaEntrada = nombreSalaEntrada;
 	}
 	public Sesion[] getSesionPorTicket() {
 		return sesionPorTicket;
@@ -25,12 +18,19 @@ public class Entrada {
 	public void setSesionPorTicket(Sesion[] sesionPorTicket) {
 		this.sesionPorTicket = sesionPorTicket;
 	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(nombreSalaEntrada);
 		result = prime * result + Arrays.hashCode(sesionPorTicket);
+		result = prime * result + Objects.hash(cliente);
 		return result;
 	}
 	@Override
@@ -42,12 +42,11 @@ public class Entrada {
 		if (getClass() != obj.getClass())
 			return false;
 		Entrada other = (Entrada) obj;
-		return Arrays.equals(nombreSalaEntrada, other.nombreSalaEntrada)
-				&& Arrays.equals(sesionPorTicket, other.sesionPorTicket);
+		return Objects.equals(cliente, other.cliente) && Arrays.equals(sesionPorTicket, other.sesionPorTicket);
 	}
 	@Override
 	public String toString() {
-		return "El ticket con los nombres de sala "+ Arrays.toString(nombreSalaEntrada) + " y sesiones " + Arrays.toString(sesionPorTicket);
+		return "La entrada  del cliente " + cliente + " y de las sesiones " + Arrays.toString(sesionPorTicket);
 	}
 	
 }

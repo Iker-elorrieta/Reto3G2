@@ -6,10 +6,19 @@ import java.util.Objects;
 
 public class Sesion {
 	private Pelicula peliSesion;
+	private String nombreSala;
 	private Date fechaSesion;
 	private LocalTime horaSesion;
 	private float precio;
 	
+	public Sesion(Pelicula peliSesion, String nombreSala, Date fechaSesion, LocalTime horaSesion, float precio) {
+		super();
+		this.peliSesion = peliSesion;
+		this.nombreSala = nombreSala;
+		this.fechaSesion = fechaSesion;
+		this.horaSesion = horaSesion;
+		this.precio = precio;
+	}
 	public Pelicula getPeliSesion() {
 		return peliSesion;
 	}
@@ -34,9 +43,15 @@ public class Sesion {
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
+	public String getNombreSala() {
+		return nombreSala;
+	}
+	public void setNombreSala(String nombreSala) {
+		this.nombreSala = nombreSala;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(fechaSesion, horaSesion, peliSesion, precio);
+		return Objects.hash(fechaSesion, horaSesion, nombreSala, peliSesion, precio);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -48,20 +63,14 @@ public class Sesion {
 			return false;
 		Sesion other = (Sesion) obj;
 		return Objects.equals(fechaSesion, other.fechaSesion) && Objects.equals(horaSesion, other.horaSesion)
-				&& Objects.equals(peliSesion, other.peliSesion)
+				&& Objects.equals(nombreSala, other.nombreSala) && Objects.equals(peliSesion, other.peliSesion)
 				&& Float.floatToIntBits(precio) == Float.floatToIntBits(other.precio);
 	}
 	@Override
 	public String toString() {
-		return "La sesion con la pelicula " + peliSesion + ", a la fecha" + fechaSesion + ", a la hora " + horaSesion
-				+ " y al precio " + precio;
+		return "La sesion con la pelicula " + peliSesion + ", nombre de sala " + nombreSala + ", en la fecha " + fechaSesion
+				+ ", a la hora " + horaSesion + ", y al precio " + precio;
 	}
-	public Sesion(Pelicula peliSesion, Date fechaSesion, LocalTime horaSesion, float precio) {
-		super();
-		this.peliSesion = peliSesion;
-		this.fechaSesion = fechaSesion;
-		this.horaSesion = horaSesion;
-		this.precio = precio;
-	}
+
 	
 }
