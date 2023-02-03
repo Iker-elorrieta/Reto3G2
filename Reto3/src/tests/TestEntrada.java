@@ -41,7 +41,7 @@ class TestEntrada {
 		Sesion [] arrayS=new Sesion[1];
 		arrayS[0]=s;
 		Cliente c=new Cliente(DNI,nombre,apellidos,contrasena,sexo);
-		Entrada e=new Entrada(c,arrayS);
+		Entrada e=new Entrada(c,arrayS,(precio*3));
 		Entrada e1=new Entrada(null,null);
 		assertFalse(e.equals(e1));
 		assertFalse(e.equals(o));
@@ -49,12 +49,15 @@ class TestEntrada {
 		assertFalse(e.equals(null));
 		e1.setCliente(c);
 		e1.setSesionPorTicket(arrayS);
+		e1.setPrecioTotal(precio*3);
 		assertEquals(e.getCliente(),e.getCliente());
 		assertEquals(e.getSesionPorTicket(),e.getSesionPorTicket());
+		assertEquals(e.getPrecioTotal(),e1.getPrecioTotal());
 		assertTrue(e.equals(e1));
 		int has=e.hashCode();
 		assertEquals(e.hashCode(),has);
-		String linea="La entrada  del cliente " + c + " y de las sesiones " + Arrays.toString(arrayS);
+		String linea="La entrad del cliente " + c + ", es para esta/s sesion/es " + Arrays.toString(arrayS)
+		+ ", por el precio " + precio*3;
 		assertEquals(e.toString(),linea);
 	}
 
