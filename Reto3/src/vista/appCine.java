@@ -10,6 +10,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import controlador.Metodos;
 import modelo.DateLabelFormatter;
 
 import javax.swing.JTabbedPane;
@@ -22,6 +23,7 @@ import java.util.Properties;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
 
 public class appCine extends JFrame {
 
@@ -52,6 +54,7 @@ public class appCine extends JFrame {
 	 * Create the frame.
 	 */
 	public appCine() {
+		Metodos mc = new Metodos();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -69,6 +72,7 @@ public class appCine extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				tabbedPane.setSelectedIndex(1);
+				mc.cargarCines();
 			}
 		});
 		tabbedPane.addTab("Primera", null, panel, null);
