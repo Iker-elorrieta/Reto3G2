@@ -4,62 +4,51 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.DefaultComboBoxModel;
-
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 import modelo.Cine;
 import modelo.Cliente;
-import modelo.Mensaje;
+
 
 public class Metodos {
 	
-	public void Cliente[] cargarCines() {
+	public  Cliente[] cargarClientes() {
 		Cliente[] arrayClientes = new Cliente[0];
 		Connection conexion;
+	
 		try {
 			conexion = (Connection) DriverManager.getConnection("jdbc:mysql://10.5.14.210:3306/Cines", "Cliente", "Elorrieta00+");
 			Statement comando = (Statement) conexion.createStatement();
 			ResultSet cargaCliente = comando.executeQuery("select * from Cliente");
 			
-			for (int i = 0; i < arrayClientes.length; i++) {
-				arrayNuevo[i] = arrayClientes[i];
-			}
-			arrayNuevo[arrayClientes.length] = client;
-			arrayClientes = arrayNuevo;
-			return arrayClientes;
-			
-			while (cargaCliente.next()) {
-				Cliente[] arrayNuevo = new Cliente[arrayClientes.length + 1];
+			while(cargaCliente.next()) {	
 				String dni = cargaCliente.getString("DNI");
 				String nombre = cargaCliente.getString("nombreCliente");
 				String apellido = cargaCliente.getString("apellidos");
-				String pass = cargaCliente.getString("password");
-			
-				Cliente client = new Cliente(dni,nombre,apellido,pass);
+				String pass = cargaCliente.getString("contrasena");
+				String user = cargaCliente.getString("usuario");
+				Cliente client = new Cliente(dni,nombre,user,apellido,pass);
 				System.out.println(client.getContrasenaCliente());
-			}
+				
+				Cliente[] arrayNuevo = new Cliente[arrayClientes.length+1];	
+				for(int c = 0;c<arrayClientes.length;c++) {
+					arrayNuevo[c]=arrayClientes[c];
+				}
+				arrayNuevo[arrayClientes.length] = client;
+				arrayClientes = arrayNuevo;
+			}		
 			
-			
-			
-//			
-//			ResultSet cargaSalas = comando.executeQuery("select * from salas");
-//			while (cargaCines.next()) {
-//				
-//			}
-//			
-//			ResultSet cargaPeliculas = comando.executeQuery("select * from cines");
-//			while (cargaCines.next()) {
-//				
-//			}
-//			
-//			ResultSet carga = comando.executeQuery("select * from cines");
-//			while (cargaCines.next()) {
-//				
-//			}
 		} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
+		return arrayClientes;
 	}
 }
+	
+////	public Cine[] cargasCines(Sesion[] sesiones) {
+//		Cine[] cine = new Cine[0];
+//		return cine;
+//		
+//	}
+//}

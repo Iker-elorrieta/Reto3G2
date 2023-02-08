@@ -5,16 +5,15 @@ import java.util.Objects;
 public class Cliente {
 	private String dniCliente;
 	private String nombreCliente;
-	//private String user;
+	private String user;
 	private String apellidosCliente;
-
 	private String contrasenaCliente;
 
 	
-	public Cliente(String dniCliente, String nombreCliente, String apellidosCliente, String contrasenaCliente) {
+	public Cliente(String dniCliente, String nombreCliente,String user,String apellidosCliente, String contrasenaCliente) {
 		this.dniCliente = dniCliente;
 		this.nombreCliente = nombreCliente;
-		//this.user = user;
+		this.user = user;
 		this.apellidosCliente = apellidosCliente;
 		this.contrasenaCliente = contrasenaCliente;
 	
@@ -23,7 +22,7 @@ public class Cliente {
 	@Override
 	public String toString() {
 		return "El cliente con el DNI " + dniCliente + ", nombre " + nombreCliente + ",  apellidos "
-				+ apellidosCliente + ", contrasena " + contrasenaCliente + " y sexo ";
+				+ apellidosCliente + ", contrasena " + contrasenaCliente + " y sexo ... tiene el user: " +user;
 	}
 	@Override
 	public int hashCode() {

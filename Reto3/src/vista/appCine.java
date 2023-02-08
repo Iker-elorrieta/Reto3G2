@@ -72,7 +72,9 @@ public class appCine extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				tabbedPane.setSelectedIndex(1);
-				mc.cargarCines();
+				
+				mc.cargarClientes();
+				
 			}
 		});
 		tabbedPane.addTab("Primera", null, panel, null);
