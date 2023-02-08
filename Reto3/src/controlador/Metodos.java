@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
-import modelo.Cine;
 import modelo.Cliente;
 
 
