@@ -25,7 +25,7 @@ class TestSalas {
 	int minutos=30;
 	LocalTime tiempo = LocalTime.of(hora, minutos);
 	Float precio= (float)7.99;
-	Pelicula p=new Pelicula("p1","Avatar","Aventura",150);
+	Pelicula p=new Pelicula("Avatar","Aventura",150);
 	@Test
 	void testSala() {
 		cal.set(Calendar.DAY_OF_MONTH, 20);

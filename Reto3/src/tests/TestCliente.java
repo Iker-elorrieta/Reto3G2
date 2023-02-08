@@ -11,30 +11,32 @@ import modelo.Cliente;
 class TestCliente {
 	Object o=new Object();
 	//CLIENTE
-	String DNI="12345678A",nombre="pepe",apellidos="garcia sanchez",contrasena="hola12345";
+	String DNI="12345678A",nombre="pepe",apellidos="garcia sanchez",contrasena="hola12345",usuario="prueba";
 	char sexo='H';
 	String linea= "El cliente con el DNI " + DNI + ", nombre " + nombre + ",  apellidos "
 			+ apellidos + ", contrasena " + contrasena + " y sexo " + sexo;
 	@Test
 	void testClientes() {
-		Cliente c=new Cliente(DNI,nombre,apellidos,contrasena,sexo);
+		Cliente c=new Cliente(DNI,usuario,nombre,apellidos,contrasena,sexo);
 		assertEquals(c.toString(),linea);
 		assertEquals(c.getDniCliente(),DNI);
 		assertEquals(c.getNombreCliente(),nombre);
 		assertEquals(c.getApellidosCliente(),apellidos);
 		assertEquals(c.getContrasenaCliente(),contrasena);
 		assertEquals(c.getSexoCliente(),sexo);
-		Cliente c1=new Cliente("","","","",'1');
+		Cliente c1=new Cliente("","","","","",'1');
 		c1.setApellidosCliente(apellidos);
 		c1.setContrasenaCliente(contrasena);
 		c1.setDniCliente(DNI);
 		c1.setNombreCliente(nombre);
+		c1.setUsuario(usuario);
 		c1.setSexoCliente(sexo);
 		assertEquals(c1.toString(),linea);
 		assertEquals(c1.getDniCliente(),DNI);
 		assertEquals(c1.getNombreCliente(),nombre);
 		assertEquals(c1.getApellidosCliente(),apellidos);
 		assertEquals(c1.getContrasenaCliente(),contrasena);
+		assertEquals(c1.getUsuario(),usuario);
 		assertEquals(c1.getSexoCliente(),sexo);
 		assertEquals(c1,c);
 		assertEquals(c1.hashCode(),169745696);

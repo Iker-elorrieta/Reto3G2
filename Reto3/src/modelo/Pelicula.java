@@ -3,24 +3,16 @@ package modelo;
 import java.util.Objects;
 
 public class Pelicula {
-	private String codigoPelicula;
 	private String nombrePelicula;
 	private String generoPelicula;
 	private int duracionPelicula;
 	
-	public Pelicula(String codigoPelicula, String nombrePelicula, String generoPelicula, int duracionPelicula) {
-		this.codigoPelicula = codigoPelicula;
+	public Pelicula( String nombrePelicula, String generoPelicula, int duracionPelicula) {
 		this.nombrePelicula = nombrePelicula;
 		this.generoPelicula = generoPelicula;
 		this.duracionPelicula = duracionPelicula;
 	}
 	
-	public String getCodigoPelicula() {
-		return codigoPelicula;
-	}
-	public void setCodigoPelicula(String codigoPelicula) {
-		this.codigoPelicula = codigoPelicula;
-	}
 	public String getNombrePelicula() {
 		return nombrePelicula;
 	}
@@ -42,12 +34,12 @@ public class Pelicula {
 	
 	@Override
 	public String toString() {
-		return "La pelicula de codigo " + codigoPelicula + ", nombre " + nombrePelicula + ", genero "
+		return "La pelicula de nombre " + nombrePelicula + ", genero "
 				+ generoPelicula + ", duracion " + duracionPelicula;
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(codigoPelicula, nombrePelicula ,generoPelicula, duracionPelicula);
+		return Objects.hash(nombrePelicula ,generoPelicula, duracionPelicula);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -58,8 +50,7 @@ public class Pelicula {
 		if (getClass() != obj.getClass())
 			return false;
 		Pelicula other = (Pelicula) obj;
-		return Objects.equals(codigoPelicula, other.codigoPelicula)
-				&& duracionPelicula == other.duracionPelicula && Objects.equals(generoPelicula, other.generoPelicula)
+		return  duracionPelicula == other.duracionPelicula && Objects.equals(generoPelicula, other.generoPelicula)
 				&& Objects.equals(nombrePelicula, other.nombrePelicula);
 	}
 }

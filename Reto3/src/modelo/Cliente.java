@@ -4,27 +4,29 @@ import java.util.Objects;
 
 public class Cliente {
 	private String dniCliente;
+	private String usuario;
 	private String nombreCliente;
 	private String apellidosCliente;
 	private String contrasenaCliente;
 	private char sexoCliente;
 	
-	public Cliente(String dniCliente, String nombreCliente, String apellidosCliente, String contrasenaCliente,char sexoCliente) {
+	public Cliente(String dniCliente,String usuario, String nombreCliente, String apellidosCliente, String contrasenaCliente,char sexoCliente) {
 		this.dniCliente = dniCliente;
 		this.nombreCliente = nombreCliente;
 		this.apellidosCliente = apellidosCliente;
 		this.contrasenaCliente = contrasenaCliente;
 		this.sexoCliente = sexoCliente;
+		this.usuario=usuario;
 	}
 	
 	@Override
 	public String toString() {
-		return "El cliente con el DNI " + dniCliente + ", nombre " + nombreCliente + ",  apellidos "
+		return "El cliente con el DNI " + dniCliente +" nombre de usuario "+usuario+", nombre " + nombreCliente + ",  apellidos "
 				+ apellidosCliente + ", contrasena " + contrasenaCliente + " y sexo " + sexoCliente;
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(apellidosCliente, contrasenaCliente, dniCliente, nombreCliente, sexoCliente);
+		return Objects.hash(usuario,apellidosCliente, contrasenaCliente, dniCliente, nombreCliente, sexoCliente);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -67,6 +69,14 @@ public class Cliente {
 	}
 	public void setSexoCliente(char sexoCliente) {
 		this.sexoCliente = sexoCliente;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 	
 }

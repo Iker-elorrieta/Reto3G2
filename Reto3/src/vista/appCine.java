@@ -10,6 +10,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import controlador.CargadorDeSesiones;
 import controlador.Metodos;
 import modelo.DateLabelFormatter;
 
@@ -54,7 +55,8 @@ public class appCine extends JFrame {
 	 */
 	public appCine() {
 		Metodos metodos=new Metodos();
-		metodos.InsertarSesiones();
+		CargadorDeSesiones cargador=new CargadorDeSesiones();
+		cargador.InsertarSesiones();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
