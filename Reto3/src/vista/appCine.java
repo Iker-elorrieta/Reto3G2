@@ -14,9 +14,6 @@ import controlador.Metodos;
 import modelo.Cine;
 import modelo.Cliente;
 import modelo.DateLabelFormatter;
-import modelo.Pelicula;
-import modelo.Salas;
-import modelo.Sesion;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
@@ -40,10 +37,9 @@ public class appCine extends JFrame {
 	JDatePickerImpl datePicker;
 	private JTextField textField;
 	private Cliente [] arrayClientes;
-	private Pelicula [] arrayPeliculas;
-	private Sesion [] arraySesiones;
-	private Salas [] arraySalas;
 	private Cine [] arrayCines;
+	private String[] nombreCines;
+	private Metodos mc=new Metodos();
 	/**
 	 * Launch the application.
 	 */
@@ -64,7 +60,12 @@ public class appCine extends JFrame {
 	 * Create the frame.
 	 */
 	public appCine() {
-		Metodos mc = new Metodos();
+		arrayClientes=mc.cargarClientes();
+		arrayCines=mc.cargarDatos();
+		nombreCines = new String[arrayCines.length];
+		for(int i=0;i<arrayCines.length;i++) {
+			nombreCines[i] =  arrayCines[i].getNombreCine();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -82,11 +83,6 @@ public class appCine extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				tabbedPane.setSelectedIndex(1);
-				arrayClientes=mc.cargarClientes();
-				arrayPeliculas=mc.cargarPeliculas();
-				arraySesiones=mc.cargarSesiones(arrayPeliculas);
-				arraySalas=mc.cargarSalas(arraySesiones);
-				arrayCines=mc.cargarCines(arraySalas);
 			}
 		});
 		tabbedPane.addTab("Primera", null, panel, null);
@@ -104,12 +100,7 @@ public class appCine extends JFrame {
 		panel_1.setLayout(null);
 		
 		JComboBox<Object> cbCines = new JComboBox<Object>();
-		String[] nombres = new String[0];
-		for(int i=0;i<arrayCines.length;i++) {
-			String name = arrayCines[i].getNombreCine();
-			nombres[i] = name;
-		}
-		cbCines.setModel(new DefaultComboBoxModel<Object>(nombres));
+		cbCines.setModel(new DefaultComboBoxModel<Object>(nombreCines));
 		cbCines.setBounds(118, 66, 135, 22);
 		panel_1.add(cbCines);
 		
@@ -126,12 +117,7 @@ public class appCine extends JFrame {
 		panel_2.setLayout(null);
 		
 		JComboBox<Object> cbPeliculas = new JComboBox<Object>();
-		String[] pelis = new String[0];
-		for(int i=0;i<arrayCines.length;i++) {
-			String pel = arrayPeliculas[i].getNombrePelicula();
-			pelis[i] = pel;
-		}
-		cbPeliculas.setModel(new DefaultComboBoxModel<Object>(pelis));
+		cbPeliculas.setModel(new DefaultComboBoxModel<Object>());
 		cbPeliculas.setBounds(113, 11, 158, 22);
 		panel_2.add(cbPeliculas);
 		
