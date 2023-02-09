@@ -16,7 +16,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 public class CargadorDeSesiones {
-	final int DIAS=50;
+	final int DIAS=20;
 	public void InsertarSesiones() {
 		Connection conexion;
 		try {

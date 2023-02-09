@@ -11,7 +11,12 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import controlador.Metodos;
+import modelo.Cine;
+import modelo.Cliente;
 import modelo.DateLabelFormatter;
+import modelo.Pelicula;
+import modelo.Salas;
+import modelo.Sesion;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
@@ -34,6 +39,11 @@ public class appCine extends JFrame {
 	private JPanel contentPane;
 	JDatePickerImpl datePicker;
 	private JTextField textField;
+	private Cliente [] arrayClientes;
+	private Pelicula [] arrayPeliculas;
+	private Sesion [] arraySesiones;
+	private Salas [] arraySalas;
+	private Cine [] arrayCines;
 	/**
 	 * Launch the application.
 	 */
@@ -72,9 +82,11 @@ public class appCine extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				tabbedPane.setSelectedIndex(1);
-				
-				mc.cargarClientes();
-				
+				arrayClientes=mc.cargarClientes();
+				arrayPeliculas=mc.cargarPeliculas();
+				arraySesiones=mc.cargarSesiones(arrayPeliculas);
+				arraySalas=mc.cargarSalas(arraySesiones);
+				arrayCines=mc.cargarCines(arraySalas);
 			}
 		});
 		tabbedPane.addTab("Primera", null, panel, null);
@@ -92,6 +104,12 @@ public class appCine extends JFrame {
 		panel_1.setLayout(null);
 		
 		JComboBox<Object> cbCines = new JComboBox<Object>();
+		String[] nombres = new String[0];
+		for(int i=0;i<arrayCines.length;i++) {
+			String name = arrayCines[i].getNombreCine();
+			nombres[i] = name;
+		}
+		cbCines.setModel(new DefaultComboBoxModel<Object>(nombres));
 		cbCines.setBounds(118, 66, 135, 22);
 		panel_1.add(cbCines);
 		
@@ -108,11 +126,17 @@ public class appCine extends JFrame {
 		panel_2.setLayout(null);
 		
 		JComboBox<Object> cbPeliculas = new JComboBox<Object>();
+		String[] pelis = new String[0];
+		for(int i=0;i<arrayCines.length;i++) {
+			String pel = arrayPeliculas[i].getNombrePelicula();
+			pelis[i] = pel;
+		}
+		cbPeliculas.setModel(new DefaultComboBoxModel<Object>(pelis));
 		cbPeliculas.setBounds(113, 11, 158, 22);
 		panel_2.add(cbPeliculas);
 		
 		JLabel lblPeliculas = new JLabel("Peliculas:");
-		lblPeliculas.setBounds(10, 15, 46, 14);
+		lblPeliculas.setBounds(10, 19, 46, 14);
 		panel_2.add(lblPeliculas);
 		
 		JButton btnAtras = new JButton("Atras");
@@ -133,15 +157,15 @@ public class appCine extends JFrame {
 		panel_2.add(datePicker);
 		
 		JLabel lblFechas = new JLabel("Fecha:");
-		lblFechas.setBounds(10, 44, 46, 14);
+		lblFechas.setBounds(10, 53, 46, 14);
 		panel_2.add(lblFechas);
 		
 		JComboBox<Object> cbHoras = new JComboBox<Object>();
-		cbHoras.setBounds(111, 78, 72, 22);
+		cbHoras.setBounds(113, 78, 72, 22);
 		panel_2.add(cbHoras);
 		
 		JLabel lblHoras = new JLabel("Hora:");
-		lblHoras.setBounds(10, 82, 46, 14);
+		lblHoras.setBounds(10, 86, 46, 14);
 		panel_2.add(lblHoras);
 		
 		JComboBox<Object> comboBox = new JComboBox<Object>();
@@ -149,7 +173,7 @@ public class appCine extends JFrame {
 		panel_2.add(comboBox);
 		
 		JLabel lblSala = new JLabel("Sala:");
-		lblSala.setBounds(10, 115, 46, 14);
+		lblSala.setBounds(10, 119, 46, 14);
 		panel_2.add(lblSala);
 		
 		textField = new JTextField();
@@ -159,7 +183,15 @@ public class appCine extends JFrame {
 		textField.setColumns(10);
 		
 		JLabel lblPrecio = new JLabel("Precio:");
-		lblPrecio.setBounds(10, 147, 46, 14);
+		lblPrecio.setBounds(10, 150, 46, 14);
 		panel_2.add(lblPrecio);
+		
+		JPanel panel_3 = new JPanel();
+		tabbedPane.addTab("New tab", null, panel_3, null);
+		panel_3.setLayout(null);
+		
+		JLabel lblSeleccion = new JLabel("Seleccion");
+		lblSeleccion.setBounds(10, 11, 93, 20);
+		panel_3.add(lblSeleccion);
 	}
 }
