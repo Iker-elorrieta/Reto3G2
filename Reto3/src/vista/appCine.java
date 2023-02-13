@@ -136,6 +136,7 @@ public class appCine extends JFrame {
 				nombrePeliculas = mc.mostrarPeliculas(arrayCines, cbCines.getSelectedIndex());
 				cbPeliculas.setModel(new DefaultComboBoxModel<Object>(nombrePeliculas));
 				cbSesion.setModel(new DefaultComboBoxModel<Object>());
+				model.setValue(fecha);
 			}
 		});
 		btnFinalizar.setBounds(139, 141, 89, 23);
@@ -156,6 +157,8 @@ public class appCine extends JFrame {
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cbSesion.setModel(new DefaultComboBoxModel<Object>());
+				cbPeliculas.setModel(new DefaultComboBoxModel<Object>());
+				tabbedPane.setSelectedIndex(1);
 			}
 		});
 		btnAtras.setBounds(10, 199, 89, 23);

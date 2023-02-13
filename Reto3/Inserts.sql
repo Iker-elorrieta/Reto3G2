@@ -1,3 +1,39 @@
+use reto3;
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Handia','160','Drama');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('La lista de Schindler','197','Drama');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Cadena Perpetua','160','Drama');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Million Dollar Baby','160','Drama');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('2001: Odisea en el espacio','139','Ciencia-Ficcion');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('El planeta de los Simios','112','Ciencia-Ficcion');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Alien','116','Terror');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Psicosis','109','Terror');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('El resplandor','146','Terror');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Dracula','130','Drama');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Cisne Negro','85','Drama');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('La vida de Brian','93','Comedia');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Scary Movie 2','83','Comedia');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('El Gran Lebowski','117','Comedia');
+INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Aterriza como puedas','88','Comedia');
+
+INSERT INTO cine VALUES ('GC','Cines Golem');
+INSERT into cine VALUES ('YC','Yelmo Cines');
+INSERT into cine VALUES ('ZB','Cines Zubiarte');
+
+INSERT into Cliente VALUES ('12318312Q','igor1','Igor','Bueno','H','1234567A');
+INSERT into Cliente VALUES ('21918362X','elorrieta1','Elorrieta','Centro','H','elorrieta00');
+INSERT into Cliente VALUES ('43240843O','sixseiger','Erlantz','Gil','H','987654B');
+INSERT into Cliente VALUES ('79114209Q','akos','Unai','Cano','H','uwuowo2');
+
+INSERT INTO Sala VALUES('GC','Sala 01');
+INSERT INTO Sala VALUES('GC','Sala 02');
+INSERT INTO Sala VALUES('GC','Sala 03');
+INSERT INTO Sala VALUES('YC','Sala 01');
+INSERT INTO Sala VALUES('YC','Sala 02');
+INSERT INTO Sala VALUES('YC','Sala 03');
+INSERT INTO Sala VALUES('ZB','Sala 01');
+INSERT INTO Sala VALUES('ZB','Sala 02');
+INSERT INTO Sala VALUES('ZB','Sala 03');
+
 INSERT INTO emision (FechaEmision,HoraEmision,precioInicial,idCine,nombreSala,codPeli) VALUES ('2023-02-14','00:00','7.99','GC','Sala 01','13');
 INSERT INTO emision (FechaEmision,HoraEmision,precioInicial,idCine,nombreSala,codPeli) VALUES ('2023-02-14','15:00','4.99','GC','Sala 01','8');
 INSERT INTO emision (FechaEmision,HoraEmision,precioInicial,idCine,nombreSala,codPeli) VALUES ('2023-02-14','18:00','4.99','GC','Sala 01','5');

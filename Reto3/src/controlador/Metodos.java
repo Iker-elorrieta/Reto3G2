@@ -20,7 +20,7 @@ import modelo.Sesion;
 
 public class Metodos {
 	//conexion = (Connection) DriverManager.getConnection("jdbc:mysql://10.5.14.210:3306/Cines", "Cliente", "Elorrieta00+");
-	String direccion="jdbc:mysql://localhost/cines";
+	String direccion="jdbc:mysql://localhost/reto3";
 	String usuario="root";
 	String contra="";
 	Calendar cal=Calendar.getInstance();
@@ -85,16 +85,16 @@ public class Metodos {
 						String hora=cargaSesiones.getString("HoraEmision");
 						LocalTime horaF=LocalTime.of(Integer.parseInt(hora.split(":")[0]),Integer.parseInt(hora.split(":")[1]));
 						Float precio=cargaSesiones.getFloat("precioInicial");
-						String pelicula=cargaSesiones.getString("nombrePelicula");
+						String pelicula=cargaSesiones.getString("codPeli");
 						Statement comandoTres = (Statement) conexion.createStatement();
-						ResultSet cargaPeliculas= comandoTres.executeQuery("SELECT * FROM pelicula WHERE nombrePelicula='"+pelicula+"'");
+						ResultSet cargaPeliculas= comandoTres.executeQuery("SELECT * FROM pelicula WHERE codPeli='"+pelicula+"'");
 						Pelicula peli=null;
 						while(cargaPeliculas.next()) {
-							String id = cargaPeliculas.getString("nombrePelicula");
-							String cod = cargaPeliculas.getString("nombrePelicula");
+							String id = cargaPeliculas.getString("codPeli");
+							String nombre = cargaPeliculas.getString("nombrePelicula");
 							String genero = cargaPeliculas.getString("genero");
 							int dura =cargaPeliculas.getInt("duracion");
-							peli = new Pelicula(id,cod,genero,dura);
+							peli = new Pelicula(id,nombre,genero,dura);
 						}
 						
 						Sesion se = new Sesion(peli,salaSesion,dia,horaF,precio);

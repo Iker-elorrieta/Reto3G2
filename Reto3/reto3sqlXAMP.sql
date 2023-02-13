@@ -1,0 +1,62 @@
+create database reto3;
+use reto3;
+CREATE TABLE Cine (
+idCine VARCHAR(10) PRIMARY KEY,
+nombreCine VARCHAR(25) NOT NULL
+);
+
+CREATE TABLE Cliente(
+DNI VARCHAR(9) PRIMARY KEY,
+usuario VARCHAR(20) NOT NULL UNIQUE,
+nombreCliente VARCHAR(20) NOT NULL,
+apellidos VARCHAR(45) NOT NULL,
+sexo CHAR(1) NOT NULL CHECK (sexo='H' OR sexo='M'),
+contrasena VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE Pelicula(
+codPeli INTEGER AUTO_INCREMENT PRIMARY KEY,
+nombrePelicula VARCHAR(50) NOT NULL,
+duracion INTEGER NOT NULL,
+genero SET ('Accion','Aventura','Terror','Drama','Comedia','Ciencia-Ficcion','Suspense') NOT NULL 
+);
+
+CREATE TABLE Sala(
+idCine VARCHAR(10),
+nombreSala varchar(20),
+CONSTRAINT PF_sala PRIMARY KEY (idCine,nombreSala),
+CONSTRAINT FK_id_Cine FOREIGN KEY (idCine) REFERENCES Cine(idCine) 
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Emision(
+idEmision INTEGER AUTO_INCREMENT PRIMARY KEY,
+FechaEmision DATE NOT NULL,
+HoraEmision TIME NOT NULL,
+precioInicial FLOAT NOT NULL DEFAULT 7,
+idCine VARCHAR(10),
+nombreSala VARCHAR (20),
+codPeli INTEGER,
+CONSTRAINT FK_id_CineSala FOREIGN KEY (idCine,nombreSala) REFERENCES Sala(idCine,nombreSala)
+ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT FK_cod_Pelicula FOREIGN KEY (codPeli) REFERENCES Pelicula(codPeli)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Compra(
+codCompra INTEGER AUTO_INCREMENT PRIMARY KEY,
+precioTotal FLOAT NOT NULL,
+descuento INTEGER NOT NULL DEFAULT 0,
+horaCompra DATETIME NOT NULL,
+DNI VARCHAR(9),
+CONSTRAINT FK_DNIC FOREIGN KEY (DNI) REFERENCES Cliente(DNI)
+);
+
+CREATE TABLE Entrada(
+codEntrada INTEGER AUTO_INCREMENT PRIMARY KEY,
+precioFinal FLOAT NOT NULL,
+idEmision INTEGER,
+codCompra INTEGER,
+CONSTRAINT FK_id_Emision FOREIGN KEY (idEmision) REFERENCES Emision(idEmision),
+CONSTRAINT FK_codCompra FOREIGN KEY (codCompra) REFERENCES  Compra(CodCompra)
+);
