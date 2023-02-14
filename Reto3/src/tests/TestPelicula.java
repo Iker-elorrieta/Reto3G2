@@ -9,7 +9,7 @@ import modelo.Pelicula;
 class TestPelicula {
 	Object o=new Object();
 	//PELICULA
-	String codPeli="Avatar-1",nombrePeli="Avatar",generoPeli="accion";
+	String codPeli="1",nombrePeli="Avatar",generoPeli="accion";
 	int duracion=150;
 	String linea3="La pelicula de codigo " + codPeli + ", nombre " + nombrePeli + ", genero "+ generoPeli + ", duracion " + duracion;
 	@Test

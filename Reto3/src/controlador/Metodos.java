@@ -60,70 +60,69 @@ public class Metodos {
 		return arrayClientes;
 	}
 
-	public Cine[] cargarDatos() {
-		Cine[] arrayCine = new Cine[0];
+	public  Cine [] cargarDatos() {
+		Cine [] arrayCine = new Cine[0];
 		Connection conexion;
 		try {
-			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
+			conexion = (Connection) DriverManager.getConnection(direccion, usuario,contra);
 			Statement comando = (Statement) conexion.createStatement();
-			ResultSet cargaCines = comando.executeQuery("SELECT * FROM cine");
-			while (cargaCines.next()) {
-				String nombreCine = cargaCines.getString("nombreCine");
-				String idCine = cargaCines.getString("idCine");
+			ResultSet cargaCines= comando.executeQuery("SELECT * FROM cine");
+			while(cargaCines.next()) {	
+				String nombreCine=cargaCines.getString("nombreCine");
+				String idCine=cargaCines.getString("idCine");
 				Statement comandoUno = (Statement) conexion.createStatement();
-				ResultSet cargaSala = comandoUno.executeQuery("SELECT * FROM sala WHERE idCine='" + idCine + "'");
-				Salas[] arraySalas = new Salas[0];
-				while (cargaSala.next()) {
-					String codCi = cargaSala.getString("idCine");
-					String sala = cargaSala.getString("nombreSala");
+				ResultSet cargaSala= comandoUno.executeQuery("SELECT * FROM sala WHERE idCine='"+idCine+"'");
+				Salas [] arraySalas = new Salas[0];
+				while(cargaSala.next()) {
+					String codCi=cargaSala.getString("idCine");
+					String sala=cargaSala.getString("nombreSala");
 					Statement comandoDos = (Statement) conexion.createStatement();
-					fecha = cal.getTime();
-					ResultSet cargaSesiones = comandoDos.executeQuery("SELECT * FROM emision" + " WHERE idCine='"
-							+ codCi + "' AND nombreSala='" + sala + "' AND FechaEmision >='" + dt.format(fecha) + "' "
+					fecha=cal.getTime();
+					ResultSet cargaSesiones= comandoDos.executeQuery("SELECT * FROM emision"
+							+ " WHERE idCine='"+codCi+"' AND nombreSala='"+sala+"' AND FechaEmision >='"+dt.format(fecha)+"' "
 							+ " ORDER BY FechaEmision ASC, HoraEmision ASC");
-					Sesion[] arraySesion = new Sesion[0];
-					while (cargaSesiones.next()) {
+					Sesion [] arraySesion = new Sesion[0];
+					while(cargaSesiones.next()) {
 						String salaSesion = cargaSesiones.getString("nombreSala");
-						Date dia = cargaSesiones.getDate("FechaEmision");
-						String hora = cargaSesiones.getString("HoraEmision");
-						LocalTime horaF = LocalTime.of(Integer.parseInt(hora.split(":")[0]),
-								Integer.parseInt(hora.split(":")[1]));
-						Float precio = cargaSesiones.getFloat("precioInicial");
-						String pelicula = cargaSesiones.getString("codPeli");
+						Date dia=cargaSesiones.getDate("FechaEmision");
+						String hora=cargaSesiones.getString("HoraEmision");
+						LocalTime horaF=LocalTime.of(Integer.parseInt(hora.split(":")[0]),Integer.parseInt(hora.split(":")[1]));
+						Float precio=cargaSesiones.getFloat("precioInicial");
+						String pelicula=cargaSesiones.getString("codPeli");
+						Integer idemision=cargaSesiones.getInt("idEmision");
 						Statement comandoTres = (Statement) conexion.createStatement();
-						ResultSet cargaPeliculas = comandoTres
-								.executeQuery("SELECT * FROM pelicula WHERE codPeli='" + pelicula + "'");
-						Pelicula peli = null;
-						while (cargaPeliculas.next()) {
+						ResultSet cargaPeliculas= comandoTres.executeQuery("SELECT * FROM pelicula WHERE codPeli='"+pelicula+"'");
+						Pelicula peli=null;
+						while(cargaPeliculas.next()) {
 							String id = cargaPeliculas.getString("codPeli");
 							String nombre = cargaPeliculas.getString("nombrePelicula");
 							String genero = cargaPeliculas.getString("genero");
-							int dura = cargaPeliculas.getInt("duracion");
-							peli = new Pelicula(id, nombre, genero, dura);
+							int dura =cargaPeliculas.getInt("duracion");
+							peli = new Pelicula(id,nombre,genero,dura);
 						}
-
-						Sesion se = new Sesion(peli, salaSesion, dia, horaF, precio);
-						Sesion[] arrayNuevo = new Sesion[arraySesion.length + 1];
-						for (int c = 0; c < arraySesion.length; c++) {
-							arrayNuevo[c] = arraySesion[c];
+						
+						Sesion se = new Sesion(peli,idemision,salaSesion,dia,horaF,precio);
+						Sesion [] arrayNuevo = new Sesion[arraySesion.length+1];	
+						for(int c = 0;c<arraySesion.length;c++) {
+							arrayNuevo[c]=arraySesion[c];
 						}
 						arrayNuevo[arraySesion.length] = se;
 						arraySesion = arrayNuevo;
 					}
-
-					Salas salaU = new Salas(codCi, sala, arraySesion);
-					Salas[] arrayNuevo = new Salas[arraySalas.length + 1];
-					for (int c = 0; c < arraySalas.length; c++) {
-						arrayNuevo[c] = arraySalas[c];
+					
+					Salas salaU = new Salas(codCi,sala,arraySesion);
+					Salas [] arrayNuevo = new Salas[arraySalas.length+1];	
+					for(int c = 0;c<arraySalas.length;c++) {
+						arrayNuevo[c]=arraySalas[c];
 					}
 					arrayNuevo[arraySalas.length] = salaU;
 					arraySalas = arrayNuevo;
 				}
-
-				Cine cineU = new Cine(nombreCine, arraySalas);
-				Cine[] arrayNuevo = new Cine[arrayCine.length + 1];
-				for (int c = 0; c < arrayCine.length; c++) {
-					arrayNuevo[c] = arrayCine[c];
+				
+				Cine cineU = new Cine(nombreCine,arraySalas);
+				Cine [] arrayNuevo = new Cine[arrayCine.length+1];	
+				for(int c = 0;c<arrayCine.length;c++) {
+					arrayNuevo[c]=arrayCine[c];
 				}
 				arrayNuevo[arrayCine.length] = cineU;
 				arrayCine = arrayNuevo;
@@ -184,30 +183,18 @@ public class Metodos {
 				String sala = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getNombreSala();
 				String precio = String
 						.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPrecio());
-				String unaSesion = Hora + " - " + pelicula + " ( " + sala + " ) - " + precio;
+				String unaSesion = Hora + " - "+ sala+" - " + precio;
 				if (fecha.equals(fechaEscogida) && pelicula.equals(peliculaSeleccionada)) {
-					if (comprobarSesiones(unaSesion, Sesiones) == false) {
 						String[] sesionesAux = new String[Sesiones.length + 1];
 						for (int c = 0; c < Sesiones.length; c++) {
 							sesionesAux[c] = Sesiones[c];
 						}
 						sesionesAux[Sesiones.length] = unaSesion;
 						Sesiones = sesionesAux;
-					}
 				}
 			}
 		}
 		return Sesiones;
-	}
-
-	public boolean comprobarSesiones(String unaSesion, String[] sesionesGuardadas) {
-		boolean repetido = false;
-		for (int i = 0; i < sesionesGuardadas.length; i++) {
-			if (sesionesGuardadas[i].equals(unaSesion)) {
-				repetido = true;
-			}
-		}
-		return repetido;
 	}
 
 	public void registrarCliente(String dni, String nombre, String apellido, String user, String contrasena,
@@ -255,9 +242,46 @@ public class Metodos {
 				userrepe = false;
 			}
 		}
-		
 		return userrepe;
 	}
 	
-
+	public String [] mostrarCines(Cine [] arrayCines) {
+		String []nombreCines =new String[arrayCines.length];
+		for (int i = 0; i < arrayCines.length; i++) {
+			nombreCines[i] = arrayCines[i].getNombreCine();
+		}
+		return nombreCines;
+	}
+	public String [][] actualizarTabla(String[][] entradaTabla, String cineT, String salaT, String peliculaT, String fechaT, String horaT, String precioT){
+		String [][] arrayAux=new String [entradaTabla.length+1][6];
+		for(int i=0;i<entradaTabla.length;i++) {
+		arrayAux[i][0]=entradaTabla[i][0];
+		arrayAux[i][1]=entradaTabla[i][1];
+		arrayAux[i][2]=entradaTabla[i][2];
+		arrayAux[i][3]=entradaTabla[i][3];
+		arrayAux[i][4]=entradaTabla[i][4];
+		arrayAux[i][5]=entradaTabla[i][5];
+		}
+		arrayAux[entradaTabla.length][0]=cineT;
+		arrayAux[entradaTabla.length][1]=salaT;
+		arrayAux[entradaTabla.length][2]=peliculaT;
+		arrayAux[entradaTabla.length][3]=fechaT;
+		arrayAux[entradaTabla.length][4]=horaT;
+		arrayAux[entradaTabla.length][5]=precioT;
+		entradaTabla=arrayAux;
+		return entradaTabla;
+	}
+	public float calcularPrecioTotal(String [][] entradaTabla) {
+		float sumaPrecio=0;
+		for(int i=0;i<entradaTabla.length;i++) {
+			sumaPrecio+=Float.valueOf(entradaTabla[i][5]);
+		}
+		if(entradaTabla.length==2) {
+			sumaPrecio=(float) (sumaPrecio*0.8);
+		}else if(entradaTabla.length>2){
+			sumaPrecio=(float) (sumaPrecio*0.7);
+		}
+		
+		return (float) (Math.round(sumaPrecio*100.0)/100.0);
+	}
 }

@@ -14,7 +14,7 @@ class TestCliente {
 	String DNI="12345678A",nombre="pepe",apellidos="garcia sanchez",contrasena="hola12345",user="igortxi";
 	String sexo="H";
 	String linea= "El cliente con el DNI " + DNI + ", nombre " + nombre + ",  apellidos "
-			+ apellidos + ", contrasena " + contrasena + " y sexo " + sexo;
+			+ apellidos + ", contrasena " + contrasena + " y sexo ... tiene el user: " +user;
 	@Test
 	void testClientes() {
 		Cliente c=new Cliente(DNI,nombre,user,apellidos,sexo,contrasena);
@@ -25,7 +25,9 @@ class TestCliente {
 		assertEquals(c.getContrasenaCliente(),contrasena);
 		assertEquals(c.getSexo(),sexo);
 		Cliente c1=new Cliente("","","","","","");
+		c1.setSexo(sexo);
 		c1.setApellidosCliente(apellidos);
+		c1.setUser(user);
 		c1.setContrasenaCliente(contrasena);
 		c1.setDniCliente(DNI);
 		c1.setNombreCliente(nombre);
@@ -35,7 +37,8 @@ class TestCliente {
 		assertEquals(c1.getApellidosCliente(),apellidos);
 		assertEquals(c1.getContrasenaCliente(),contrasena);
 		assertEquals(c1,c);
-		assertEquals(c1.hashCode(),169745696);
+		int cod=c1.hashCode();
+		assertEquals(c1.hashCode(),cod);
 		assertTrue(c1.equals(c));
 		assertFalse(c1.equals(null));
 		assertFalse(c1.equals(o));

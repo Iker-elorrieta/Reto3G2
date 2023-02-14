@@ -21,7 +21,7 @@ class TestCine {
 	String codSala="YC-Sala-11",nombreSala="Sala01",nombreCine="Yelmo Cines";
 	Calendar cal=Calendar.getInstance();
 	Date fecha=null;
-	int hora=9;
+	int hora=9,id=1;
 	int minutos=30;
 	LocalTime tiempo = LocalTime.of(hora, minutos);
 	Float precio= (float)7.99;
@@ -32,7 +32,7 @@ class TestCine {
 		cal.set(Calendar.MONTH, 0);
 		cal.set(Calendar.YEAR, 2023);
 		fecha = cal.getTime();
-		Sesion s=new Sesion(p,nombreSala,fecha,tiempo,precio);
+		Sesion s=new Sesion(p,id,nombreSala,fecha,tiempo,precio);
 		Sesion [] arrayS=new Sesion[1];
 		arrayS[0]=s;
 		Salas sala=new Salas(codSala,nombreSala,arrayS);

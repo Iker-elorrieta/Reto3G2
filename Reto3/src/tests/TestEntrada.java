@@ -29,6 +29,7 @@ class TestEntrada {
 	Pelicula p=new Pelicula("p1","Avatar","Aventura",150);
 	String DNI="12345678A",nombre="pepe",apellidos="garcia sanchez",contrasena="hola12345",user="igortxi";
 	String sexo="H";
+	int id=1;
 	@Test
 	void testEntradas() {
 		cal.set(Calendar.DAY_OF_MONTH, 20);
@@ -37,7 +38,7 @@ class TestEntrada {
 		fecha = cal.getTime();
 		String [] arrayString=new String [1];
 		arrayString[0]="Sala1";
-		Sesion s=new Sesion(p,nombreSala,fecha,tiempo,precio);
+		Sesion s=new Sesion(p,id,nombreSala,fecha,tiempo,precio);
 		Sesion [] arrayS=new Sesion[1];
 		arrayS[0]=s;
 		Cliente c=new Cliente(DNI,nombre,user,apellidos,sexo,contrasena);
