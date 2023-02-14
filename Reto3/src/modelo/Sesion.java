@@ -13,9 +13,7 @@ public class Sesion {
 	private float precio;
 	
 	
-	public Sesion(Pelicula peliSesion, Integer idEmision, String nombreSala, Date fechaSesion, LocalTime horaSesion,
-			float precio) {
-		super();
+	public Sesion(Pelicula peliSesion, Integer idEmision, String nombreSala, Date fechaSesion, LocalTime horaSesion,float precio) {
 		this.peliSesion = peliSesion;
 		this.idEmision = idEmision;
 		this.nombreSala = nombreSala;

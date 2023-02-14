@@ -21,9 +21,10 @@ public class Metodos {
 	// conexion = (Connection)
 	// DriverManager.getConnection("jdbc:mysql://10.5.14.210:3306/Cines", "Cliente",
 	// "Elorrieta00+");
-	String direccion = "jdbc:mysql://localhost/reto3";
-	String usuario = "root";
-	String contra = "";
+	final static String direccion = "jdbc:mysql://localhost/reto3";
+	final static String usuario = "root";
+	final static String contra = "";
+	final static String DNI="DNI";
 	Calendar cal = Calendar.getInstance();
 	Date fecha = null;
 	SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
@@ -38,7 +39,7 @@ public class Metodos {
 			ResultSet cargaCliente = comando.executeQuery("SELECT * FROM Cliente");
 
 			while (cargaCliente.next()) {
-				String dni = cargaCliente.getString("DNI");
+				String dni = cargaCliente.getString(DNI);
 				String nombre = cargaCliente.getString("nombreCliente");
 				String apellido = cargaCliente.getString("apellidos");
 				String pass = cargaCliente.getString("contrasena");
@@ -166,24 +167,20 @@ public class Metodos {
 		return repetido;
 	}
 
-	public String[] mostrarSesiones(String peliculaSeleccionada, Cine[] arrayCines, int seleccion,
-			String fechaEscogida) {
+	public String[] mostrarSesiones(String peliculaSeleccionada, Cine[] arrayCines, int seleccion,String fechaEscogida) {
 		String[] Sesiones = new String[0];
 
 		int numeroSalas = arrayCines[seleccion].getSalasCine().length;
 		for (int x = 0; x < numeroSalas; x++) {
 			int numeroSesionesPorSala = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala().length;
 			for (int y = 0; y < numeroSesionesPorSala; y++) {
-				String fecha = String
-						.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getFechaSesion());
-				String pelicula = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPeliSesion()
-						.getNombrePelicula();
-				String Hora = String
-						.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getHoraSesion());
+				String fecha = String.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getFechaSesion());
+				String pelicula = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPeliSesion().getNombrePelicula();
+				String Hora = String.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getHoraSesion());
 				String sala = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getNombreSala();
-				String precio = String
-						.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPrecio());
-				String unaSesion = Hora + " - "+ sala+" - " + precio;
+				String precio = String.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPrecio());
+				String id=String.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getIdEmision());
+				String unaSesion = id+"#"+Hora + " - "+ sala+" - " + precio;
 				if (fecha.equals(fechaEscogida) && pelicula.equals(peliculaSeleccionada)) {
 						String[] sesionesAux = new String[Sesiones.length + 1];
 						for (int c = 0; c < Sesiones.length; c++) {
@@ -283,5 +280,41 @@ public class Metodos {
 		}
 		
 		return (float) (Math.round(sumaPrecio*100.0)/100.0);
+	}
+
+	public void insertarDatosCompra(Cliente[] arrayClientes, String[][] entradaTabla, Cine[] arrayCines, String cliente, float precioFinal) {
+		// TODO Auto-generated method stub
+		String DNI=""; 
+		for(int i=0;i<arrayClientes.length;i++) {
+			if(arrayClientes[i].getUser().equals(cliente)) {
+				DNI=arrayClientes[i].getDniCliente();
+			}
+		}
+		int descuento=0;
+		float porcentaje=0;
+		if(entradaTabla.length==2) {
+			descuento=20;
+			porcentaje=(float) 0.8;
+		}else if(entradaTabla.length>2){
+			descuento=30;
+			porcentaje=(float) 0.7;
+		}
+		
+		Connection conexion;
+		try {
+			conexion = (Connection) DriverManager.getConnection(direccion, usuario,contra);
+			Statement comando = (Statement) conexion.createStatement();
+				comando.executeUpdate("INSERT INTO compra (precioTotal,descuento,horaCompra,DNI) "
+				+ "VALUES ('"+precioFinal+"','"+descuento+"','"+cal.getTime()+"','"+DNI+"')");
+			for(int i=0;i<entradaTabla.length;i++) {
+				float precioU=Float.valueOf(entradaTabla[i][5])*porcentaje;
+				float precioIndiv=(float) (Math.round((precioU*100.0)/100.0));
+				//for(int x=0;x<arrayCine)
+				comando.executeUpdate("INSERT INTO entrada (precioFinal,idEmision,codCompra) "
+						+ "VALUES ('"+precioIndiv+"','"+"')");
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 	}
 }

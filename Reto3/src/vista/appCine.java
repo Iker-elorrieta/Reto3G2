@@ -15,6 +15,7 @@ import controlador.Metodos;
 import modelo.Cine;
 import modelo.Cliente;
 import modelo.DateLabelFormatter;
+import modelo.Entrada;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -63,6 +64,7 @@ public class appCine extends JFrame {
 	private Cliente[] arrayClientes;
 	private Cine[] arrayCines;
 	private String[] nombreCines, nombrePeliculas, arraySesiones, sinSesiones;
+	private Entrada entrada;
 	private Metodos mc = new Metodos();
 	private Calendar fechaMomento = Calendar.getInstance();
 	private Date fecha = (Date) fechaMomento.getTime();
@@ -399,7 +401,7 @@ public class appCine extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String usuario = tfUsuario.getText() ;
 				String contraseña = String.valueOf(tfpass.getPassword());
-				
+				float precioFinal=Float.valueOf(txtPrecioTotal.getText());
 				if(usuario.equals("") || contraseña.equals("")) {
 					lblerror.setVisible(true);
 				}else {
@@ -413,7 +415,8 @@ public class appCine extends JFrame {
 					if(encontrado) {
 						lblnoencontrado.setVisible(false);
 						lblnoencon.setVisible(false);
-						System.out.println("Encontrado");//Pasa a comprar la compra
+						mc.insertarDatosCompra(arrayClientes,entradaTabla,arrayCines,usuario,precioFinal);
+						
 					}else {
 						lblnoencontrado.setVisible(true);
 						lblnoencon.setVisible(true);
