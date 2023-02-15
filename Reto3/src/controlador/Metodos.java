@@ -24,7 +24,15 @@ public class Metodos {
 	final static String direccion = "jdbc:mysql://localhost/reto3";
 	final static String usuario = "root";
 	final static String contra = "";
-	final static String DNI="DNI";
+	//COLUMNAS
+	final static String DNIC="DNI",nombreCliente="nombreCliente",apellidos="apellidos",contrasena="contrasena",clientUser="usuario",sex="sexo",
+				nCine="nombreCine",codCine="idCine",
+				nSala="nombreSala",fechaE="FechaEmision",horaE="HoraEmision",
+				precioI="precioInicial",codP="codPeli",nPeli="nombrePelicula",idE="idEmision",genP="genero",duraP="duracion",
+				precioT="precioTotal",descuentoC="descuento",horaC="horaCompra",
+				precioF="precioFinal",codC="codCompra";
+	//TABLAS
+	final static String cine="Cine",cliente="Cliente",peli="Pelicula",salas="sala",emi="emision",entra="entrada",compra="compra";
 	Calendar cal = Calendar.getInstance();
 	Date fecha = null;
 	SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
@@ -36,15 +44,15 @@ public class Metodos {
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando = (Statement) conexion.createStatement();
-			ResultSet cargaCliente = comando.executeQuery("SELECT * FROM Cliente");
+			ResultSet cargaCliente = comando.executeQuery("SELECT * FROM "+cliente);
 
 			while (cargaCliente.next()) {
-				String dni = cargaCliente.getString(DNI);
-				String nombre = cargaCliente.getString("nombreCliente");
-				String apellido = cargaCliente.getString("apellidos");
-				String pass = cargaCliente.getString("contrasena");
-				String user = cargaCliente.getString("usuario");
-				String sexo = cargaCliente.getString("sexo");
+				String dni = cargaCliente.getString(DNIC);
+				String nombre = cargaCliente.getString(nombreCliente);
+				String apellido = cargaCliente.getString(apellidos);
+				String pass = cargaCliente.getString(contrasena);
+				String user = cargaCliente.getString(clientUser);
+				String sexo = cargaCliente.getString(sex);
 				Cliente client = new Cliente(dni, nombre, user, apellido, sexo, pass);
 
 				Cliente[] arrayNuevo = new Cliente[arrayClientes.length + 1];
@@ -67,38 +75,38 @@ public class Metodos {
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario,contra);
 			Statement comando = (Statement) conexion.createStatement();
-			ResultSet cargaCines= comando.executeQuery("SELECT * FROM cine");
+			ResultSet cargaCines= comando.executeQuery("SELECT * FROM "+cine);
 			while(cargaCines.next()) {	
-				String nombreCine=cargaCines.getString("nombreCine");
-				String idCine=cargaCines.getString("idCine");
+				String nombreCine=cargaCines.getString(nCine);
+				String idCine=cargaCines.getString(codCine);
 				Statement comandoUno = (Statement) conexion.createStatement();
-				ResultSet cargaSala= comandoUno.executeQuery("SELECT * FROM sala WHERE idCine='"+idCine+"'");
+				ResultSet cargaSala= comandoUno.executeQuery("SELECT * FROM "+salas+" WHERE "+codCine+"='"+idCine+"'");
 				Salas [] arraySalas = new Salas[0];
 				while(cargaSala.next()) {
-					String codCi=cargaSala.getString("idCine");
-					String sala=cargaSala.getString("nombreSala");
+					String codCi=cargaSala.getString(codCine);
+					String sala=cargaSala.getString(nSala);
 					Statement comandoDos = (Statement) conexion.createStatement();
 					fecha=cal.getTime();
-					ResultSet cargaSesiones= comandoDos.executeQuery("SELECT * FROM emision"
-							+ " WHERE idCine='"+codCi+"' AND nombreSala='"+sala+"' AND FechaEmision >='"+dt.format(fecha)+"' "
-							+ " ORDER BY FechaEmision ASC, HoraEmision ASC");
+					ResultSet cargaSesiones= comandoDos.executeQuery("SELECT * FROM "+emi
+							+ " WHERE idCine='"+codCi+"' AND "+nSala+"='"+sala+"' AND "+fechaE+" >='"+dt.format(fecha)+"' "
+							+ " ORDER BY "+fechaE+" ASC, "+horaE+" ASC");
 					Sesion [] arraySesion = new Sesion[0];
 					while(cargaSesiones.next()) {
-						String salaSesion = cargaSesiones.getString("nombreSala");
-						Date dia=cargaSesiones.getDate("FechaEmision");
-						String hora=cargaSesiones.getString("HoraEmision");
+						String salaSesion = cargaSesiones.getString(nSala);
+						Date dia=cargaSesiones.getDate(fechaE);
+						String hora=cargaSesiones.getString(horaE);
 						LocalTime horaF=LocalTime.of(Integer.parseInt(hora.split(":")[0]),Integer.parseInt(hora.split(":")[1]));
-						Float precio=cargaSesiones.getFloat("precioInicial");
-						String pelicula=cargaSesiones.getString("codPeli");
-						Integer idemision=cargaSesiones.getInt("idEmision");
+						Float precio=cargaSesiones.getFloat(precioI);
+						String pelicula=cargaSesiones.getString(codP);
+						Integer idemision=cargaSesiones.getInt(idE);
 						Statement comandoTres = (Statement) conexion.createStatement();
-						ResultSet cargaPeliculas= comandoTres.executeQuery("SELECT * FROM pelicula WHERE codPeli='"+pelicula+"'");
+						ResultSet cargaPeliculas= comandoTres.executeQuery("SELECT * FROM "+peli+" WHERE "+codP+"='"+pelicula+"'");
 						Pelicula peli=null;
 						while(cargaPeliculas.next()) {
-							String id = cargaPeliculas.getString("codPeli");
-							String nombre = cargaPeliculas.getString("nombrePelicula");
-							String genero = cargaPeliculas.getString("genero");
-							int dura =cargaPeliculas.getInt("duracion");
+							String id = cargaPeliculas.getString(codP);
+							String nombre = cargaPeliculas.getString(nPeli);
+							String genero = cargaPeliculas.getString(genP);
+							int dura =cargaPeliculas.getInt(duraP);
 							peli = new Pelicula(id,nombre,genero,dura);
 						}
 						
@@ -167,22 +175,24 @@ public class Metodos {
 		return repetido;
 	}
 
-	public String[] mostrarSesiones(String peliculaSeleccionada, Cine[] arrayCines, int seleccion,String fechaEscogida) {
-		String[] Sesiones = new String[0];
+	public Sesion [] crearArraySesiones(String peliculaSeleccionada, Cine[] arrayCines, int seleccion,String fechaEscogida) {
+		Sesion [] Sesiones = new Sesion[0];
 
 		int numeroSalas = arrayCines[seleccion].getSalasCine().length;
 		for (int x = 0; x < numeroSalas; x++) {
 			int numeroSesionesPorSala = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala().length;
 			for (int y = 0; y < numeroSesionesPorSala; y++) {
-				String fecha = String.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getFechaSesion());
+				Pelicula peliSesion=arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPeliSesion();
+				Date fecha = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getFechaSesion();
+				String fechaComparacion=String.valueOf(fecha);
 				String pelicula = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPeliSesion().getNombrePelicula();
-				String Hora = String.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getHoraSesion());
+				LocalTime Hora = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getHoraSesion();
 				String sala = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getNombreSala();
-				String precio = String.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPrecio());
-				String id=String.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getIdEmision());
-				String unaSesion = id+"#"+Hora + " - "+ sala+" - " + precio;
-				if (fecha.equals(fechaEscogida) && pelicula.equals(peliculaSeleccionada)) {
-						String[] sesionesAux = new String[Sesiones.length + 1];
+				float precio = Float.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPrecio());
+				int id=Integer.valueOf(arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getIdEmision());
+				Sesion unaSesion= new Sesion(peliSesion,id,sala,fecha,Hora,precio);
+				if (fechaComparacion.equals(fechaEscogida) && pelicula.equals(peliculaSeleccionada)) {
+						Sesion [] sesionesAux = new Sesion[Sesiones.length + 1];
 						for (int c = 0; c < Sesiones.length; c++) {
 							sesionesAux[c] = Sesiones[c];
 						}
@@ -202,7 +212,7 @@ public class Metodos {
 			System.out.println(sexo);
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando = (Statement) conexion.createStatement();
-			comando.executeUpdate("insert into cliente VALUES('" + dni + "' ,'" + user + "' ,'" + nombre + "' ,'"
+			comando.executeUpdate("insert into "+cliente+" VALUES('" + dni + "' ,'" + user + "' ,'" + nombre + "' ,'"
 					+ apellido + "' ,'" + sexo + "' ,'" + contrasena + "')");
 
 		} catch (SQLException e) {
@@ -304,17 +314,26 @@ public class Metodos {
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario,contra);
 			Statement comando = (Statement) conexion.createStatement();
-				comando.executeUpdate("INSERT INTO compra (precioTotal,descuento,horaCompra,DNI) "
+				comando.executeUpdate("INSERT INTO "+compra+" ("+precioT+","+descuentoC+","+horaC+","+DNIC+") "
 				+ "VALUES ('"+precioFinal+"','"+descuento+"','"+cal.getTime()+"','"+DNI+"')");
 			for(int i=0;i<entradaTabla.length;i++) {
 				float precioU=Float.valueOf(entradaTabla[i][5])*porcentaje;
 				float precioIndiv=(float) (Math.round((precioU*100.0)/100.0));
 				//for(int x=0;x<arrayCine)
-				comando.executeUpdate("INSERT INTO entrada (precioFinal,idEmision,codCompra) "
+				comando.executeUpdate("INSERT INTO "+compra+" ("+precioF+","+idE+","+codC+") "
 						+ "VALUES ('"+precioIndiv+"','"+"')");
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public String[] mostrarSesiones(Sesion[] arraySesiones) {
+		// TODO Auto-generated method stubç
+		String [] mostrarSesiones=new String[arraySesiones.length];
+		for(int i=0;i<arraySesiones.length;i++) {
+			mostrarSesiones[i]=arraySesiones[i].getHoraSesion()+" - "+arraySesiones[i].getNombreSala()+" - "+arraySesiones[i].getPrecio();
+		}
+		return mostrarSesiones;
 	}
 }

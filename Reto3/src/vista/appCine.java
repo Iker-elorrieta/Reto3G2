@@ -16,6 +16,7 @@ import modelo.Cine;
 import modelo.Cliente;
 import modelo.DateLabelFormatter;
 import modelo.Entrada;
+import modelo.Sesion;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -63,7 +64,8 @@ public class appCine extends JFrame {
 	 */
 	private Cliente[] arrayClientes;
 	private Cine[] arrayCines;
-	private String[] nombreCines, nombrePeliculas, arraySesiones, sinSesiones;
+	private Sesion [] arraySesiones;
+	private String[] nombreCines, nombrePeliculas, arraySesionesVisual, sinSesiones;
 	private Entrada entrada;
 	private Metodos mc = new Metodos();
 	private Calendar fechaMomento = Calendar.getInstance();
@@ -277,15 +279,16 @@ public class appCine extends JFrame {
 					modelo.setValue(fecha);
 				}
 				cbSesion.setModel(new DefaultComboBoxModel<Object>());
-				arraySesiones = mc.mostrarSesiones(String.valueOf(cbPeliculas.getSelectedItem()), arrayCines,
+				arraySesiones = mc.crearArraySesiones(String.valueOf(cbPeliculas.getSelectedItem()), arrayCines,
 						cbCines.getSelectedIndex(), String.valueOf(dt.format(modelo.getValue())));
+				arraySesionesVisual=mc.mostrarSesiones(arraySesiones);
 				if (arraySesiones.length==0) {
 					sinSesiones = new String[1];
 					sinSesiones[0] = "No se emite este dia";
 					cbSesion.setModel(new DefaultComboBoxModel<Object>(sinSesiones));
 					btnAceptar.setEnabled(false);
 				} else {
-					cbSesion.setModel(new DefaultComboBoxModel<Object>(arraySesiones));
+					cbSesion.setModel(new DefaultComboBoxModel<Object>(arraySesionesVisual));
 					btnAceptar.setEnabled(true);
 				}
 			}
