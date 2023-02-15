@@ -58,21 +58,7 @@ public class appCine extends JFrame {
 	private JDatePanelImpl datePanel = new JDatePanelImpl(modelo, p);
 	private JComboBox<Object> cbCines = new JComboBox<Object>();
 	private JComboBox<Object> cbPeliculas = new JComboBox<Object>();
-	private String sexos[] = {"Hombre",  "Mujer"};
-	/**
-	 * Objetos practicos
-	 */
-	private Cliente[] arrayClientes;
-	private Cine[] arrayCines;
-	private Sesion [] arraySesiones;
-	private String[] nombreCines, nombrePeliculas, arraySesionesVisual, sinSesiones;
-	private Entrada entrada;
-	private Metodos mc = new Metodos();
-	private Calendar fechaMomento = Calendar.getInstance();
-	private Date fecha = (Date) fechaMomento.getTime();
-	SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
-	int cuentaSalas;
-	private String [][] entradaTabla=new String[0][6];
+	
 	private JTextField tfUsuario;
 	private JPasswordField tfpass;
 	private JTextField tfdni;
@@ -83,6 +69,23 @@ public class appCine extends JFrame {
 	private JTable entradas;
 	private DefaultTableModel model;
 	private JTextField txtPrecioTotal;
+	/**
+	 * Objetos practicos
+	 */
+	private Cliente[] arrayClientes;
+	private Cliente comprador;
+	private Cine[] arrayCines;
+	private Sesion [] arraySesiones,carritoCompra=new Sesion[0];
+	private String[] nombreCines, nombrePeliculas, arraySesionesVisual, sinSesiones;
+	private Entrada entrada;
+	private Metodos mc = new Metodos();
+	private Calendar fechaMomento = Calendar.getInstance();
+	private Date fecha = (Date) fechaMomento.getTime();
+	SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+	int cuentaSalas;
+	private String [][] entradaTabla=new String[0][6];
+	private String sexos[] = {"Hombre",  "Mujer"};
+	
 
 	/**
 	 * Launch the application.
@@ -235,6 +238,9 @@ public class appCine extends JFrame {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(1);
+				int sesionSeleccionada=cbSesion.getSelectedIndex();
+				carritoCompra=mc.guardarSesiones(carritoCompra,arraySesiones,sesionSeleccionada);
+				
 				String cineT=String.valueOf(cbCines.getSelectedItem()),salaT=String.valueOf(((String) cbSesion.getSelectedItem()).split("-")[1]),
 				peliculaT=String.valueOf(cbPeliculas.getSelectedItem()),fechaT=String.valueOf(dt.format(modelo.getValue())),
 				horaT=String.valueOf(((String) cbSesion.getSelectedItem()).split("-")[0]),precioT=String.valueOf(((String) cbSesion.getSelectedItem()).split("-")[2]);
@@ -257,7 +263,7 @@ public class appCine extends JFrame {
 				}
 				panel_3.add(scrollPane);
 				
-				txtPrecioTotal.setText(String.valueOf(mc.calcularPrecioTotal(entradaTabla))+"€");
+				txtPrecioTotal.setText(String.valueOf(mc.calcularPrecioTotal(entradaTabla)));
 				
 				cbPeliculas.setModel(new DefaultComboBoxModel<Object>(nombrePeliculas));
 				cbSesion.setModel(new DefaultComboBoxModel<Object>());
@@ -333,6 +339,7 @@ public class appCine extends JFrame {
 		JButton btnBorrarDatos = new JButton("Borrar entradas");
 		btnBorrarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				carritoCompra=new Sesion[0];
 				txtPrecioTotal.setText("");
 				panel_3.remove(scrollPane);
 				model.getDataVector().removeAllElements();
@@ -405,21 +412,18 @@ public class appCine extends JFrame {
 				String usuario = tfUsuario.getText() ;
 				String contraseña = String.valueOf(tfpass.getPassword());
 				float precioFinal=Float.valueOf(txtPrecioTotal.getText());
+				
 				if(usuario.equals("") || contraseña.equals("")) {
 					lblerror.setVisible(true);
 				}else {
 					lblerror.setVisible(false);
-					boolean encontrado = false;
-					for(int i = 0; i<arrayClientes.length;i++) {
-						if(arrayClientes[i].getUser().equals(usuario) && arrayClientes[i].getContrasenaCliente().equals(contraseña)) {
-							encontrado = true;
-						}
-					}
-					if(encontrado) {
+					comprador=mc.encontrarCliente(arrayClientes,usuario,contraseña);
+					if(comprador!=null) {
 						lblnoencontrado.setVisible(false);
 						lblnoencon.setVisible(false);
-						mc.insertarDatosCompra(arrayClientes,entradaTabla,arrayCines,usuario,precioFinal);
-						
+						entrada=new Entrada(comprador,carritoCompra,precioFinal);
+						mc.insertarDatosCompra(entrada);
+						JOptionPane.showMessageDialog(null, "Ha realizado su compra de "+carritoCompra.length+" entradas correctamente.");
 					}else {
 						lblnoencontrado.setVisible(true);
 						lblnoencon.setVisible(true);
@@ -435,7 +439,6 @@ public class appCine extends JFrame {
 		btnRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(5);
-				
 			}
 		});
 		btnRegistro.setBounds(299, 199, 109, 23);
@@ -535,7 +538,6 @@ public class appCine extends JFrame {
 				char sexo = String.valueOf(sexocombo.getSelectedItem()).charAt(0);
 				if(usuario.equals("") || dni.equals("") || nombre.equals("") || apellido.equals("") || contrasena.equals("")) {
 					
-					
 				}else {
 					lblerrordni.setVisible(false);
 					lbluserrepe.setVisible(false);
@@ -551,7 +553,9 @@ public class appCine extends JFrame {
 					}
 					if(repeuser && comprobardni) {
 						mc.registrarCliente(dni, nombre, apellido, usuario, contrasena, sexo);
-						JOptionPane.showMessageDialog(null, "Te has registrado correctamente");
+						arrayClientes=mc.cargarClientes();
+						JOptionPane.showMessageDialog(null, "Te has registrado correctamente.");
+						tabbedPane.setSelectedIndex(4);
 					}
 					
 				}
@@ -564,6 +568,11 @@ public class appCine extends JFrame {
 		btnAtrasSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(4);
+				tfusuarioreg.setText("");
+				tfdni.setText("");
+				tfnombre.setText("");
+				tfapellido.setText("");
+				passwordField.setText("");
 			}
 		});
 		btnAtrasSesion.setBounds(10, 199, 89, 23);

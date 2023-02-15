@@ -13,6 +13,7 @@ import com.mysql.jdbc.Statement;
 
 import modelo.Cine;
 import modelo.Cliente;
+import modelo.Entrada;
 import modelo.Pelicula;
 import modelo.Salas;
 import modelo.Sesion;
@@ -36,7 +37,7 @@ public class Metodos {
 	Calendar cal = Calendar.getInstance();
 	Date fecha = null;
 	SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
-
+	SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public Cliente[] cargarClientes() {
 		Cliente[] arrayClientes = new Cliente[0];
 		Connection conexion;
@@ -208,8 +209,6 @@ public class Metodos {
 			char sexo) {
 		Connection conexion;
 		try {
-			System.out.println(dni);
-			System.out.println(sexo);
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando = (Statement) conexion.createStatement();
 			comando.executeUpdate("insert into "+cliente+" VALUES('" + dni + "' ,'" + user + "' ,'" + nombre + "' ,'"
@@ -291,43 +290,6 @@ public class Metodos {
 		
 		return (float) (Math.round(sumaPrecio*100.0)/100.0);
 	}
-
-	public void insertarDatosCompra(Cliente[] arrayClientes, String[][] entradaTabla, Cine[] arrayCines, String cliente, float precioFinal) {
-		// TODO Auto-generated method stub
-		String DNI=""; 
-		for(int i=0;i<arrayClientes.length;i++) {
-			if(arrayClientes[i].getUser().equals(cliente)) {
-				DNI=arrayClientes[i].getDniCliente();
-			}
-		}
-		int descuento=0;
-		float porcentaje=0;
-		if(entradaTabla.length==2) {
-			descuento=20;
-			porcentaje=(float) 0.8;
-		}else if(entradaTabla.length>2){
-			descuento=30;
-			porcentaje=(float) 0.7;
-		}
-		
-		Connection conexion;
-		try {
-			conexion = (Connection) DriverManager.getConnection(direccion, usuario,contra);
-			Statement comando = (Statement) conexion.createStatement();
-				comando.executeUpdate("INSERT INTO "+compra+" ("+precioT+","+descuentoC+","+horaC+","+DNIC+") "
-				+ "VALUES ('"+precioFinal+"','"+descuento+"','"+cal.getTime()+"','"+DNI+"')");
-			for(int i=0;i<entradaTabla.length;i++) {
-				float precioU=Float.valueOf(entradaTabla[i][5])*porcentaje;
-				float precioIndiv=(float) (Math.round((precioU*100.0)/100.0));
-				//for(int x=0;x<arrayCine)
-				comando.executeUpdate("INSERT INTO "+compra+" ("+precioF+","+idE+","+codC+") "
-						+ "VALUES ('"+precioIndiv+"','"+"')");
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-	}
-
 	public String[] mostrarSesiones(Sesion[] arraySesiones) {
 		// TODO Auto-generated method stubç
 		String [] mostrarSesiones=new String[arraySesiones.length];
@@ -335,5 +297,64 @@ public class Metodos {
 			mostrarSesiones[i]=arraySesiones[i].getHoraSesion()+" - "+arraySesiones[i].getNombreSala()+" - "+arraySesiones[i].getPrecio();
 		}
 		return mostrarSesiones;
+	}
+
+	public Sesion[] guardarSesiones(Sesion[] carritoCompra, Sesion[] arraySesiones, int sesionSeleccionada) {
+		// TODO Auto-generated method stub
+		Sesion [] sesionAuxiliar=new Sesion[carritoCompra.length+1];
+		for(int i=0;i<carritoCompra.length;i++) {
+			sesionAuxiliar[i]=carritoCompra[i];
+		}
+		sesionAuxiliar[carritoCompra.length]=arraySesiones[sesionSeleccionada];
+		carritoCompra=sesionAuxiliar;
+		return carritoCompra;
+	}
+
+	public Cliente encontrarCliente(Cliente[] arrayClientes, String usuario2, String contraseña) {
+		// TODO Auto-generated method stub
+		Cliente cliente=null;
+		for(int i = 0; i<arrayClientes.length;i++) {
+			if(arrayClientes[i].getUser().equals(usuario2) && arrayClientes[i].getContrasenaCliente().equals(contraseña)) {
+				cliente= arrayClientes[i];
+			}
+		}
+		return cliente;
+	}
+
+	public void insertarDatosCompra(Entrada entrada) {
+		// TODO Auto-generated method stub
+		Connection conexion;
+		int codCompra=0;
+		int descuento=0;
+		if(entrada.getSesionPorTicket().length==2) {
+			descuento=20;
+		}else if(entrada.getSesionPorTicket().length>2) {
+			descuento=30;
+		}
+		try {
+			fecha=cal.getTime();
+			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
+			Statement comando = (Statement) conexion.createStatement();
+			comando.executeUpdate("INSERT INTO "+compra+"("+precioT+","+descuentoC+","+horaC+","+DNIC+")"
+					+ "VALUES ('"+entrada.getPrecioTotal()+"','"+descuento+"','"+dt1.format(fecha)+"','"+entrada.getCliente().getDniCliente()+"')");
+			Statement buscarCodCompra = (Statement) conexion.createStatement();
+			ResultSet codigoCompra=buscarCodCompra.executeQuery("SELECT "+codC+" FROM "+compra+" WHERE "+DNIC+"='"+entrada.getCliente().getDniCliente()+"' AND "+horaC+"='"+dt1.format(fecha)+"'");
+			while(codigoCompra.next()) {
+			codCompra=codigoCompra.getInt(codC);
+			System.out.println(codCompra);
+			}
+			for(int i=0;i<entrada.getSesionPorTicket().length;i++) {
+				float precioEntrada=entrada.getSesionPorTicket()[i].getPrecio();
+				if(entrada.getSesionPorTicket().length==2) {
+				precioEntrada=(float) (entrada.getSesionPorTicket()[i].getPrecio()*0.8);
+				}else if(entrada.getSesionPorTicket().length>2) {
+					precioEntrada=(float) (entrada.getSesionPorTicket()[i].getPrecio()*0.7);
+				}
+				Statement insertarEntradas = (Statement) conexion.createStatement();
+				insertarEntradas.executeUpdate("INSERT INTO "+entra+"("+precioF+","+idE+","+codC+") VALUES ('"+precioEntrada+"','"+entrada.getSesionPorTicket()[i].getIdEmision()+"','"+codCompra+"')");
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 	}
 }
