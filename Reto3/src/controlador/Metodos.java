@@ -1,5 +1,8 @@
 package controlador;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -176,7 +179,7 @@ public class Metodos {
 		return repetido;
 	}
 
-	public Sesion [] crearArraySesiones(String peliculaSeleccionada, Cine[] arrayCines, int seleccion,String fechaEscogida) {
+	public Sesion [] cargarArraySesiones(String peliculaSeleccionada, Cine[] arrayCines, int seleccion,String fechaEscogida) {
 		Sesion [] Sesiones = new Sesion[0];
 
 		int numeroSalas = arrayCines[seleccion].getSalasCine().length;
@@ -341,7 +344,6 @@ public class Metodos {
 			ResultSet codigoCompra=buscarCodCompra.executeQuery("SELECT "+codC+" FROM "+compra+" WHERE "+DNIC+"='"+entrada.getCliente().getDniCliente()+"' AND "+horaC+"='"+dt1.format(fecha)+"'");
 			while(codigoCompra.next()) {
 			codCompra=codigoCompra.getInt(codC);
-			System.out.println(codCompra);
 			}
 			for(int i=0;i<entrada.getSesionPorTicket().length;i++) {
 				float precioEntrada=entrada.getSesionPorTicket()[i].getPrecio();
@@ -355,6 +357,21 @@ public class Metodos {
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+		}
+	}
+
+	public void generarFactura(Entrada entrada) {
+		// TODO Auto-generated method stub
+		try {
+			FileWriter fich = new FileWriter(".\\Facturas\\"+entrada.getCliente().getDniCliente()+".txt",true);
+			BufferedWriter linea=new BufferedWriter(fich);
+			for(int i=0;i<entrada.getSesionPorTicket().length;i++) {
+				linea.write(entrada.getSesionPorTicket()[i].toString()+"\n");
+			}
+			linea.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

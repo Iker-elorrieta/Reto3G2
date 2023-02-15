@@ -196,7 +196,7 @@ public class appCine extends JFrame {
 		panel_2.add(cbPeliculas);
 
 		JLabel lblPeliculas = new JLabel("Peliculas:");
-		lblPeliculas.setBounds(10, 19, 46, 14);
+		lblPeliculas.setBounds(10, 19, 60, 14);
 		panel_2.add(lblPeliculas);
 
 		JButton btnAtras = new JButton("Atras");
@@ -285,7 +285,7 @@ public class appCine extends JFrame {
 					modelo.setValue(fecha);
 				}
 				cbSesion.setModel(new DefaultComboBoxModel<Object>());
-				arraySesiones = mc.crearArraySesiones(String.valueOf(cbPeliculas.getSelectedItem()), arrayCines,
+				arraySesiones = mc.cargarArraySesiones(String.valueOf(cbPeliculas.getSelectedItem()), arrayCines,
 						cbCines.getSelectedIndex(), String.valueOf(dt.format(modelo.getValue())));
 				arraySesionesVisual=mc.mostrarSesiones(arraySesiones);
 				if (arraySesiones.length==0) {
@@ -351,7 +351,7 @@ public class appCine extends JFrame {
 		panel_3.add(btnBorrarDatos);
 		
 		JLabel precioTotal = new JLabel("Precio Total:");
-		precioTotal.setBounds(244, 176, 86, 14);
+		precioTotal.setBounds(235, 176, 95, 14);
 		panel_3.add(precioTotal);
 		
 		
@@ -359,6 +359,10 @@ public class appCine extends JFrame {
 		txtPrecioTotal.setBounds(330, 173, 86, 20);
 		panel_3.add(txtPrecioTotal);
 		txtPrecioTotal.setColumns(10);
+		
+		JLabel lblDescuentos = new JLabel("Descuentos: 2 películas 20% 3 o más 30%");
+		lblDescuentos.setBounds(20, 174, 205, 14);
+		panel_3.add(lblDescuentos);
 		
 		JPanel panel_4 = new JPanel();
 		tabbedPane.addTab("Quinta", null, panel_4, null);
@@ -423,7 +427,15 @@ public class appCine extends JFrame {
 						lblnoencon.setVisible(false);
 						entrada=new Entrada(comprador,carritoCompra,precioFinal);
 						mc.insertarDatosCompra(entrada);
-						JOptionPane.showMessageDialog(null, "Ha realizado su compra de "+carritoCompra.length+" entradas correctamente.");
+						int eleccion=JOptionPane.showConfirmDialog(null, "Compra de "+carritoCompra.length+" entradas hecha correctamente, ¿Quiere generar una factura?", "Factura", 2);
+						if(eleccion==0) {
+							mc.generarFactura(entrada);
+						}
+						tfUsuario.setText("") ;
+						tfpass.setText("");
+						entradaTabla=new String [0][6];
+						carritoCompra=new Sesion[0];
+						tabbedPane.setSelectedIndex(0);
 					}else {
 						lblnoencontrado.setVisible(true);
 						lblnoencon.setVisible(true);
@@ -467,16 +479,16 @@ public class appCine extends JFrame {
 		panel_5.add(lbldni);
 		
 		tfdni = new JTextField();
-		tfdni.setBounds(154, 31, 86, 20);
+		tfdni.setBounds(154, 31, 120, 20);
 		panel_5.add(tfdni);
 		tfdni.setColumns(9);
 		
 		JLabel lblnombre = new JLabel("Nombre: ");
-		lblnombre.setBounds(81, 67, 46, 14);
+		lblnombre.setBounds(81, 67, 63, 14);
 		panel_5.add(lblnombre);
 		
 		tfnombre = new JTextField();
-		tfnombre.setBounds(154, 62, 86, 20);
+		tfnombre.setBounds(154, 62, 120, 20);
 		panel_5.add(tfnombre);
 		tfnombre.setColumns(10);
 		
@@ -499,11 +511,11 @@ public class appCine extends JFrame {
 		tfusuarioreg.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Contraseña: ");
-		lblNewLabel_1.setBounds(58, 148, 69, 14);
+		lblNewLabel_1.setBounds(58, 148, 86, 14);
 		panel_5.add(lblNewLabel_1);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(154, 145, 113, 20);
+		passwordField.setBounds(154, 145, 120, 20);
 		panel_5.add(passwordField);
 		
 		JLabel lblSexo = new JLabel("Sexo: ");
@@ -517,7 +529,7 @@ public class appCine extends JFrame {
 		
 		JLabel lblerrordni = new JLabel("Dni incorrecto");
 		lblerrordni.setForeground(new Color(255, 0, 0));
-		lblerrordni.setBounds(250, 34, 97, 14);
+		lblerrordni.setBounds(293, 34, 97, 14);
 		panel_5.add(lblerrordni);
 		lblerrordni.setVisible(false);
 		

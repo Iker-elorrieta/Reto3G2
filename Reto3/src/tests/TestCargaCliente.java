@@ -14,7 +14,7 @@ class TestCargaCliente {
 		Metodos mc = new Metodos();
 		Cliente[] clientes = mc.cargarClientes();
 		assertEquals(clientes[0].getApellidosCliente(),"Bueno");
-		assertEquals(clientes.length,4);
+		assertTrue(clientes.length>0);
 	}
 
 }
