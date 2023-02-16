@@ -120,7 +120,7 @@ public class appCine extends JFrame {
 		contentPane.setLayout(null);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 0, 434, 261);
+		tabbedPane.setBounds(0, -26, 434, 287);
 		contentPane.add(tabbedPane);
 
 		JPanel panel = new JPanel();
@@ -345,6 +345,7 @@ public class appCine extends JFrame {
 				model.getDataVector().removeAllElements();
 				entradaTabla=new String[0][6];
 				panel_3.add(scrollPane);
+				tabbedPane.setSelectedIndex(1);
 			}
 		});
 		btnBorrarDatos.setBounds(141, 199, 140, 23);
@@ -361,7 +362,7 @@ public class appCine extends JFrame {
 		txtPrecioTotal.setColumns(10);
 		
 		JLabel lblDescuentos = new JLabel("Descuentos: 2 películas 20% 3 o más 30%");
-		lblDescuentos.setBounds(20, 174, 205, 14);
+		lblDescuentos.setBounds(10, 11, 271, 14);
 		panel_3.add(lblDescuentos);
 		
 		JPanel panel_4 = new JPanel();
