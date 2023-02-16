@@ -61,7 +61,6 @@ CONSTRAINT FK_id_Emision FOREIGN KEY (idEmision) REFERENCES Emision(idEmision),
 CONSTRAINT FK_codCompra FOREIGN KEY (codCompra) REFERENCES  Compra(CodCompra)
 );
 
-use reto3;
 INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Handia','160','Drama');
 INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('La lista de Schindler','197','Drama');
 INSERT INTO pelicula(nombrePelicula,duracion,genero) VALUE ('Cadena Perpetua','160','Drama');

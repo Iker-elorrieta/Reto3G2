@@ -91,9 +91,9 @@ public class Metodos {
 					String sala=cargaSala.getString(nSala);
 					Statement comandoDos = (Statement) conexion.createStatement();
 					fecha=cal.getTime();
-					ResultSet cargaSesiones= comandoDos.executeQuery("SELECT * FROM "+emi
-							+ " WHERE idCine='"+codCi+"' AND "+nSala+"='"+sala+"' AND "+fechaE+" >='"+dt.format(fecha)+"' "
-							+ " ORDER BY "+fechaE+" ASC, "+horaE+" ASC");
+					ResultSet cargaSesiones= comandoDos.executeQuery("SELECT * FROM emision"
+							+ " WHERE idCine='"+idCine+"' AND nombreSala='"+sala+"' AND FechaEmision >='"+dt.format(fecha)+"' "
+							+ " ORDER BY FechaEmision ASC, HoraEmision ASC");
 					Sesion [] arraySesion = new Sesion[0];
 					while(cargaSesiones.next()) {
 						String salaSesion = cargaSesiones.getString(nSala);
