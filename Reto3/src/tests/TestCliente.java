@@ -33,6 +33,7 @@ class TestCliente {
 		c1.setNombreCliente(nombre);
 		assertEquals(c1.toString(),linea);
 		assertEquals(c1.getDniCliente(),DNI);
+		assertEquals(c1.getUser(),user);
 		assertEquals(c1.getNombreCliente(),nombre);
 		assertEquals(c1.getApellidosCliente(),apellidos);
 		assertEquals(c1.getContrasenaCliente(),contrasena);

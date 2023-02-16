@@ -8,20 +8,20 @@ import org.junit.jupiter.api.Test;
 import controlador.Metodos;
 import modelo.Cliente;
 
-class TestUsuarioRepetido {
+class TestComprobarUser {
 	Metodos mc = new Metodos();
 	Cliente[] clientes = mc.cargarClientes();
 	
 	@Test
 	void testUsuarioNoRepetido() {
-		String usuario = "igor";
+		String usuario = "ABCDE";
 		boolean repetido = mc.comprobarUser(clientes, usuario);
 		assertEquals(true, repetido);
 	}
 	
 	@Test
 	void testUsuarioRepetido() {
-		String usuario = "as";
+		String usuario = "elorrieta1";
 		boolean repetido = mc.comprobarUser(clientes, usuario);
 		assertEquals(false, repetido);
 	}

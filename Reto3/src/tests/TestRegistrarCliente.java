@@ -13,7 +13,7 @@ import com.mysql.jdbc.Statement;
 import controlador.Metodos;
 import modelo.Cliente;
 
-class RegistrarCliente {
+class TestRegistrarCliente {
 	
 	Metodos mc = new Metodos();
 	String direccion = "jdbc:mysql://localhost/reto3";
@@ -22,7 +22,7 @@ class RegistrarCliente {
 	
 	@Test
 	void testRegistroCorrecto() {
-		String dni = "20981430F";
+		String dni = "99999999Z";
 		String nombre = "manolo";
 		String apellido = "rodriguez";
 		String usuariop = "user";

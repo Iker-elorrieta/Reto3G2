@@ -19,7 +19,7 @@ import controlador.Metodos;
 import modelo.Cine;
 import modelo.Sesion;
 
-class TestCargarArraySesiones {
+class TestGuardarSesiones {
 	Metodos mc =new Metodos();
 	final static String direccion = "jdbc:mysql://localhost/reto3";
 	final static String usuario = "root";
@@ -33,6 +33,7 @@ class TestCargarArraySesiones {
 	@Test
 	void test() {
 		fecha=cal.getTime();
+		Sesion [] carritoCompraP = new Sesion [0];
 		Connection conexion;
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
@@ -41,15 +42,21 @@ class TestCargarArraySesiones {
 			comando.executeUpdate("insert into emision (FechaEmision,HoraEmision,precioInicial,idCine,nombreSala,codPeli) VALUES ('"+dt.format(fecha)+"' ,'"+tiempo+"','"+(float) 9.99+"','GC' ,'Sala 03' ,'16')");
 			Cine [] arrayCines=mc.cargarDatos();
 			Sesion [] arraySesion=mc.cargarArraySesiones("prueba", arrayCines,0,String.valueOf(dt.format(fecha)));
-			assertEquals(arraySesion[0].getPeliSesion().getNombrePelicula(),"prueba");
-			assertEquals(arraySesion[0].getHoraSesion(),tiempo);
-			assertEquals(arraySesion[0].getNombreSala(),"Sala 03");
-			assertEquals(arraySesion[0].getPrecio(),(float)9.99);
+			carritoCompraP=mc.guardarSesiones(carritoCompraP, arraySesion, 0);
+			carritoCompraP=mc.guardarSesiones(carritoCompraP, arraySesion, 0);
+			assertEquals(carritoCompraP[0].getPeliSesion().getNombrePelicula(),"prueba");
+			assertEquals(carritoCompraP[0].getHoraSesion(),tiempo);
+			assertEquals(carritoCompraP[0].getNombreSala(),"Sala 03");
+			assertEquals(carritoCompraP[0].getPrecio(),(float)9.99);
 			String fecha1=dt.format(fecha);
-			assertTrue(String.valueOf(arraySesion[0].getFechaSesion()).equals(fecha1));
+			assertTrue(String.valueOf(carritoCompraP[1].getFechaSesion()).equals(fecha1));
+			assertEquals(carritoCompraP[1].getPeliSesion().getNombrePelicula(),"prueba");
+			assertEquals(carritoCompraP[1].getHoraSesion(),tiempo);
+			assertEquals(carritoCompraP[1].getNombreSala(),"Sala 03");
+			assertEquals(carritoCompraP[1].getPrecio(),(float)9.99);
+			assertTrue(String.valueOf(carritoCompraP[1].getFechaSesion()).equals(fecha1));
 			comando.executeUpdate("DELETE FROM emision WHERE idEmision='"+arraySesion[0].getIdEmision()+"'");
 			comando.executeUpdate("DELETE FROM pelicula WHERE codPeli='16'");
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
