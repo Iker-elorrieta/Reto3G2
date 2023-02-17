@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -76,8 +77,19 @@ class TestGenerarFactura {
 						e.printStackTrace();
 					}
 				}
-				
-				assertEquals(datos,pruebaEntrada.getSesionPorTicket()[0].toString()+pruebaEntrada.getSesionPorTicket()[1].toString());
+				Statement cogerNombreCine = (Statement) conexion.createStatement();
+				String primerCine="",segundoCine="";
+				ResultSet nombreCine=cogerNombreCine.executeQuery("SELECT nombreCine FROM cine JOIN sala USING (idCine) JOIN emision USING (idCine,nombreSala) WHERE idEmision='"+pruebaEntrada.getSesionPorTicket()[0].getIdEmision()+"'");
+				while(nombreCine.next()){
+					primerCine=nombreCine.getString("nombreCine");
+				}
+				nombreCine=cogerNombreCine.executeQuery("SELECT nombreCine FROM cine JOIN sala USING (idCine) JOIN emision USING (idCine,nombreSala) WHERE idEmision='"+pruebaEntrada.getSesionPorTicket()[1].getIdEmision()+"'");
+				while(nombreCine.next()){
+					segundoCine=nombreCine.getString("nombreCine");
+				}
+				Calendar cal = Calendar.getInstance();
+				fecha=cal.getTime();
+				assertEquals(datos,dt1.format(fecha)+": En el cine "+primerCine+" ha comprado "+pruebaEntrada.getSesionPorTicket()[0].toString()+dt1.format(fecha)+": En el cine "+segundoCine+" ha comprado "+pruebaEntrada.getSesionPorTicket()[1].toString());
 				FileWriter borrar;
 				try {
 					borrar = new FileWriter(elorrieta1);
@@ -86,6 +98,7 @@ class TestGenerarFactura {
 					borrador.write("");
 				}
 				borrador.close();
+				
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
@@ -112,7 +113,7 @@ public class appCine extends JFrame {
 		nombreCines = mc.mostrarCines(arrayCines);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -120,7 +121,7 @@ public class appCine extends JFrame {
 		contentPane.setLayout(null);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, -26, 434, 287);
+		tabbedPane.setBounds(0, -22, 484, 283);
 		contentPane.add(tabbedPane);
 
 		JPanel panel = new JPanel();
@@ -134,20 +135,29 @@ public class appCine extends JFrame {
 		panel.setLayout(null);
 
 		JLabel lblBienvenido = new JLabel("Bienvenido!");
-		lblBienvenido.setBounds(98, 59, 216, 78);
+		lblBienvenido.setBounds(228, 66, 216, 78);
 		lblBienvenido.setFont(new Font("Georgia", Font.BOLD | Font.ITALIC, 30));
 		panel.add(lblBienvenido);
+		
+		JLabel limagen = new JLabel();
+		Image imagen = new ImageIcon(".\\Imagenes\\logo.png").getImage();
+		Image imagenmodificada = imagen.getScaledInstance(179, 121, java.awt.Image.SCALE_SMOOTH);
+		limagen.setBounds(10, 39, 179, 133);
+		limagen.setIcon(new ImageIcon(imagenmodificada));
+		panel.add(limagen);
 
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("Segunda", null, panel_1, null);
 		panel_1.setLayout(null);
+		cbCines.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		cbCines.setModel(new DefaultComboBoxModel<Object>(nombreCines));
-		cbCines.setBounds(131, 0, 135, 22);
+		cbCines.setBounds(172, 93, 135, 22);
 		panel_1.add(cbCines);
 
-		JLabel lblSelecCine = new JLabel("Seleccione el cine");
-		lblSelecCine.setBounds(10, 0, 135, 14);
+		JLabel lblSelecCine = new JLabel("Seleccione el cine:");
+		lblSelecCine.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblSelecCine.setBounds(172, 68, 166, 14);
 		panel_1.add(lblSelecCine);
 
 		cbPeliculas.addActionListener(new ActionListener() {
@@ -166,12 +176,13 @@ public class appCine extends JFrame {
 				modelo.setValue(fecha);
 			}
 		});
-		btnFinalizar.setBounds(330, 199, 89, 23);
+		btnFinalizar.setBounds(380, 225, 89, 23);
 		panel_1.add(btnFinalizar);
 		JPanel panel_3 = new JPanel();
+		panel_3.setForeground(Color.GRAY);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 30, 409, 139);
+		scrollPane.setBounds(10, 30, 459, 139);
 		
 		
 		
@@ -182,7 +193,7 @@ public class appCine extends JFrame {
 				tabbedPane.setSelectedIndex(3);
 			}
 		});
-		btnComprar.setBounds(10, 199, 89, 23);
+		btnComprar.setBounds(10, 225, 89, 23);
 		btnComprar.setVisible(false);
 		panel_1.add(btnComprar);
 		
@@ -192,11 +203,12 @@ public class appCine extends JFrame {
 		tabbedPane.addTab("Tercera", null, panel_2, null);
 		panel_2.setLayout(null);
 
-		cbPeliculas.setBounds(113, 11, 202, 22);
+		cbPeliculas.setBounds(145, 15, 202, 22);
 		panel_2.add(cbPeliculas);
 
 		JLabel lblPeliculas = new JLabel("Peliculas:");
-		lblPeliculas.setBounds(10, 19, 60, 14);
+		lblPeliculas.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblPeliculas.setBounds(10, 19, 89, 14);
 		panel_2.add(lblPeliculas);
 
 		JButton btnAtras = new JButton("Atras");
@@ -207,7 +219,7 @@ public class appCine extends JFrame {
 				tabbedPane.setSelectedIndex(1);
 			}
 		});
-		btnAtras.setBounds(10, 199, 89, 23);
+		btnAtras.setBounds(10, 225, 89, 23);
 		panel_2.add(btnAtras);
 		
 		entradas = new JTable();
@@ -225,7 +237,7 @@ public class appCine extends JFrame {
 		entradas.getColumnModel().getColumn(0).setPreferredWidth(1);
 		entradas.getColumnModel().getColumn(1).setPreferredWidth(40);
 		entradas.getColumnModel().getColumn(2).setPreferredWidth(20);
-		entradas.getColumnModel().getColumn(4).setPreferredWidth(15);
+		entradas.getColumnModel().getColumn(4).setPreferredWidth(30);
 		entradas.getColumnModel().getColumn(3).setPreferredWidth(40);
 		entradas.getColumnModel().getColumn(5).setPreferredWidth(5);
 		entradas.getColumnModel().getColumn(6).setPreferredWidth(5);
@@ -262,7 +274,7 @@ public class appCine extends JFrame {
 					model.addRow(fila);
 				}
 				panel_3.add(scrollPane);
-				
+				btnAceptar.setEnabled(false);
 				txtPrecioTotal.setText(String.valueOf(mc.calcularPrecioTotal(entradaTabla)));
 				
 				cbPeliculas.setModel(new DefaultComboBoxModel<Object>(nombrePeliculas));
@@ -272,7 +284,7 @@ public class appCine extends JFrame {
 			}
 		});
 		btnAceptar.setEnabled(false);
-		btnAceptar.setBounds(330, 199, 89, 23);
+		btnAceptar.setBounds(368, 225, 89, 23);
 		panel_2.add(btnAceptar);
 		
 		contentPane.setLayout(null);
@@ -299,19 +311,21 @@ public class appCine extends JFrame {
 				}
 			}
 		});
-		datePicker.setBounds(113, 44, 202, 23);
+		datePicker.setBounds(145, 44, 202, 23);
 		panel_2.add(datePicker);
 
 		JLabel lblFechas = new JLabel("Fecha:");
-		lblFechas.setBounds(10, 53, 46, 14);
+		lblFechas.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblFechas.setBounds(10, 53, 89, 14);
 		panel_2.add(lblFechas);
 
 		
-		cbSesion.setBounds(113, 78, 202, 22);
+		cbSesion.setBounds(145, 78, 202, 22);
 		panel_2.add(cbSesion);
 
 		JLabel lblSesion = new JLabel("Sesion:");
-		lblSesion.setBounds(10, 86, 46, 14);
+		lblSesion.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblSesion.setBounds(10, 86, 89, 14);
 		panel_2.add(lblSesion);
 
 		
@@ -324,7 +338,7 @@ public class appCine extends JFrame {
 				tabbedPane.setSelectedIndex(4);
 			}
 		});
-		btnCompra.setBounds(330, 199, 89, 23);
+		btnCompra.setBounds(380, 225, 89, 23);
 		panel_3.add(btnCompra);
 		
 		JButton btnCines = new JButton("Atras");
@@ -333,12 +347,13 @@ public class appCine extends JFrame {
 				tabbedPane.setSelectedIndex(1);
 			}
 		});
-		btnCines.setBounds(10, 199, 89, 23);
+		btnCines.setBounds(10, 225, 89, 23);
 		panel_3.add(btnCines);
 		
 		JButton btnBorrarDatos = new JButton("Borrar entradas");
 		btnBorrarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnComprar.setVisible(false);
 				carritoCompra=new Sesion[0];
 				txtPrecioTotal.setText("");
 				panel_3.remove(scrollPane);
@@ -348,21 +363,23 @@ public class appCine extends JFrame {
 				tabbedPane.setSelectedIndex(1);
 			}
 		});
-		btnBorrarDatos.setBounds(141, 199, 140, 23);
+		btnBorrarDatos.setBounds(171, 225, 140, 23);
 		panel_3.add(btnBorrarDatos);
 		
 		JLabel precioTotal = new JLabel("Precio Total:");
-		precioTotal.setBounds(235, 176, 95, 14);
+		precioTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
+		precioTotal.setBounds(247, 200, 126, 14);
 		panel_3.add(precioTotal);
 		
 		
 		txtPrecioTotal.setEditable(false);
-		txtPrecioTotal.setBounds(330, 173, 86, 20);
+		txtPrecioTotal.setBounds(383, 197, 86, 20);
 		panel_3.add(txtPrecioTotal);
 		txtPrecioTotal.setColumns(10);
 		
-		JLabel lblDescuentos = new JLabel("Descuentos: 2 películas 20% 3 o más 30%");
-		lblDescuentos.setBounds(10, 11, 271, 14);
+		JLabel lblDescuentos = new JLabel("Descuentos: 2 películas 20%, 3 o más 30%.");
+		lblDescuentos.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblDescuentos.setBounds(10, 11, 344, 14);
 		panel_3.add(lblDescuentos);
 		
 		JPanel panel_4 = new JPanel();
@@ -371,43 +388,43 @@ public class appCine extends JFrame {
 		
 		JLabel lblLogin = new JLabel("Introduzca su usuario y contraseña");
 		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblLogin.setBounds(23, 11, 347, 27);
+		lblLogin.setBounds(61, 11, 347, 27);
 		panel_4.add(lblLogin);
 		
 		JLabel lblUsuario = new JLabel("Usuario: ");
 		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblUsuario.setBounds(23, 54, 65, 14);
+		lblUsuario.setBounds(47, 54, 65, 14);
 		panel_4.add(lblUsuario);
 		
 		JLabel lblerror = new JLabel("Rellena todos los campos");
 		lblerror.setForeground(new Color(255, 0, 0));
-		lblerror.setBounds(137, 124, 159, 14);
+		lblerror.setBounds(167, 107, 159, 14);
 		panel_4.add(lblerror);
 		lblerror.setVisible(false);
 		
 		tfUsuario = new JTextField();
-		tfUsuario.setBounds(126, 53, 144, 20);
+		tfUsuario.setBounds(167, 53, 144, 20);
 		panel_4.add(tfUsuario);
 		tfUsuario.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Contraseña: ");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(20, 100, 97, 14);
+		lblNewLabel.setBounds(20, 85, 97, 14);
 		panel_4.add(lblNewLabel);
 		
 		tfpass = new JPasswordField();
-		tfpass.setBounds(127, 99, 143, 20);
+		tfpass.setBounds(167, 84, 143, 20);
 		panel_4.add(tfpass);
 		
 		JLabel lblnoencontrado = new JLabel("No se ha encontrado el usuario o la contraseña es incorrecta");
 		lblnoencontrado.setForeground(new Color(255, 0, 0));
-		lblnoencontrado.setBounds(51, 149, 357, 14);
+		lblnoencontrado.setBounds(96, 123, 357, 14);
 		panel_4.add(lblnoencontrado);
 		lblnoencontrado.setVisible(false);
 		
-		JLabel lblnoencon = new JLabel("Puedes registrarte pulsando el boton de REGISTRARSE");
-		lblnoencon.setForeground(new Color(255, 0, 0));
-		lblnoencon.setBounds(64, 174, 311, 14);
+		JLabel lblnoencon = new JLabel("¿No tienes cuenta? Registrate");
+		lblnoencon.setForeground(Color.DARK_GRAY);
+		lblnoencon.setBounds(152, 173, 174, 14);
 		panel_4.add(lblnoencon);
 		lblnoencon.setVisible(false);
 		
@@ -445,26 +462,50 @@ public class appCine extends JFrame {
 				
 			}
 		});
-		btnaceplogin.setBounds(151, 199, 119, 23);
+		btnaceplogin.setBounds(177, 139, 119, 23);
 		panel_4.add(btnaceplogin);
 		
 		JButton btnRegistro = new JButton("Registrarse");
 		btnRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				tfUsuario.setText("") ;
+				tfpass.setText("");
 				tabbedPane.setSelectedIndex(5);
 			}
 		});
-		btnRegistro.setBounds(299, 199, 109, 23);
+		btnRegistro.setBounds(177, 191, 119, 23);
 		panel_4.add(btnRegistro);
 		
 		JButton btnAtrasResumen = new JButton("Atras");
 		btnAtrasResumen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(3);
+				tfUsuario.setText("") ;
+				tfpass.setText("");
 			}
 		});
-		btnAtrasResumen.setBounds(28, 199, 89, 23);
+		btnAtrasResumen.setBounds(20, 225, 89, 23);
 		panel_4.add(btnAtrasResumen);
+		
+		JButton btnInicio = new JButton("Inicio");
+		btnInicio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int eleccion=JOptionPane.showConfirmDialog(null, "¿Está seguro de querer volver al inicio borrando su carrito de compra?", "Alerta", 2);
+				if(eleccion==0) {
+					tfUsuario.setText("") ;
+					tfpass.setText("");
+					carritoCompra=new Sesion[0];
+					txtPrecioTotal.setText("");
+					panel_3.remove(scrollPane);
+					model.getDataVector().removeAllElements();
+					entradaTabla=new String[0][6];
+					panel_3.add(scrollPane);
+					tabbedPane.setSelectedIndex(0);
+				}
+			}
+		});
+		btnInicio.setBounds(380, 225, 89, 23);
+		panel_4.add(btnInicio);
 		
 		JPanel panel_5 = new JPanel();
 		tabbedPane.addTab("Sexta", null, panel_5, null);
@@ -476,67 +517,73 @@ public class appCine extends JFrame {
 		panel_5.add(lblregistro);
 		
 		JLabel lbldni = new JLabel("DNI: ");
-		lbldni.setBounds(89, 34, 31, 14);
+		lbldni.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbldni.setBounds(81, 34, 39, 14);
 		panel_5.add(lbldni);
 		
 		tfdni = new JTextField();
-		tfdni.setBounds(154, 31, 120, 20);
+		tfdni.setBounds(176, 31, 120, 20);
 		panel_5.add(tfdni);
 		tfdni.setColumns(9);
 		
 		JLabel lblnombre = new JLabel("Nombre: ");
-		lblnombre.setBounds(81, 67, 63, 14);
+		lblnombre.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblnombre.setBounds(58, 67, 86, 14);
 		panel_5.add(lblnombre);
 		
 		tfnombre = new JTextField();
-		tfnombre.setBounds(154, 62, 120, 20);
+		tfnombre.setBounds(176, 64, 120, 20);
 		panel_5.add(tfnombre);
 		tfnombre.setColumns(10);
 		
 		JLabel lblapellido = new JLabel("Apellido: ");
-		lblapellido.setBounds(81, 92, 61, 14);
+		lblapellido.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblapellido.setBounds(58, 96, 84, 14);
 		panel_5.add(lblapellido);
 		
 		tfapellido = new JTextField();
-		tfapellido.setBounds(154, 89, 120, 20);
+		tfapellido.setBounds(176, 95, 120, 20);
 		panel_5.add(tfapellido);
 		tfapellido.setColumns(10);
 		
 		JLabel lblUsuarioreg = new JLabel("Usuario: ");
-		lblUsuarioreg.setBounds(81, 123, 51, 14);
+		lblUsuarioreg.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblUsuarioreg.setBounds(58, 127, 74, 14);
 		panel_5.add(lblUsuarioreg);
 		
 		tfusuarioreg = new JTextField();
-		tfusuarioreg.setBounds(154, 120, 120, 20);
+		tfusuarioreg.setBounds(176, 126, 120, 20);
 		panel_5.add(tfusuarioreg);
 		tfusuarioreg.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Contraseña: ");
-		lblNewLabel_1.setBounds(58, 148, 86, 14);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_1.setBounds(35, 163, 109, 14);
 		panel_5.add(lblNewLabel_1);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(154, 145, 120, 20);
+		passwordField.setBounds(176, 157, 120, 20);
 		panel_5.add(passwordField);
 		
 		JLabel lblSexo = new JLabel("Sexo: ");
-		lblSexo.setBounds(81, 180, 46, 14);
+		lblSexo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblSexo.setBounds(80, 192, 62, 14);
 		panel_5.add(lblSexo);
 		
 		JComboBox<String> sexocombo = new JComboBox<String>();
-		sexocombo.setBounds(154, 176, 79, 22);
+		sexocombo.setBounds(176, 190, 79, 22);
 		panel_5.add(sexocombo);
 		sexocombo.setModel(new DefaultComboBoxModel<String>(sexos));
 		
 		JLabel lblerrordni = new JLabel("Dni incorrecto");
 		lblerrordni.setForeground(new Color(255, 0, 0));
-		lblerrordni.setBounds(293, 34, 97, 14);
+		lblerrordni.setBounds(321, 34, 97, 14);
 		panel_5.add(lblerrordni);
 		lblerrordni.setVisible(false);
 		
 		JLabel lbluserrepe = new JLabel("Usuario repetido");
 		lbluserrepe.setForeground(new Color(255, 0, 0));
-		lbluserrepe.setBounds(287, 123, 103, 14);
+		lbluserrepe.setBounds(315, 123, 103, 14);
 		panel_5.add(lbluserrepe);
 		lbluserrepe.setVisible(false);
 		
@@ -574,7 +621,7 @@ public class appCine extends JFrame {
 				}
 			}
 		});
-		btnaceptarreg.setBounds(301, 199, 89, 23);
+		btnaceptarreg.setBounds(366, 225, 103, 23);
 		panel_5.add(btnaceptarreg);
 		
 		JButton btnAtrasSesion = new JButton("Atras");
@@ -588,7 +635,7 @@ public class appCine extends JFrame {
 				passwordField.setText("");
 			}
 		});
-		btnAtrasSesion.setBounds(10, 199, 89, 23);
+		btnAtrasSesion.setBounds(10, 225, 89, 23);
 		panel_5.add(btnAtrasSesion);
 		
 		

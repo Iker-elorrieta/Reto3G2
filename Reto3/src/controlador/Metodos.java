@@ -48,8 +48,7 @@ public class Metodos {
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando = (Statement) conexion.createStatement();
-			ResultSet cargaCliente = comando.executeQuery("SELECT * FROM "+cliente);
-
+			ResultSet cargaCliente = comando.executeQuery("SELECT `"+DNIC+"`, `"+clientUser+"`, `"+nombreCliente+"`, `"+apellidos+"`, `"+sex+"`, (aes_decrypt("+contrasena+",'AES')) "+contrasena+" FROM `cliente`");
 			while (cargaCliente.next()) {
 				String dni = cargaCliente.getString(DNIC);
 				String nombre = cargaCliente.getString(nombreCliente);
@@ -143,6 +142,7 @@ public class Metodos {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+	
 		return arrayCine;
 	}
 
@@ -214,9 +214,7 @@ public class Metodos {
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando = (Statement) conexion.createStatement();
-			comando.executeUpdate("insert into "+cliente+" VALUES('" + dni + "' ,'" + user + "' ,'" + nombre + "' ,'"
-					+ apellido + "' ,'" + sexo + "' ,'" + contrasena + "')");
-
+			comando.executeUpdate("INSERT INTO "+cliente+" VALUES ('" + dni + "' ,'" + user + "' ,'" + nombre + "','"+apellido + "','" + sexo + "' ,(aes_encrypt('"+contrasena+"','AES')))");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -335,6 +333,7 @@ public class Metodos {
 			descuento=30;
 		}
 		try {
+			Calendar cal = Calendar.getInstance();
 			fecha=cal.getTime();
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando = (Statement) conexion.createStatement();
@@ -362,13 +361,28 @@ public class Metodos {
 
 	public void generarFactura(Entrada entrada) {
 		// TODO Auto-generated method stub
+		Connection conexion;
 		try {
-			FileWriter fich = new FileWriter(".\\Facturas\\"+entrada.getCliente().getDniCliente()+".txt",true);
-			BufferedWriter linea=new BufferedWriter(fich);
-			for(int i=0;i<entrada.getSesionPorTicket().length;i++) {
-				linea.write(entrada.getSesionPorTicket()[i].toString()+"\n");
+			try {
+				conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
+				FileWriter fich = new FileWriter(".\\Facturas\\"+entrada.getCliente().getDniCliente()+".txt",true);
+				BufferedWriter linea=new BufferedWriter(fich);
+				Statement cogerNombreCine = (Statement) conexion.createStatement();
+				for(int i=0;i<entrada.getSesionPorTicket().length;i++) {
+					String elCine="";
+					ResultSet nombreCine=cogerNombreCine.executeQuery("SELECT "+nCine+" FROM "+cine+" JOIN "+salas+" USING ("+codCine+") JOIN "+emi+" USING ("+codCine+","+nSala+") WHERE "+idE+"='"+entrada.getSesionPorTicket()[i].getIdEmision()+"'");
+					while(nombreCine.next()){
+						elCine=nombreCine.getString(nCine);
+					}
+					Calendar cal = Calendar.getInstance();
+					fecha=cal.getTime();
+					linea.write(dt1.format(fecha)+": En el cine "+elCine+" ha comprado "+entrada.getSesionPorTicket()[i].toString()+"\n");
+				}
+				linea.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			linea.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
