@@ -9,7 +9,6 @@ public class Salas {
 	private Sesion [] sesionesPorSala;
 	
 	public Salas(String codigoSala, String nombreSala, Sesion[] sesionesPorSala) {
-		super();
 		this.codigoSala = codigoSala;
 		this.nombreSala = nombreSala;
 		this.sesionesPorSala = sesionesPorSala;

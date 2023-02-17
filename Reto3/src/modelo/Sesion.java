@@ -6,14 +6,16 @@ import java.util.Objects;
 
 public class Sesion {
 	private Pelicula peliSesion;
+	private Integer idEmision;
 	private String nombreSala;
 	private Date fechaSesion;
 	private LocalTime horaSesion;
 	private float precio;
 	
-	public Sesion(Pelicula peliSesion, String nombreSala, Date fechaSesion, LocalTime horaSesion, float precio) {
-		super();
+	
+	public Sesion(Pelicula peliSesion, Integer idEmision, String nombreSala, Date fechaSesion, LocalTime horaSesion,float precio) {
 		this.peliSesion = peliSesion;
+		this.idEmision = idEmision;
 		this.nombreSala = nombreSala;
 		this.fechaSesion = fechaSesion;
 		this.horaSesion = horaSesion;
@@ -49,9 +51,10 @@ public class Sesion {
 	public void setNombreSala(String nombreSala) {
 		this.nombreSala = nombreSala;
 	}
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(fechaSesion, horaSesion, nombreSala, peliSesion, precio);
+		return Objects.hash(fechaSesion, horaSesion, idEmision, nombreSala, peliSesion, precio);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -63,13 +66,20 @@ public class Sesion {
 			return false;
 		Sesion other = (Sesion) obj;
 		return Objects.equals(fechaSesion, other.fechaSesion) && Objects.equals(horaSesion, other.horaSesion)
-				&& Objects.equals(nombreSala, other.nombreSala) && Objects.equals(peliSesion, other.peliSesion)
+				&& Objects.equals(idEmision, other.idEmision) && Objects.equals(nombreSala, other.nombreSala)
+				&& Objects.equals(peliSesion, other.peliSesion)
 				&& Float.floatToIntBits(precio) == Float.floatToIntBits(other.precio);
 	}
 	@Override
 	public String toString() {
 		return "La sesion con la pelicula " + peliSesion + ", nombre de sala " + nombreSala + ", en la fecha " + fechaSesion
-				+ ", a la hora " + horaSesion + ", y al precio " + precio;
+				+ ", a la hora " + horaSesion + ", y al precio " + precio+" y el id "+idEmision;
+	}
+	public Integer getIdEmision() {
+		return idEmision;
+	}
+	public void setIdEmision(Integer idEmision) {
+		this.idEmision = idEmision;
 	}
 
 	

@@ -12,7 +12,6 @@ public class Entrada {
 	
 	
 	public Entrada(Cliente cliente, Sesion[] sesionPorTicket, Float precioTotal) {
-		super();
 		this.cliente = cliente;
 		this.sesionPorTicket = sesionPorTicket;
 		this.precioTotal = precioTotal;
