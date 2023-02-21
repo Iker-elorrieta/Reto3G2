@@ -34,9 +34,9 @@ import java.util.Properties;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -59,7 +59,6 @@ public class appCine extends JFrame {
 	private JDatePanelImpl datePanel = new JDatePanelImpl(modelo, p);
 	private JComboBox<Object> cbCines = new JComboBox<Object>();
 	private JComboBox<Object> cbPeliculas = new JComboBox<Object>();
-	
 	private JTextField tfUsuario;
 	private JPasswordField tfpass;
 	private JTextField tfdni;
@@ -77,7 +76,7 @@ public class appCine extends JFrame {
 	private Cliente comprador;
 	private Cine[] arrayCines;
 	private Sesion [] arraySesiones,carritoCompra=new Sesion[0];
-	private String[] nombreCines, nombrePeliculas, arraySesionesVisual, sinSesiones;
+	private String[] nombreCines, nombrePeliculas, arraySesionesVisual;
 	private Entrada entrada;
 	private Metodos mc = new Metodos();
 	private Calendar fechaMomento = Calendar.getInstance();
@@ -86,6 +85,7 @@ public class appCine extends JFrame {
 	int cuentaSalas;
 	private String [][] entradaTabla=new String[0][6];
 	private String sexos[] = {"Hombre",  "Mujer"};
+	private Boolean comprobarDNI,usuarioRepetido;
 	
 
 	/**
@@ -121,7 +121,7 @@ public class appCine extends JFrame {
 		contentPane.setLayout(null);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, -22, 484, 283);
+		tabbedPane.setBounds(0, -26, 484, 287);
 		contentPane.add(tabbedPane);
 
 		JPanel panel = new JPanel();
@@ -136,7 +136,7 @@ public class appCine extends JFrame {
 
 		JLabel lblBienvenido = new JLabel("Bienvenido!");
 		lblBienvenido.setBounds(228, 66, 216, 78);
-		lblBienvenido.setFont(new Font("Georgia", Font.BOLD | Font.ITALIC, 30));
+		lblBienvenido.setFont(new Font("Impact", Font.BOLD, 30));
 		panel.add(lblBienvenido);
 		
 		JLabel limagen = new JLabel();
@@ -300,15 +300,12 @@ public class appCine extends JFrame {
 				arraySesiones = mc.cargarArraySesiones(String.valueOf(cbPeliculas.getSelectedItem()), arrayCines,
 						cbCines.getSelectedIndex(), String.valueOf(dt.format(modelo.getValue())));
 				arraySesionesVisual=mc.mostrarSesiones(arraySesiones);
-				if (arraySesiones.length==0) {
-					sinSesiones = new String[1];
-					sinSesiones[0] = "No se emite este dia";
-					cbSesion.setModel(new DefaultComboBoxModel<Object>(sinSesiones));
-					btnAceptar.setEnabled(false);
-				} else {
 					cbSesion.setModel(new DefaultComboBoxModel<Object>(arraySesionesVisual));
+					if(arraySesionesVisual[0].equals("No se emite este dia")) {
+					btnAceptar.setEnabled(false);	
+					}else {
 					btnAceptar.setEnabled(true);
-				}
+					}
 			}
 		});
 		datePicker.setBounds(145, 44, 202, 23);
@@ -320,12 +317,12 @@ public class appCine extends JFrame {
 		panel_2.add(lblFechas);
 
 		
-		cbSesion.setBounds(145, 78, 202, 22);
+		cbSesion.setBounds(145, 157, 202, 22);
 		panel_2.add(cbSesion);
 
 		JLabel lblSesion = new JLabel("Sesion:");
 		lblSesion.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblSesion.setBounds(10, 86, 89, 14);
+		lblSesion.setBounds(10, 159, 89, 14);
 		panel_2.add(lblSesion);
 
 		
@@ -423,10 +420,9 @@ public class appCine extends JFrame {
 		lblnoencontrado.setVisible(false);
 		
 		JLabel lblnoencon = new JLabel("¿No tienes cuenta? Registrate");
-		lblnoencon.setForeground(Color.DARK_GRAY);
+		lblnoencon.setForeground(Color.GRAY);
 		lblnoencon.setBounds(152, 173, 174, 14);
 		panel_4.add(lblnoencon);
-		lblnoencon.setVisible(false);
 		
 		JButton btnaceplogin = new JButton("Iniciar sesion");
 		btnaceplogin.addActionListener(new ActionListener() {
@@ -442,10 +438,9 @@ public class appCine extends JFrame {
 					comprador=mc.encontrarCliente(arrayClientes,usuario,contraseña);
 					if(comprador!=null) {
 						lblnoencontrado.setVisible(false);
-						lblnoencon.setVisible(false);
 						entrada=new Entrada(comprador,carritoCompra,precioFinal);
 						mc.insertarDatosCompra(entrada);
-						int eleccion=JOptionPane.showConfirmDialog(null, "Compra de "+carritoCompra.length+" entradas hecha correctamente, ¿Quiere generar una factura?", "Factura", 2);
+						int eleccion=JOptionPane.showConfirmDialog(null, "Gracias por su compra! \n Compra de "+carritoCompra.length+" entradas hecha correctamente, ¿Quiere generar una factura?", "Factura", 2);
 						if(eleccion==0) {
 							mc.generarFactura(entrada);
 						}
@@ -456,7 +451,6 @@ public class appCine extends JFrame {
 						tabbedPane.setSelectedIndex(0);
 					}else {
 						lblnoencontrado.setVisible(true);
-						lblnoencon.setVisible(true);
 					}
 				}
 				
@@ -587,6 +581,7 @@ public class appCine extends JFrame {
 		panel_5.add(lbluserrepe);
 		lbluserrepe.setVisible(false);
 		
+		JLabel lblErrorVacio = new JLabel("Alguno de los campos esta vacío.");
 		JButton btnaceptarreg = new JButton("Registrarse");
 		btnaceptarreg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -597,27 +592,28 @@ public class appCine extends JFrame {
 				String contrasena = String.valueOf(passwordField.getPassword());
 				char sexo = String.valueOf(sexocombo.getSelectedItem()).charAt(0);
 				if(usuario.equals("") || dni.equals("") || nombre.equals("") || apellido.equals("") || contrasena.equals("")) {
-					
+					lblErrorVacio.setVisible(true);
 				}else {
 					lblerrordni.setVisible(false);
 					lbluserrepe.setVisible(false);
-					boolean comprobardni = mc.comprobarDni(dni);
-					if(!comprobardni) {
-						
+					lblErrorVacio.setVisible(false);
+					comprobarDNI = mc.comprobarDni(dni);
+					if(!comprobarDNI) {
 						lblerrordni.setVisible(true);
 					}
-					
-					boolean repeuser = mc.comprobarUser(arrayClientes, usuario);
-					if(!repeuser) {
+					usuarioRepetido = mc.comprobarUser(arrayClientes, usuario);
+					if(!usuarioRepetido) {
 						lbluserrepe.setVisible(true);
 					}
-					if(repeuser && comprobardni) {
+					if(usuarioRepetido && comprobarDNI) {
 						mc.registrarCliente(dni, nombre, apellido, usuario, contrasena, sexo);
 						arrayClientes=mc.cargarClientes();
 						JOptionPane.showMessageDialog(null, "Te has registrado correctamente.");
 						tabbedPane.setSelectedIndex(4);
+						lblerrordni.setVisible(false);
+						lbluserrepe.setVisible(false);
+						lblErrorVacio.setVisible(false);
 					}
-					
 				}
 			}
 		});
@@ -638,8 +634,10 @@ public class appCine extends JFrame {
 		btnAtrasSesion.setBounds(10, 225, 89, 23);
 		panel_5.add(btnAtrasSesion);
 		
-		
-		
+		lblErrorVacio.setVisible(false);
+		lblErrorVacio.setForeground(Color.RED);
+		lblErrorVacio.setBounds(176, 229, 227, 14);
+		panel_5.add(lblErrorVacio);
 		
 	}
 }

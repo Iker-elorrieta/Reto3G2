@@ -3,16 +3,15 @@ package controlador;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
-
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
 
 import modelo.Cine;
 import modelo.Cliente;
@@ -22,21 +21,25 @@ import modelo.Salas;
 import modelo.Sesion;
 
 public class Metodos {
-	// conexion = (Connection)
-	// DriverManager.getConnection("jdbc:mysql://10.5.14.210:3306/Cines", "Cliente",
-	// "Elorrieta00+");
+	
 	final static String direccion = "jdbc:mysql://localhost/reto3";
 	final static String usuario = "root";
 	final static String contra = "";
+	
+	/**
+	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
+	final static String usuario = "Cliente";
+	final static String contra = "Elorrieta00+";
+	**/
 	//COLUMNAS
 	final static String DNIC="DNI",nombreCliente="nombreCliente",apellidos="apellidos",contrasena="contrasena",clientUser="usuario",sex="sexo",
 				nCine="nombreCine",codCine="idCine",
 				nSala="nombreSala",fechaE="FechaEmision",horaE="HoraEmision",
-				precioI="precioInicial",codP="codPeli",nPeli="nombrePelicula",idE="idEmision",genP="genero",duraP="duracion",
+				precioI="precioInicial",codP="codPelicula",nPeli="nombrePelicula",idE="idEmision",genP="genero",duraP="duracion",
 				precioT="precioTotal",descuentoC="descuento",horaC="horaCompra",
 				precioF="precioFinal",codC="codCompra";
 	//TABLAS
-	final static String cine="Cine",cliente="Cliente",peli="Pelicula",salas="sala",emi="emision",entra="entrada",compra="compra";
+	final static String cine="Cine",cliente="Cliente",peli="Pelicula",salas="Sala",emi="Emision",entra="Entrada",compra="Compra";
 	Calendar cal = Calendar.getInstance();
 	Date fecha = null;
 	SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
@@ -48,7 +51,7 @@ public class Metodos {
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando = (Statement) conexion.createStatement();
-			ResultSet cargaCliente = comando.executeQuery("SELECT `"+DNIC+"`, `"+clientUser+"`, `"+nombreCliente+"`, `"+apellidos+"`, `"+sex+"`, (aes_decrypt("+contrasena+",'AES')) "+contrasena+" FROM `cliente`");
+			ResultSet cargaCliente = comando.executeQuery("SELECT `"+DNIC+"`, `"+clientUser+"`, `"+nombreCliente+"`, `"+apellidos+"`, `"+sex+"`, (aes_decrypt("+contrasena+",'AES')) "+contrasena+" FROM `"+cliente+"`");
 			while (cargaCliente.next()) {
 				String dni = cargaCliente.getString(DNIC);
 				String nombre = cargaCliente.getString(nombreCliente);
@@ -296,6 +299,10 @@ public class Metodos {
 		String [] mostrarSesiones=new String[arraySesiones.length];
 		for(int i=0;i<arraySesiones.length;i++) {
 			mostrarSesiones[i]=arraySesiones[i].getHoraSesion()+" - "+arraySesiones[i].getNombreSala()+" - "+arraySesiones[i].getPrecio();
+		}
+		if (arraySesiones.length==0) {
+			mostrarSesiones=new String[1];
+			mostrarSesiones[0] = "No se emite este dia";
 		}
 		return mostrarSesiones;
 	}

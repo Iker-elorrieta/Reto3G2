@@ -2,13 +2,13 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.junit.jupiter.api.Test;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
 
 import controlador.Metodos;
 import modelo.Cliente;
