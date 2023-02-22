@@ -281,7 +281,7 @@ public class Metodos {
 		entradaTabla=arrayAux;
 		return entradaTabla;
 	}
-	public float calcularPrecioTotal(String [][] entradaTabla) {
+	public float calcularPrecioResumen(String [][] entradaTabla) {
 		float sumaPrecio=0;
 		for(int i=0;i<entradaTabla.length;i++) {
 			sumaPrecio+=Float.valueOf(entradaTabla[i][5]);

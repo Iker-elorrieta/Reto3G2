@@ -73,7 +73,7 @@ class TestGenerarFactura {
 			carritoCompraP=mc.guardarSesiones(carritoCompraP, arraySesion, 0);
 			tabla=mc.actualizarTabla(tabla, "Cines Golem", "Sala 3", "prueba", String.valueOf(dt.format(fecha)), String.valueOf(tiempo),"9.99" );
 			tabla=mc.actualizarTabla(tabla, "Cines Golem", "Sala 3", "prueba", String.valueOf(dt.format(fecha)), String.valueOf(tiempo),"9.99" );
-			float precio=mc.calcularPrecioTotal(tabla);
+			float precio=mc.calcularPrecioResumen(tabla);
 			Entrada pruebaEntrada=new Entrada(encontrado,carritoCompraP,precio);
 			
 			File elorrieta1=new File(".\\Facturas\\"+pruebaEntrada.getCliente().getDniCliente()+".txt");

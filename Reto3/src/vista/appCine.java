@@ -275,7 +275,7 @@ public class appCine extends JFrame {
 				}
 				panel_3.add(scrollPane);
 				btnAceptar.setEnabled(false);
-				txtPrecioTotal.setText(String.valueOf(mc.calcularPrecioTotal(entradaTabla)));
+				txtPrecioTotal.setText(String.valueOf(mc.calcularPrecioResumen(entradaTabla)));
 				
 				cbPeliculas.setModel(new DefaultComboBoxModel<Object>(nombrePeliculas));
 				cbSesion.setModel(new DefaultComboBoxModel<Object>());

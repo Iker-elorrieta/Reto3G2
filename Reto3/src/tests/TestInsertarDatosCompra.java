@@ -66,7 +66,7 @@ class TestInsertarDatosCompra {
 			carritoCompraP=mc.guardarSesiones(carritoCompraP, arraySesion, 0);
 			tabla=mc.actualizarTabla(tabla, "Cines Golem", "Sala 3", "prueba", String.valueOf(dt.format(fecha)), String.valueOf(tiempo),"9.99" );
 			tabla=mc.actualizarTabla(tabla, "Cines Golem", "Sala 3", "prueba", String.valueOf(dt.format(fecha)), String.valueOf(tiempo),"9.99" );
-			float precio=mc.calcularPrecioTotal(tabla);
+			float precio=mc.calcularPrecioResumen(tabla);
 			Entrada pruebaEntrada=new Entrada(encontrado,carritoCompraP,precio);
 			mc.insertarDatosCompra(pruebaEntrada);
 			ResultSet testCompra=comando.executeQuery("SELECT * FROM "+Compra+" WHERE "+horaCompra+"='"+dt1.format(fecha)+"'");	
