@@ -3,11 +3,8 @@ package tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -76,43 +73,27 @@ class TestGenerarFactura {
 			float precio=mc.calcularPrecioResumen(tabla);
 			Entrada pruebaEntrada=new Entrada(encontrado,carritoCompraP,precio);
 			
-			File elorrieta1=new File(".\\Facturas\\"+pruebaEntrada.getCliente().getDniCliente()+".txt");
-			FileReader fich = null;
+			mc.generarFactura(pruebaEntrada);
+			FileReader fich;
+			String datos="";
 			BufferedReader linea;
-			FileWriter borrar;
+			SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 			try {
-				fich = new FileReader(elorrieta1);
-				linea=new BufferedReader(fich);
-			try {
-				borrar = new FileWriter(elorrieta1);
-				BufferedWriter borrador=new BufferedWriter(borrar);
+				fich = new FileReader(".\\Facturas\\"+pruebaEntrada.getCliente().getUser()+dtf.format(fecha)+".txt");
 				
-				while ((linea.readLine()) != null) {
-					borrador.write("");
-				}
-			borrador.close();
-			} catch (FileNotFoundException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-			
-			} catch (IOException e1) {
+					linea=new BufferedReader(fich);
+					for(int i=0;i<pruebaEntrada.getSesionPorTicket().length;i++) {
+								datos+=linea.readLine();
+					}	
+					linea.close();
+			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
-			mc.generarFactura(pruebaEntrada);
-		String datos="";
-			elorrieta1=new File(".\\Facturas\\"+pruebaEntrada.getCliente().getDniCliente()+".txt");
-			linea=new BufferedReader(fich);
-			for(int i=0;i<pruebaEntrada.getSesionPorTicket().length;i++) {
-				try {
-					datos+=linea.readLine();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}	
 				Statement cogerNombreCine = (Statement) conexion.createStatement();
 				String primerCine="",segundoCine="";
 				ResultSet cines=cogerNombreCine.executeQuery("SELECT "+nombreCine+" FROM "+Cine+" JOIN "+Sala+" USING ("+idCine+") JOIN "+Emision+" USING ("+idCine+","+nombreSala+") WHERE "+idEmision+"='"+pruebaEntrada.getSesionPorTicket()[0].getIdEmision()+"'");
@@ -126,25 +107,6 @@ class TestGenerarFactura {
 				Calendar cal = Calendar.getInstance();
 				fecha=cal.getTime();
 				assertEquals(datos,dt1.format(fecha)+": En el cine "+primerCine+" ha comprado "+pruebaEntrada.getSesionPorTicket()[0].toString()+dt1.format(fecha)+": En el cine "+segundoCine+" ha comprado "+pruebaEntrada.getSesionPorTicket()[1].toString());
-				try {
-					borrar = new FileWriter(elorrieta1);
-					BufferedWriter borrador=new BufferedWriter(borrar);
-				for(int i=0;i<pruebaEntrada.getSesionPorTicket().length;i++) {
-					borrador.write("");
-				}
-				borrador.close();
-				
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
-					linea.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			
 			comando.executeUpdate("DELETE FROM "+Emision+" WHERE "+idEmision+"='"+arraySesion[0].getIdEmision()+"'");
 			comando.executeUpdate("DELETE FROM "+Pelicula+" WHERE "+codPelicula+"='"+codP+"'");
 		} catch (SQLException e) {

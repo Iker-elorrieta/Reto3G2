@@ -12,8 +12,8 @@ usuario VARCHAR(20) NOT NULL UNIQUE,
 nombreCliente VARCHAR(20) NOT NULL,
 apellidos VARCHAR(45) NOT NULL,
 sexo CHAR(1) NOT NULL CHECK (sexo='H' OR sexo='M'),
-contrasena VARCHAR(20) NOT NULL
-)ENGINE='InnoDB' DEFAULT CHARSET=LATIN1;
+contrasena VARCHAR(100) NOT NULL
+);
 
 CREATE TABLE Pelicula(
 codPelicula INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -51,7 +51,7 @@ descuento INTEGER NOT NULL DEFAULT 0,
 horaCompra DATETIME NOT NULL,
 DNI VARCHAR(9),
 CONSTRAINT FK_DNIC FOREIGN KEY (DNI) REFERENCES Cliente(DNI)
-)ENGINE='InnoDB' DEFAULT CHARSET=LATIN1;
+);
 
 CREATE TABLE Entrada(
 codEntrada INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -82,10 +82,10 @@ INSERT INTO cine VALUES ('GC','Cines Golem','6');
 INSERT into cine VALUES ('YC','Yelmo Cines','7');
 INSERT into cine VALUES ('ZB','Cines Zubiarte','8');
 
-INSERT into Cliente VALUES ('12318312Q','igor1','Igor','Bueno','H',(aes_encrypt('1234567A','AES')));
-INSERT into Cliente VALUES ('21918362X','elorrieta1','Elorrieta','Centro','H',(aes_encrypt('elorrieta00','AES')));
-INSERT into Cliente VALUES ('43240843O','sixseiger','Erlantz','Gil','H',(aes_encrypt('987654B','AES')));
-INSERT into Cliente VALUES ('79114209Q','akos','Unai','Cano','H',(aes_encrypt('uwuowo2','AES')));
+INSERT into Cliente VALUES ('12318312Q','igor1','Igor','Bueno','H','1234567A');
+INSERT into Cliente VALUES ('21918362X','elorrieta1','Elorrieta','Centro','H','elorrieta00');
+INSERT into Cliente VALUES ('43240843O','sixseiger','Erlantz','Gil','H','987654B');
+INSERT into Cliente VALUES ('79114209Q','akos','Unai','Cano','H','uwuowo2');
 
 INSERT INTO Sala VALUE ('Sala 1','GC');
 INSERT INTO Sala VALUE ('Sala 2','GC');

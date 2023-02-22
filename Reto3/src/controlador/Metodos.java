@@ -28,7 +28,7 @@ public class Metodos {
 	
 	/**
 	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
-	final static String usuario = "Cliente";
+	final static String usuario = "usuario";
 	final static String contra = "Elorrieta00+";
 	**/
 	//COLUMNAS
@@ -51,7 +51,7 @@ public class Metodos {
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando = (Statement) conexion.createStatement();
-			ResultSet cargaCliente = comando.executeQuery("SELECT `"+DNIC+"`, `"+clientUser+"`, `"+nombreCliente+"`, `"+apellidos+"`, `"+sex+"`, (aes_decrypt("+contrasena+",'AES')) "+contrasena+" FROM `"+cliente+"`");
+			ResultSet cargaCliente = comando.executeQuery("SELECT * FROM `"+cliente+"`");
 			while (cargaCliente.next()) {
 				String dni = cargaCliente.getString(DNIC);
 				String nombre = cargaCliente.getString(nombreCliente);
@@ -149,21 +149,20 @@ public class Metodos {
 		return arrayCine;
 	}
 
-	public String[] mostrarPeliculas(Cine[] arrayCines, int seleccion) {
-		String[] nombrePeliculas = new String[0];
+	public Pelicula[] arrayPeliculas(Cine[] arrayCines, int seleccion) {
+		Pelicula[] nombrePeliculas = new Pelicula[0];
 
 		int numeroSalas = arrayCines[seleccion].getSalasCine().length;
 		for (int x = 0; x < numeroSalas; x++) {
 			int numeroSesionesPorSala = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala().length;
 			for (int y = 0; y < numeroSesionesPorSala; y++) {
-				String pelicula = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPeliSesion()
-						.getNombrePelicula();
-				if (comprobarPeliculas(pelicula, nombrePeliculas) == false) {
-					String[] peliculasAux = new String[nombrePeliculas.length + 1];
+				Pelicula peli=arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPeliSesion();
+				if (comprobarPeliculas(peli.getNombrePelicula(), nombrePeliculas) == false) {
+					Pelicula[] peliculasAux = new Pelicula[nombrePeliculas.length + 1];
 					for (int c = 0; c < nombrePeliculas.length; c++) {
 						peliculasAux[c] = nombrePeliculas[c];
 					}
-					peliculasAux[nombrePeliculas.length] = pelicula;
+					peliculasAux[nombrePeliculas.length] = peli;
 					nombrePeliculas = peliculasAux;
 				}
 			}
@@ -171,11 +170,17 @@ public class Metodos {
 
 		return nombrePeliculas;
 	}
-
-	public boolean comprobarPeliculas(String nombrePelicula, String[] peliculasGuardadas) {
+	public String [] cogerNombrePeliculas(Pelicula [] arrayPeliculas) {
+		String [] nombrePeliculas=new String [arrayPeliculas.length];
+		for(int i=0;i<arrayPeliculas.length;i++) {
+			nombrePeliculas[i]=arrayPeliculas[i].getNombrePelicula();
+		}
+		return nombrePeliculas;
+	}
+	public boolean comprobarPeliculas(String nombrePelicula, Pelicula[] peliculasGuardadas) {
 		boolean repetido = false;
 		for (int i = 0; i < peliculasGuardadas.length; i++) {
-			if (peliculasGuardadas[i].equals(nombrePelicula)) {
+			if (peliculasGuardadas[i].getNombrePelicula().equals(nombrePelicula)) {
 				repetido = true;
 			}
 		}
@@ -217,7 +222,7 @@ public class Metodos {
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando = (Statement) conexion.createStatement();
-			comando.executeUpdate("INSERT INTO "+cliente+" VALUES ('" + dni + "' ,'" + user + "' ,'" + nombre + "','"+apellido + "','" + sexo + "' ,(aes_encrypt('"+contrasena+"','AES')))");
+			comando.executeUpdate("INSERT INTO "+cliente+" VALUES ('" + dni + "' ,'" + user + "' ,'" + nombre + "','"+apellido + "','" + sexo + "' ,'"+contrasena+"')");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -352,14 +357,8 @@ public class Metodos {
 			codCompra=codigoCompra.getInt(codC);
 			}
 			for(int i=0;i<entrada.getSesionPorTicket().length;i++) {
-				float precioEntrada=entrada.getSesionPorTicket()[i].getPrecio();
-				if(entrada.getSesionPorTicket().length==2) {
-				precioEntrada=(float) (entrada.getSesionPorTicket()[i].getPrecio()*0.8);
-				}else if(entrada.getSesionPorTicket().length>2) {
-					precioEntrada=(float) (entrada.getSesionPorTicket()[i].getPrecio()*0.7);
-				}
 				Statement insertarEntradas = (Statement) conexion.createStatement();
-				insertarEntradas.executeUpdate("INSERT INTO "+entra+"("+precioF+","+idE+","+codC+") VALUES ('"+precioEntrada+"','"+entrada.getSesionPorTicket()[i].getIdEmision()+"','"+codCompra+"')");
+				insertarEntradas.executeUpdate("INSERT INTO "+entra+"("+precioF+","+idE+","+codC+") VALUES ('"+entrada.getSesionPorTicket()[i].getPrecio()+"','"+entrada.getSesionPorTicket()[i].getIdEmision()+"','"+codCompra+"')");
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -371,8 +370,10 @@ public class Metodos {
 		Connection conexion;
 		try {
 			try {
+				SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+				fecha=cal.getTime();
 				conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
-				FileWriter fich = new FileWriter(".\\Facturas\\"+entrada.getCliente().getDniCliente()+".txt",true);
+				FileWriter fich = new FileWriter(".\\Facturas\\"+entrada.getCliente().getUser()+dtf.format(fecha)+".txt");
 				BufferedWriter linea=new BufferedWriter(fich);
 				Statement cogerNombreCine = (Statement) conexion.createStatement();
 				for(int i=0;i<entrada.getSesionPorTicket().length;i++) {

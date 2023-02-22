@@ -16,6 +16,7 @@ import modelo.Cine;
 import modelo.Cliente;
 import modelo.DateLabelFormatter;
 import modelo.Entrada;
+import modelo.Pelicula;
 import modelo.Sesion;
 
 import javax.swing.JTabbedPane;
@@ -77,6 +78,7 @@ public class appCine extends JFrame {
 	private Cine[] arrayCines;
 	private Sesion [] arraySesiones,carritoCompra=new Sesion[0];
 	private String[] nombreCines, nombrePeliculas, arraySesionesVisual;
+	private Pelicula [] arrayPeliculas=new Pelicula[0];
 	private Entrada entrada;
 	private Metodos mc = new Metodos();
 	private Calendar fechaMomento = Calendar.getInstance();
@@ -170,7 +172,8 @@ public class appCine extends JFrame {
 		btnFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(2);
-				nombrePeliculas = mc.mostrarPeliculas(arrayCines, cbCines.getSelectedIndex());
+				arrayPeliculas = mc.arrayPeliculas(arrayCines, cbCines.getSelectedIndex());
+				nombrePeliculas=mc.cogerNombrePeliculas(arrayPeliculas);
 				cbPeliculas.setModel(new DefaultComboBoxModel<Object>(nombrePeliculas));
 				cbSesion.setModel(new DefaultComboBoxModel<Object>());
 				modelo.setValue(fecha);

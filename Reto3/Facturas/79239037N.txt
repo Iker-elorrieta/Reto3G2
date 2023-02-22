@@ -1,2 +1,0 @@
-La sesion con la pelicula La pelicula de codigo 8, nombre Psicosis, genero Terror, duracion 109, nombre de sala Sala 01, en la fecha 2023-02-17, a la hora 18:00, y al precio 7.99 y el id 111
-2023-02-17 11:53:57: En el cine Cines Golem ha comprado La sesion con la pelicula La pelicula de codigo 9, nombre El resplandor, genero Terror, duracion 146, nombre de sala Sala 02, en la fecha 2023-02-17, a la hora 15:00, y al precio 4.99 y el id 114

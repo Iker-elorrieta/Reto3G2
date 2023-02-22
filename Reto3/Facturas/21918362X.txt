@@ -1,2 +1,0 @@
-2023-02-21 13:11:49: En el cine Cines Golem ha comprado La sesion con la pelicula La pelicula de codigo 3, nombre Cadena Perpetua, genero Drama, duracion 160, nombre de sala Sala 1, en la fecha 2023-02-22, a la hora 15:00, y al precio 4.99 y el id 2
-2023-02-21 13:13:17: En el cine Yelmo Cines ha comprado La sesion con la pelicula La pelicula de codigo 9, nombre El resplandor, genero Terror, duracion 146, nombre de sala Sala 1, en la fecha 2023-02-22, a la hora 00:00, y al precio 14.99 y el id 25
