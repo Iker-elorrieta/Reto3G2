@@ -1,1 +1,0 @@
-2023-02-22 14:00:52: En el cine Yelmo Cines ha comprado La sesion con la pelicula La pelicula de codigo 1, nombre Handia, genero Drama, duracion 160, nombre de sala Sala 1, en la fecha 2023-02-22, a la hora 21:00, y al precio 14.99 y el id 28

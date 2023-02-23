@@ -14,12 +14,11 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
-
 import controlador.Metodos;
 import modelo.Cine;
 import modelo.Sesion;
 
-class TestCargarArraySesiones {
+class TestCargandoMasSesionesArray {
 	Metodos mc =new Metodos();
 	/**
 	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
@@ -44,6 +43,9 @@ class TestCargarArraySesiones {
 	int hora=9;
 	int minutos=30;
 	LocalTime tiempo = LocalTime.of(hora, minutos);
+	int hora1=12;
+	int minutos1=30;
+	LocalTime tiempoDos = LocalTime.of(hora1, minutos1);
 	@Test
 	void test() {
 		fecha=cal.getTime();
@@ -53,16 +55,25 @@ class TestCargarArraySesiones {
 			Statement comando = (Statement) conexion.createStatement();
 			comando.executeUpdate("INSERT INTO "+Pelicula+" VALUES ('"+codP+"','"+nombreP+"','"+duracion+"','"+genero+"')");
 			comando.executeUpdate("INSERT INTO "+Emision+" ("+fechaEmision+","+horaEmision+","+precioInicial+","+idCine+","+nombreSala+","+codPelicula+") VALUES ('"+dt.format(fecha)+"' ,'"+tiempo+"','"+(float) 9.99+"','GC' ,'Sala 3' ,'"+codP+"')");
+			comando.executeUpdate("INSERT INTO "+Emision+" ("+fechaEmision+","+horaEmision+","+precioInicial+","+idCine+","+nombreSala+","+codPelicula+") VALUES ('"+dt.format(fecha)+"' ,'"+tiempoDos+"','"+(float) 11.99+"','GC' ,'Sala 2' ,'"+codP+"')");
 			Cine [] arrayCines=mc.cargarDatos();
 			Sesion [] arraySesion=new Sesion[0];
 			arraySesion=mc.cargarArraySesiones(nombreP, arrayCines,0,String.valueOf(dt.format(fecha)));
-			assertEquals(arraySesion[0].getPeliSesion().getNombrePelicula(),nombreP);
-			assertEquals(arraySesion[0].getHoraSesion(),tiempo);
-			assertEquals(arraySesion[0].getNombreSala(),"Sala 3");
-			assertEquals(arraySesion[0].getPrecio(),(float)9.99);
 			String fecha1=dt.format(fecha);
+			assertEquals(arraySesion[0].getPeliSesion().getNombrePelicula(),nombreP);
+			assertEquals(arraySesion[0].getHoraSesion(),tiempoDos);
+			assertEquals(arraySesion[0].getNombreSala(),"Sala 2");
+			assertEquals(arraySesion[0].getPrecio(),(float)11.99);
 			assertTrue(String.valueOf(arraySesion[0].getFechaSesion()).equals(fecha1));
+			
+			assertEquals(arraySesion[1].getPeliSesion().getNombrePelicula(),nombreP);
+			assertEquals(arraySesion[1].getHoraSesion(),tiempo);
+			assertEquals(arraySesion[1].getNombreSala(),"Sala 3");
+			assertEquals(arraySesion[1].getPrecio(),(float)9.99);
+			assertTrue(String.valueOf(arraySesion[1].getFechaSesion()).equals(fecha1));
+			
 			comando.executeUpdate("DELETE FROM "+Emision+" WHERE "+idEmision+"='"+arraySesion[0].getIdEmision()+"'");
+			comando.executeUpdate("DELETE FROM "+Emision+" WHERE "+idEmision+"='"+arraySesion[1].getIdEmision()+"'");
 			comando.executeUpdate("DELETE FROM "+Pelicula+" WHERE "+codPelicula+"='"+codP+"'");
 		} catch (SQLException e) {
 			e.printStackTrace();

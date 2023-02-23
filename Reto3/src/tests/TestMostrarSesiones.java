@@ -52,8 +52,11 @@ class TestMostrarSesiones {
 			comando.executeUpdate("INSERT INTO "+Pelicula+" VALUES ('"+codP+"','"+nombreP+"','"+duracion+"','"+genero+"')");
 			comando.executeUpdate("INSERT INTO "+Emision+" ("+fechaEmision+","+horaEmision+","+precioInicial+","+idCine+","+nombreSala+","+codPelicula+") VALUES ('"+dt.format(fecha)+"' ,'"+tiempo+"','"+(float) 9.99+"','GC' ,'Sala 3' ,'"+codP+"')");
 			Cine [] arrayCines=mc.cargarDatos();
-			Sesion [] arraySesion=mc.cargarArraySesiones(nombreP, arrayCines,0,String.valueOf(dt.format(fecha)));
+			Sesion [] arraySesion=new Sesion[0];
 			String [] mostrarSesion=mc.mostrarSesiones(arraySesion);
+			assertEquals(mostrarSesion[0],"No se emite este dia");
+			arraySesion=mc.cargarArraySesiones(nombreP, arrayCines,0,String.valueOf(dt.format(fecha)));
+			mostrarSesion=mc.mostrarSesiones(arraySesion);
 			assertEquals(mostrarSesion[0],"09:30 - Sala 3 - 9.99");
 			comando.executeUpdate("DELETE FROM "+Emision+" WHERE "+idEmision+"='"+arraySesion[0].getIdEmision()+"'");
 			comando.executeUpdate("DELETE FROM "+Pelicula+" WHERE "+codPelicula+"='"+codP+"'");

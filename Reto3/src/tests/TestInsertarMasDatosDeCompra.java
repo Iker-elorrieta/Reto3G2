@@ -1,6 +1,5 @@
 package tests;
 
-
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -15,15 +14,13 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
-
 import controlador.Metodos;
 import modelo.Cine;
 import modelo.Cliente;
 import modelo.Entrada;
 import modelo.Sesion;
 
-class TestInsertarDatosCompra {
-
+class TestInsertarMasDatosDeCompra {
 	Metodos mc =new Metodos();
 	/**
 	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
@@ -64,6 +61,8 @@ class TestInsertarDatosCompra {
 			String [][] tabla=new String[0][6];
 			carritoCompraP=mc.guardarSesiones(carritoCompraP, arraySesion, 0);
 			carritoCompraP=mc.guardarSesiones(carritoCompraP, arraySesion, 0);
+			carritoCompraP=mc.guardarSesiones(carritoCompraP, arraySesion, 0);
+			tabla=mc.actualizarTabla(tabla, "Cines Golem", "Sala 3", "prueba", String.valueOf(dt.format(fecha)), String.valueOf(tiempo),"9.99" );
 			tabla=mc.actualizarTabla(tabla, "Cines Golem", "Sala 3", "prueba", String.valueOf(dt.format(fecha)), String.valueOf(tiempo),"9.99" );
 			tabla=mc.actualizarTabla(tabla, "Cines Golem", "Sala 3", "prueba", String.valueOf(dt.format(fecha)), String.valueOf(tiempo),"9.99" );
 			float precio=mc.calcularPrecioResumen(tabla);
@@ -90,4 +89,5 @@ class TestInsertarDatosCompra {
 			e.printStackTrace();
 		}
 	}
+
 }

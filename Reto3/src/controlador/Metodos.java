@@ -368,7 +368,6 @@ public class Metodos {
 	public void generarFactura(Entrada entrada) {
 		// TODO Auto-generated method stub
 		Connection conexion;
-		try {
 			try {
 				SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 				fecha=cal.getTime();
@@ -390,10 +389,10 @@ public class Metodos {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			
 	}
 }
