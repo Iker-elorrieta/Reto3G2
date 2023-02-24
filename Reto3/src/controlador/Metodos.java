@@ -25,7 +25,6 @@ public class Metodos {
 	final static String direccion = "jdbc:mysql://localhost/reto3";
 	final static String usuario = "root";
 	final static String contra = "";
-	
 	/**
 	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
 	final static String usuario = "usuario";

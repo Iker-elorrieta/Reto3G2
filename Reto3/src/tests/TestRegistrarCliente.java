@@ -16,10 +16,15 @@ import modelo.Cliente;
 class TestRegistrarCliente {
 	
 	Metodos mc = new Metodos();
+	
 	String direccion = "jdbc:mysql://localhost/reto3";
 	String usuario = "root";
 	String contra = "";
-	
+	/**
+	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
+	final static String usuario = "usuario";
+	final static String contra = "Elorrieta00+";
+	**/
 	@Test
 	void testRegistroCorrecto() {
 		String dni = "99999999Z";
@@ -37,7 +42,7 @@ class TestRegistrarCliente {
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando2 = (Statement) conexion.createStatement();
-			comando2.executeUpdate("DELETE FROM cliente WHERE DNI='"+dni+"'");
+			comando2.executeUpdate("DELETE FROM Cliente WHERE DNI='"+dni+"'");
 
 		} catch (SQLException e) {
 			e.printStackTrace();

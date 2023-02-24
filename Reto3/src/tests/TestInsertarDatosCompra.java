@@ -27,7 +27,7 @@ class TestInsertarDatosCompra {
 	Metodos mc =new Metodos();
 	/**
 	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
-	final static String usuario = "Cliente";
+	final static String usuario = "usuario";
 	final static String contra = "Elorrieta00+";
 	**/
 	final static String direccion = "jdbc:mysql://localhost/reto3";

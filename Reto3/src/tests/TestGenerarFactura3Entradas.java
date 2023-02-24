@@ -27,12 +27,13 @@ import modelo.Sesion;
 
 class TestGenerarFactura3Entradas {
 	Metodos mc=new Metodos();
+	
 	final static String direccion = "jdbc:mysql://localhost/reto3";
 	final static String usuario = "root";
 	final static String contra = "";
 	/**
 	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
-	final static String usuario = "Cliente";
+	final static String usuario = "usuario";
 	final static String contra = "Elorrieta00+";
 	**/
 	String fechaEmision="FechaEmision",horaEmision="HoraEmision",precioInicial="precioInicial",idCine="idCine",
@@ -100,11 +101,11 @@ class TestGenerarFactura3Entradas {
 				while(cines.next()){
 					primerCine=cines.getString(nombreCine);
 				}
-				cines=cogerNombreCine.executeQuery("SELECT "+nombreCine+" FROM cine JOIN "+Sala+" USING ("+idCine+") JOIN "+Emision+" USING ("+idCine+","+nombreSala+") WHERE "+idEmision+"='"+pruebaEntrada.getSesionPorTicket()[1].getIdEmision()+"'");
+				cines=cogerNombreCine.executeQuery("SELECT "+nombreCine+" FROM "+Cine+" JOIN "+Sala+" USING ("+idCine+") JOIN "+Emision+" USING ("+idCine+","+nombreSala+") WHERE "+idEmision+"='"+pruebaEntrada.getSesionPorTicket()[1].getIdEmision()+"'");
 				while(cines.next()){
 					segundoCine=cines.getString(nombreCine);
 				}
-				cines=cogerNombreCine.executeQuery("SELECT "+nombreCine+" FROM cine JOIN "+Sala+" USING ("+idCine+") JOIN "+Emision+" USING ("+idCine+","+nombreSala+") WHERE "+idEmision+"='"+pruebaEntrada.getSesionPorTicket()[2].getIdEmision()+"'");
+				cines=cogerNombreCine.executeQuery("SELECT "+nombreCine+" FROM "+Cine+" JOIN "+Sala+" USING ("+idCine+") JOIN "+Emision+" USING ("+idCine+","+nombreSala+") WHERE "+idEmision+"='"+pruebaEntrada.getSesionPorTicket()[2].getIdEmision()+"'");
 				while(cines.next()){
 					tercerCine=cines.getString(nombreCine);
 				}

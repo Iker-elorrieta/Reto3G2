@@ -34,7 +34,7 @@ class TestGenerarFactura {
 	final static String contra = "";
 	/**
 	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
-	final static String usuario = "Cliente";
+	final static String usuario = "usuario";
 	final static String contra = "Elorrieta00+";
 	**/
 	String fechaEmision="FechaEmision",horaEmision="HoraEmision",precioInicial="precioInicial",idCine="idCine",
@@ -100,7 +100,7 @@ class TestGenerarFactura {
 				while(cines.next()){
 					primerCine=cines.getString(nombreCine);
 				}
-				cines=cogerNombreCine.executeQuery("SELECT "+nombreCine+" FROM cine JOIN "+Sala+" USING ("+idCine+") JOIN "+Emision+" USING ("+idCine+","+nombreSala+") WHERE "+idEmision+"='"+pruebaEntrada.getSesionPorTicket()[1].getIdEmision()+"'");
+				cines=cogerNombreCine.executeQuery("SELECT "+nombreCine+" FROM "+Cine+" JOIN "+Sala+" USING ("+idCine+") JOIN "+Emision+" USING ("+idCine+","+nombreSala+") WHERE "+idEmision+"='"+pruebaEntrada.getSesionPorTicket()[1].getIdEmision()+"'");
 				while(cines.next()){
 					segundoCine=cines.getString(nombreCine);
 				}
@@ -108,56 +108,6 @@ class TestGenerarFactura {
 				fecha=cal.getTime();
 				String primeraCompra=dt1.format(fecha)+": En el cine "+primerCine+" ha comprado "+pruebaEntrada.getSesionPorTicket()[0].toString()+dt1.format(fecha)+": En el cine "+segundoCine+" ha comprado "+pruebaEntrada.getSesionPorTicket()[1].toString();
 				assertEquals(datos,primeraCompra);
-				/**cal = Calendar.getInstance();
-				Date fechaDos=cal.getTime();
-				Cliente encontradoDos=mc.encontrarCliente(arrayC, "akos", "uwuowo2");
-				tabla=new String[0][6];
-				carritoCompraP=mc.guardarSesiones(carritoCompraP, arraySesion, 0);
-				carritoCompraP=mc.guardarSesiones(carritoCompraP, arraySesion, 0);
-				carritoCompraP=mc.guardarSesiones(carritoCompraP, arraySesion, 0);
-				tabla=mc.actualizarTabla(tabla, "Cines Golem", "Sala 3", "prueba", String.valueOf(dt.format(fechaDos)), String.valueOf(tiempo),"9.99" );
-				tabla=mc.actualizarTabla(tabla, "Cines Golem", "Sala 3", "prueba", String.valueOf(dt.format(fechaDos)), String.valueOf(tiempo),"9.99" );
-				tabla=mc.actualizarTabla(tabla, "Cines Golem", "Sala 3", "prueba", String.valueOf(dt.format(fechaDos)), String.valueOf(tiempo),"9.99" );
-				precio=mc.calcularPrecioResumen(tabla);
-				Entrada pruebaEntradaDos=new Entrada(encontradoDos,carritoCompraP,precio);
-				mc.generarFactura(pruebaEntradaDos);
-				String datosDos="";
-				FileReader fichDos;
-				BufferedReader lineaDos;
-				//File textoDos=new File();
-				try {
-					fichDos = new FileReader(".\\Facturas\\"+pruebaEntradaDos.getCliente().getUser()+dtf.format(fechaDos)+".txt");
-					
-						lineaDos=new BufferedReader(fichDos);
-						for(int i=0;i<pruebaEntradaDos.getSesionPorTicket().length;i++) {
-									datosDos+=lineaDos.readLine();
-									System.out.println(i);
-						}	
-						lineaDos.close();
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				String tercerCine="";
-				cines=cogerNombreCine.executeQuery("SELECT "+nombreCine+" FROM "+Cine+" JOIN "+Sala+" USING ("+idCine+") JOIN "+Emision+" USING ("+idCine+","+nombreSala+") WHERE "+idEmision+"='"+pruebaEntradaDos.getSesionPorTicket()[0].getIdEmision()+"'");
-				while(cines.next()){
-					primerCine=cines.getString(nombreCine);
-				}
-				cines=cogerNombreCine.executeQuery("SELECT "+nombreCine+" FROM cine JOIN "+Sala+" USING ("+idCine+") JOIN "+Emision+" USING ("+idCine+","+nombreSala+") WHERE "+idEmision+"='"+pruebaEntradaDos.getSesionPorTicket()[1].getIdEmision()+"'");
-				while(cines.next()){
-					segundoCine=cines.getString(nombreCine);
-				}
-				cines=cogerNombreCine.executeQuery("SELECT "+nombreCine+" FROM cine JOIN "+Sala+" USING ("+idCine+") JOIN "+Emision+" USING ("+idCine+","+nombreSala+") WHERE "+idEmision+"='"+pruebaEntradaDos.getSesionPorTicket()[2].getIdEmision()+"'");
-				while(cines.next()){
-					tercerCine=cines.getString(nombreCine);
-				}
-				String segundaCompra=dt1.format(fechaDos)+": En el cine "+primerCine+" ha comprado "+pruebaEntradaDos.getSesionPorTicket()[0].toString()+dt1.format(fechaDos)+": En el cine "+segundoCine+" ha comprado "+pruebaEntradaDos.getSesionPorTicket()[1].toString()+dt1.format(fechaDos)+": En el cine "+tercerCine+" ha comprado "+pruebaEntradaDos.getSesionPorTicket()[2].toString();
-				System.out.println(datosDos);
-				System.out.println(segundaCompra);
-				assertEquals(datosDos,segundaCompra);**/
 			comando.executeUpdate("DELETE FROM "+Emision+" WHERE "+idEmision+"='"+arraySesion[0].getIdEmision()+"'");
 			comando.executeUpdate("DELETE FROM "+Pelicula+" WHERE "+codPelicula+"='"+codP+"'");
 		} catch (SQLException e) {
