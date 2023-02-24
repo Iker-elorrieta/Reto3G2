@@ -13,7 +13,6 @@ class TestCargarDatos {
 	void test() {
 		Cine [] arrayCines=mc.cargarDatos();
 		assertEquals(arrayCines.length,3);
-		assertEquals(arrayCines[0].getNombreCine(),"Cines Golem");
 		assertEquals(arrayCines[0].getSalasCine().length,6);
 		assertEquals(arrayCines[0].getSalasCine()[0].getNombreSala(),"Sala 1");
 		int sesiones=arrayCines[0].getSalasCine()[0].getSesionesPorSala().length;

@@ -1,6 +1,5 @@
 package tests;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,9 @@ class TestCogerNombrePelicula {
 		assertTrue(pelisMostrar==null);
 		pelisMostrar=mc.cogerNombrePeliculas(pelis);
 		assertTrue(pelisMostrar!=null);
-		assertFalse(pelisMostrar==null);
+		Pelicula [] pelis1=mc.arrayPeliculas(arrayCine, 1);
+		String [] pelisMostrar1=mc.cogerNombrePeliculas(pelis1);
+		assertTrue(pelisMostrar!=pelisMostrar1);
 	}
 
 }
