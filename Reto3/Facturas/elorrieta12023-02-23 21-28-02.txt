@@ -1,0 +1,2 @@
+2023-02-23 21:28:57: En el cine Yelmo Cines ha comprado La sesion con la pelicula La pelicula de codigo 5, nombre 2001: Odisea en el espacio, genero Ciencia-Ficcion, duracion 139, nombre de sala Sala 2, en la fecha 2023-02-28, a la hora 21:00, y al precio 4.99 y el id 536
+2023-02-23 21:28:57: En el cine Cines Zubiarte ha comprado La sesion con la pelicula La pelicula de codigo 2, nombre La lista de Schindler, genero Drama, duracion 197, nombre de sala Sala 4, en la fecha 2023-02-28, a la hora 15:00, y al precio 10.99 y el id 570

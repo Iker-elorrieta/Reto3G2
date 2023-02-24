@@ -31,7 +31,6 @@ class TestRegistrarCliente {
 		mc.registrarCliente(dni, nombre, apellido, usuariop, contrasena, sexo);
 		
 		Cliente[] clientes = mc.cargarClientes();
-		System.out.println(clientes[clientes.length-1].getDniCliente());
 		assertEquals(clientes[clientes.length-1].getDniCliente(),dni);
 		
 		Connection conexion;

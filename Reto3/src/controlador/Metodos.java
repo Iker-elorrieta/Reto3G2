@@ -395,4 +395,45 @@ public class Metodos {
 			}
 			
 	}
+	public String [] fechasAprobadas(String peliEscogida, Cine[] arrayCines, int seleccion) {
+		int numeroSalas = arrayCines[seleccion].getSalasCine().length;
+		String [] fechasDevolver=new String [0];
+		for (int x = 0; x < numeroSalas; x++) {
+			int numeroSesionesPorSala = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala().length;
+			for (int y = 0; y < numeroSesionesPorSala; y++) {
+				Date fecha = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getFechaSesion();
+				String fechaComparacion=String.valueOf(fecha);
+				String pelicula = arrayCines[seleccion].getSalasCine()[x].getSesionesPorSala()[y].getPeliSesion().getNombrePelicula();
+				if ( pelicula.equals(peliEscogida) && comprobarfechas(fechaComparacion, fechasDevolver) == false) {
+					String [] fechasAux = new String[fechasDevolver.length + 1];
+					for (int c = 0; c < fechasDevolver.length; c++) {
+						fechasAux[c] = fechasDevolver[c];
+					}
+					fechasAux[fechasDevolver.length] = fechaComparacion;
+					fechasDevolver = fechasAux;
+				}
+			}
+		}
+		return fechasDevolver;
+	}
+	public boolean comprobarfechas(String fechaComparar, String [] fechasGuardadas) {
+		boolean repetido = false;
+		for (int i = 0; i < fechasGuardadas.length; i++) {
+			if (fechasGuardadas[i].equals(fechaComparar)) {
+				repetido = true;
+			}
+		}
+		return repetido;
+	}
+
+	public boolean comprobarBotoneFechasDT(String[] fechasDisponibles, String fechaUnica) {
+		// TODO Auto-generated method stub
+		boolean disponible=false;
+		for(int i=0;i<fechasDisponibles.length && disponible==false;i++) {
+			if(fechasDisponibles[i].equals(fechaUnica)) {
+				disponible=true;
+			}
+		}
+		return disponible;
+	}
 }

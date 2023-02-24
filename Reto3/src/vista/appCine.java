@@ -1,50 +1,42 @@
 package vista;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import controlador.Metodos;
 import modelo.Cine;
 import modelo.Cliente;
-import modelo.DateLabelFormatter;
 import modelo.Entrada;
 import modelo.Pelicula;
 import modelo.Sesion;
-
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.Properties;
-
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-
-import java.awt.Color;
 
 public class appCine extends JFrame {
 
@@ -56,8 +48,7 @@ public class appCine extends JFrame {
 	JDatePickerImpl datePicker;
 	JComboBox<Object> cbSesion = new JComboBox<Object>();
 	private UtilDateModel modelo = new UtilDateModel();
-	private Properties p = new Properties();
-	private JDatePanelImpl datePanel = new JDatePanelImpl(modelo, p);
+	
 	private JComboBox<Object> cbCines = new JComboBox<Object>();
 	private JComboBox<Object> cbPeliculas = new JComboBox<Object>();
 	private JTextField tfUsuario;
@@ -76,6 +67,7 @@ public class appCine extends JFrame {
 	private Cliente[] arrayClientes;
 	private Cliente comprador;
 	private Cine[] arrayCines;
+	private String [] fechasPelicula;
 	private Sesion [] arraySesiones,carritoCompra=new Sesion[0];
 	private String[] nombreCines, nombrePeliculas, arraySesionesVisual;
 	private Pelicula [] arrayPeliculas=new Pelicula[0];
@@ -161,13 +153,48 @@ public class appCine extends JFrame {
 		lblSelecCine.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblSelecCine.setBounds(172, 68, 166, 14);
 		panel_1.add(lblSelecCine);
-
+		JButton btnNewButton = new JButton("New button");
 		cbPeliculas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modelo.setValue(fecha);
+				fechasPelicula=mc.fechasAprobadas(String.valueOf(cbPeliculas.getSelectedItem()),arrayCines,cbCines.getSelectedIndex());
+				btnNewButton.setEnabled(true);
 			}
 		});
-
+		JButton btnAceptar = new JButton("Aceptar");
+		JPanel panel_2 = new JPanel();
+		JTextField txtDate = new JTextField();
+		txtDate.setEditable(false);
+		txtDate.setBounds(145, 52, 178, 20);
+		panel_2.add(txtDate);
+		txtDate.setColumns(10);
+		btnNewButton.setEnabled(false);
+		btnNewButton.addActionListener(new ActionListener() 
+		{	
+			//performed action
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				//create frame new object  f
+				final JFrame f = new JFrame();
+				//set text which is collected by date picker i.e. set date
+				txtDate.setText(new DatePicker(f,fechasPelicula).setPickedDate());
+				cbSesion.setModel(new DefaultComboBoxModel<Object>());
+				arraySesiones = mc.cargarArraySesiones(String.valueOf(cbPeliculas.getSelectedItem()), arrayCines,
+						cbCines.getSelectedIndex(), String.valueOf(txtDate.getText()));
+				arraySesionesVisual=mc.mostrarSesiones(arraySesiones);
+					cbSesion.setModel(new DefaultComboBoxModel<Object>(arraySesionesVisual));
+					if(arraySesionesVisual[0].equals("No se emite este dia")) {
+					btnAceptar.setEnabled(false);	
+					}else {
+					btnAceptar.setEnabled(true);
+					}
+			}
+		});
+		//set button bound
+		btnNewButton.setBounds(323, 51, 27, 23);
+		//add button in contentPane
+		panel_2.add(btnNewButton);
+		
 		JButton btnFinalizar = new JButton("Siguiente");
 		btnFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -187,8 +214,6 @@ public class appCine extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 30, 459, 139);
 		
-		
-		
 		JButton btnComprar = new JButton("");
 		btnComprar.setIcon(new ImageIcon(".\\Imagenes\\carrito.png"));
 		btnComprar.addActionListener(new ActionListener() {
@@ -200,9 +225,6 @@ public class appCine extends JFrame {
 		btnComprar.setVisible(false);
 		panel_1.add(btnComprar);
 		
-		
-
-		JPanel panel_2 = new JPanel();
 		tabbedPane.addTab("Tercera", null, panel_2, null);
 		panel_2.setLayout(null);
 
@@ -220,6 +242,9 @@ public class appCine extends JFrame {
 				cbSesion.setModel(new DefaultComboBoxModel<Object>());
 				cbPeliculas.setModel(new DefaultComboBoxModel<Object>());
 				tabbedPane.setSelectedIndex(1);
+				btnNewButton.setEnabled(false);
+				txtDate.setText("");
+				btnAceptar.setEnabled(false);
 			}
 		});
 		btnAtras.setBounds(10, 225, 89, 23);
@@ -249,9 +274,9 @@ public class appCine extends JFrame {
 		panel_3.add(scrollPane);
 		
 		txtPrecioTotal = new JTextField();
-		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnNewButton.setEnabled(false);
 				tabbedPane.setSelectedIndex(1);
 				int sesionSeleccionada=cbSesion.getSelectedIndex();
 				carritoCompra=mc.guardarSesiones(carritoCompra,arraySesiones,sesionSeleccionada);
@@ -284,36 +309,14 @@ public class appCine extends JFrame {
 				cbSesion.setModel(new DefaultComboBoxModel<Object>());
 				modelo.setValue(fecha);
 				btnComprar.setVisible(true);
+				txtDate.setText("");
 			}
 		});
 		btnAceptar.setEnabled(false);
 		btnAceptar.setBounds(368, 225, 89, 23);
 		panel_2.add(btnAceptar);
-		
 		contentPane.setLayout(null);
 		
-		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		datePicker.getJFormattedTextField().setFont(new Font("Tahoma", Font.PLAIN, 11));
-		datePicker.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(modelo.getValue().before(fecha)) {
-					modelo.setValue(fecha);
-				}
-				cbSesion.setModel(new DefaultComboBoxModel<Object>());
-				arraySesiones = mc.cargarArraySesiones(String.valueOf(cbPeliculas.getSelectedItem()), arrayCines,
-						cbCines.getSelectedIndex(), String.valueOf(dt.format(modelo.getValue())));
-				arraySesionesVisual=mc.mostrarSesiones(arraySesiones);
-					cbSesion.setModel(new DefaultComboBoxModel<Object>(arraySesionesVisual));
-					if(arraySesionesVisual[0].equals("No se emite este dia")) {
-					btnAceptar.setEnabled(false);	
-					}else {
-					btnAceptar.setEnabled(true);
-					}
-			}
-		});
-		datePicker.setBounds(145, 44, 202, 23);
-		panel_2.add(datePicker);
-
 		JLabel lblFechas = new JLabel("Fecha:");
 		lblFechas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblFechas.setBounds(10, 53, 89, 14);
@@ -449,9 +452,14 @@ public class appCine extends JFrame {
 						}
 						tfUsuario.setText("") ;
 						tfpass.setText("");
+						panel_3.remove(scrollPane);
 						entradaTabla=new String [0][6];
+						panel_3.add(scrollPane);
 						carritoCompra=new Sesion[0];
+						btnComprar.setVisible(false);
 						tabbedPane.setSelectedIndex(0);
+						lblerror.setVisible(false);
+						lblnoencontrado.setVisible(false);
 					}else {
 						lblnoencontrado.setVisible(true);
 					}
@@ -468,6 +476,8 @@ public class appCine extends JFrame {
 				tfUsuario.setText("") ;
 				tfpass.setText("");
 				tabbedPane.setSelectedIndex(5);
+				lblerror.setVisible(false);
+				lblnoencontrado.setVisible(false);
 			}
 		});
 		btnRegistro.setBounds(177, 191, 119, 23);
@@ -479,6 +489,8 @@ public class appCine extends JFrame {
 				tabbedPane.setSelectedIndex(3);
 				tfUsuario.setText("") ;
 				tfpass.setText("");
+				lblerror.setVisible(false);
+				lblnoencontrado.setVisible(false);
 			}
 		});
 		btnAtrasResumen.setBounds(20, 225, 89, 23);
@@ -498,6 +510,9 @@ public class appCine extends JFrame {
 					entradaTabla=new String[0][6];
 					panel_3.add(scrollPane);
 					tabbedPane.setSelectedIndex(0);
+					btnComprar.setVisible(false);
+					lblerror.setVisible(false);
+					lblnoencontrado.setVisible(false);
 				}
 			}
 		});
@@ -632,6 +647,9 @@ public class appCine extends JFrame {
 				tfnombre.setText("");
 				tfapellido.setText("");
 				passwordField.setText("");
+				lblerrordni.setVisible(false);
+				lbluserrepe.setVisible(false);
+				lblErrorVacio.setVisible(false);
 			}
 		});
 		btnAtrasSesion.setBounds(10, 225, 89, 23);
@@ -641,6 +659,5 @@ public class appCine extends JFrame {
 		lblErrorVacio.setForeground(Color.RED);
 		lblErrorVacio.setBounds(176, 229, 227, 14);
 		panel_5.add(lblErrorVacio);
-		
 	}
 }

@@ -1,0 +1,2 @@
+2023-02-23 20:40:38: En el cine Cines Golem ha comprado La sesion con la pelicula La pelicula de codigo 7, nombre Alien, genero Terror, duracion 116, nombre de sala Sala 1, en la fecha 2023-02-25, a la hora 00:00, y al precio 4.99 y el id 253
+2023-02-23 20:40:38: En el cine Cines Golem ha comprado La sesion con la pelicula La pelicula de codigo 3, nombre Cadena Perpetua, genero Drama, duracion 160, nombre de sala Sala 4, en la fecha 2023-02-26, a la hora 18:00, y al precio 14.99 y el id 351
