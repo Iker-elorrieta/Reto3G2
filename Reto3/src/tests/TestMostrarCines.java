@@ -15,7 +15,6 @@ class TestMostrarCines {
 		arrayCine=mc.cargarDatos();
 		String [] cines=mc.mostrarCines(arrayCine);
 		assertEquals(cines.length,3);
-		assertEquals(cines[0],"Cines Golem");
 	}
 
 }

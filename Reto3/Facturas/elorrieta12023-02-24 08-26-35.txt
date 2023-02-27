@@ -1,0 +1,1 @@
+2023-02-24 08:27:00: En el cine Cines Zubiarte ha comprado La sesion con la pelicula La pelicula de codigo 9, nombre El resplandor, genero Terror, duracion 146, nombre de sala Sala 1, en la fecha 2023-02-28, a la hora 15:00, y al precio 14.99 y el id 558

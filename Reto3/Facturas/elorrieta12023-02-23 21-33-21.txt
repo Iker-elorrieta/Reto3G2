@@ -1,0 +1,2 @@
+2023-02-23 21:34:17: En el cine Cines Golem ha comprado La sesion con la pelicula La pelicula de codigo 11, nombre Cisne Negro, genero Drama, duracion 85, nombre de sala Sala 1, en la fecha 2023-02-28, a la hora 15:00, y al precio 14.99 y el id 506
+2023-02-23 21:34:17: En el cine Cines Zubiarte ha comprado La sesion con la pelicula La pelicula de codigo 10, nombre Dracula, genero Drama, duracion 130, nombre de sala Sala 2, en la fecha 2023-02-28, a la hora 18:00, y al precio 4.99 y el id 563

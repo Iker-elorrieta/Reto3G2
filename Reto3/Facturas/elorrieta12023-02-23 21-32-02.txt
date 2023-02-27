@@ -1,0 +1,1 @@
+2023-02-23 21:32:30: En el cine Cines Golem ha comprado La sesion con la pelicula La pelicula de codigo 7, nombre Alien, genero Terror, duracion 116, nombre de sala Sala 4, en la fecha 2023-02-27, a la hora 18:00, y al precio 7.99 y el id 435

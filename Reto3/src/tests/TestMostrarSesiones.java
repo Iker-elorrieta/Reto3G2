@@ -2,8 +2,10 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Calendar;
@@ -11,8 +13,6 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
 
 import controlador.Metodos;
 import modelo.Cine;
@@ -20,9 +20,23 @@ import modelo.Sesion;
 
 class TestMostrarSesiones {
 	Metodos mc =new Metodos();
+	
+	String fechaEmision="FechaEmision",horaEmision="HoraEmision",precioInicial="precioInicial",idCine="idCine",
+			nombreSala="nombreSala",codPelicula="codPelicula",horaCompra="horaCompra",precioTotal="precioTotal",
+			idEmision="idEmision",nombreCine="nombreCine";
+	String Pelicula="Pelicula",Emision="Emision",Compra="Compra",Entrada="Entrada",Cine="Cine",Sala="Sala";
+	int codP=16,duracion=60;
+	String nombreP="prueba",genero="comedia";
+	
+	
+	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
+	final static String usuario = "usuario";
+	final static String contra = "Elorrieta00+";
+	/**
 	final static String direccion = "jdbc:mysql://localhost/reto3";
 	final static String usuario = "root";
 	final static String contra = "";
+	**/
 	Calendar cal = Calendar.getInstance();
 	Date fecha = null;
 	SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
@@ -36,14 +50,17 @@ class TestMostrarSesiones {
 		try {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario, contra);
 			Statement comando = (Statement) conexion.createStatement();
-			comando.executeUpdate("insert into pelicula VALUES ('16','prueba','60','comedia')");
-			comando.executeUpdate("insert into emision (FechaEmision,HoraEmision,precioInicial,idCine,nombreSala,codPeli) VALUES ('"+dt.format(fecha)+"' ,'"+tiempo+"','"+(float) 9.99+"','GC' ,'Sala 03' ,'16')");
+			comando.executeUpdate("INSERT INTO "+Pelicula+" VALUES ('"+codP+"','"+nombreP+"','"+duracion+"','"+genero+"')");
+			comando.executeUpdate("INSERT INTO "+Emision+" ("+fechaEmision+","+horaEmision+","+precioInicial+","+idCine+","+nombreSala+","+codPelicula+") VALUES ('"+dt.format(fecha)+"' ,'"+tiempo+"','"+(float) 9.99+"','GC' ,'Sala 3' ,'"+codP+"')");
 			Cine [] arrayCines=mc.cargarDatos();
-			Sesion [] arraySesion=mc.cargarArraySesiones("prueba", arrayCines,0,String.valueOf(dt.format(fecha)));
+			Sesion [] arraySesion=new Sesion[0];
 			String [] mostrarSesion=mc.mostrarSesiones(arraySesion);
-			assertEquals(mostrarSesion[0],"09:30 - Sala 03 - 9.99");
-			comando.executeUpdate("DELETE FROM emision WHERE idEmision='"+arraySesion[0].getIdEmision()+"'");
-			comando.executeUpdate("DELETE FROM pelicula WHERE codPeli='16'");
+			assertEquals(mostrarSesion[0],"No se emite este dia");
+			arraySesion=mc.cargarArraySesiones(nombreP, arrayCines,0,String.valueOf(dt.format(fecha)));
+			mostrarSesion=mc.mostrarSesiones(arraySesion);
+			assertEquals(mostrarSesion[0],"09:30 - Sala 3 - 9.99");
+			comando.executeUpdate("DELETE FROM "+Emision+" WHERE "+idEmision+"='"+arraySesion[0].getIdEmision()+"'");
+			comando.executeUpdate("DELETE FROM "+Pelicula+" WHERE "+codPelicula+"='"+codP+"'");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

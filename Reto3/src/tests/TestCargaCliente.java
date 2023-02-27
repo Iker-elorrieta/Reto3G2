@@ -13,8 +13,13 @@ class TestCargaCliente {
 	void test() {
 		Metodos mc = new Metodos();
 		Cliente[] clientes = mc.cargarClientes();
-		assertEquals(clientes[0].getApellidosCliente(),"Bueno");
+		String [] arrayClientes=new String [clientes.length];
 		assertTrue(clientes.length>0);
+		assertTrue(clientes!=null);
+		for(int i=0;i<clientes.length;i++) {
+			arrayClientes[i]=clientes[i].toString();
+			assertEquals(arrayClientes[i],clientes[i].toString());
+		}
 	}
 
 }

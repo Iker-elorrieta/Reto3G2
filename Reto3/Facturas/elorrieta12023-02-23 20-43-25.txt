@@ -1,0 +1,3 @@
+2023-02-23 20:45:20: En el cine Cines Zubiarte ha comprado La sesion con la pelicula La pelicula de codigo 10, nombre Dracula, genero Drama, duracion 130, nombre de sala Sala 1, en la fecha 2023-02-27, a la hora 00:00, y al precio 10.99 y el id 473
+2023-02-23 20:45:20: En el cine Yelmo Cines ha comprado La sesion con la pelicula La pelicula de codigo 8, nombre Psicosis, genero Terror, duracion 109, nombre de sala Sala 1, en la fecha 2023-02-27, a la hora 18:00, y al precio 4.99 y el id 447
+2023-02-23 20:45:20: En el cine Cines Golem ha comprado La sesion con la pelicula La pelicula de codigo 1, nombre Handia, genero Drama, duracion 160, nombre de sala Sala 3, en la fecha 2023-03-01, a la hora 18:00, y al precio 10.99 y el id 599
