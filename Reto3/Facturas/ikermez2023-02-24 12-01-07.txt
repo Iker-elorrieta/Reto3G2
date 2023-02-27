@@ -1,0 +1,2 @@
+2023-02-24 12:03:28: En el cine Yelmo Cines ha comprado La sesion con la pelicula La pelicula de codigo P1, nombre Handia, genero Drama, duracion 160, nombre de sala Sala 2, en la fecha 2023-03-30, a la hora 18:00, y al precio 7.99 y el id 7760
+2023-02-24 12:03:28: En el cine Cines Zubiarte ha comprado La sesion con la pelicula La pelicula de codigo P3, nombre Cadena Perpetua, genero Drama, duracion 160, nombre de sala Sala 3, en la fecha 2023-04-05, a la hora 15:00, y al precio 7.99 y el id 8295

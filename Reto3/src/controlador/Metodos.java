@@ -21,15 +21,15 @@ import modelo.Salas;
 import modelo.Sesion;
 
 public class Metodos {
-	
+	/**
 	final static String direccion = "jdbc:mysql://localhost/reto3";
 	final static String usuario = "root";
 	final static String contra = "";
-	/**
+	**/
 	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
 	final static String usuario = "usuario";
 	final static String contra = "Elorrieta00+";
-	**/
+	
 	//COLUMNAS
 	final static String DNIC="DNI",nombreCliente="nombreCliente",apellidos="apellidos",contrasena="contrasena",clientUser="usuario",sex="sexo",
 				nCine="nombreCine",codCine="idCine",
@@ -81,7 +81,7 @@ public class Metodos {
 			conexion = (Connection) DriverManager.getConnection(direccion, usuario,contra);
 			Statement comando = (Statement) conexion.createStatement();
 			ResultSet cargaCines= comando.executeQuery("SELECT * FROM "+cine);
-			while(cargaCines.next()) {	
+			while(cargaCines.next()) {	 
 				String nombreCine=cargaCines.getString(nCine);
 				String idCine=cargaCines.getString(codCine);
 				Statement comandoUno = (Statement) conexion.createStatement();

@@ -28,15 +28,15 @@ class TestMostrarSesiones {
 	int codP=16,duracion=60;
 	String nombreP="prueba",genero="comedia";
 	
-	/**
+	
 	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
 	final static String usuario = "usuario";
 	final static String contra = "Elorrieta00+";
-	**/
+	/**
 	final static String direccion = "jdbc:mysql://localhost/reto3";
 	final static String usuario = "root";
 	final static String contra = "";
-	
+	**/
 	Calendar cal = Calendar.getInstance();
 	Date fecha = null;
 	SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");

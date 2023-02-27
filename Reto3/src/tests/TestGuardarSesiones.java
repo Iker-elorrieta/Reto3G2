@@ -21,15 +21,15 @@ import modelo.Sesion;
 
 class TestGuardarSesiones {
 	Metodos mc =new Metodos();
-	
+	/**
 	final static String direccion = "jdbc:mysql://localhost/reto3";
 	final static String usuario = "root";
 	final static String contra = "";
-	/**
+	**/
 	final static String direccion = "jdbc:mysql://10.5.14.210:3306/Cines";
 	final static String usuario = "usuario";
 	final static String contra = "Elorrieta00+";
-	**/
+	
 	String fechaEmision="FechaEmision",horaEmision="HoraEmision",precioInicial="precioInicial",idCine="idCine",
 			nombreSala="nombreSala",codPelicula="codPelicula",horaCompra="horaCompra",precioTotal="precioTotal",
 			idEmision="idEmision",nombreCine="nombreCine";
